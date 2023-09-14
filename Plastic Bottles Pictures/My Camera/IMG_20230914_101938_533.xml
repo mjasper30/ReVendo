@@ -1,0 +1,26 @@
+<annotation>
+	<folder>Plastic Bottles</folder>
+	<filename>IMG_20230914_101938_533.jpg</filename>
+	<path>C:\Users\shiny\Pictures\Plastic Bottles\IMG_20230914_101938_533.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>3456</width>
+		<height>4608</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>plastic bottle</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>1298</xmin>
+			<ymin>1370</ymin>
+			<xmax>1931</xmax>
+			<ymax>3444</ymax>
+		</bndbox>
+	</object>
+</annotation>
