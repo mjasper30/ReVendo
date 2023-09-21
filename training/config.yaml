@@ -1,0 +1,7 @@
+path: C:\Users\shiny\Pictures\Plastic Bottles\yolov8 # dataset root dir
+train: images/train # train images (relative to 'path')
+val: images/train # val images (relative to 'path')
+
+# Classes
+names:
+  0: plastic bottle
