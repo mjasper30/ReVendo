@@ -1,0 +1,3 @@
+try to test the model in raspberry pi
+get more images
+get the height of the object
