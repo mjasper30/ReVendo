@@ -2,3 +2,4 @@ try to test the model in raspberry pi
 get more images
 get the height of the object -> bounding box lang
 how can i install the ultralytics sa raspberry pi to test na mag work yung live cam object detection
+do dashboard
