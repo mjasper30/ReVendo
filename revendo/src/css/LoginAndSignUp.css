@@ -1,0 +1,198 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+:root {
+  --color-white: #fff;
+  --color-light: #f3f4f8;
+  --color-dark: #686e7a;
+  --color-black: #111727;
+  --color-primary: #633fbd;
+  --color-body-bg: #d2d0dd;
+  --box-shadow: 0 2rem 3rem var(--color-light);
+
+  --transition: all 300ms ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: 0;
+  border: 0;
+  text-decoration: none;
+}
+
+body {
+  font-family: "Poppins", san-serif;
+  background: var(--color-body-bg);
+  color: var(--color-dark);
+  font-size: 0.9rem;
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
+
+img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+h1 {
+  color: var(--color-black);
+  font-size: 2rem;
+  margin-bottom: 0.3rem;
+}
+
+a,
+a:active,
+a:visited {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 0.8rem 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn.primary {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.btn:hover {
+  background: var(--color-black);
+  color: var(--color-white);
+}
+
+.btn img {
+  width: 1.2rem;
+}
+
+/* Sign in */
+
+.sign-in {
+  background: var(--color-white);
+  width: 60rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+}
+
+.sign-in__details {
+  padding: 2rem 4rem;
+}
+
+.sign-in__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+.form__control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+input:not([type="checkbox"]) {
+  width: 100%;
+  border: 1px solid var(--color-body-bg);
+  padding: 0.7rem;
+  border-radius: 0.5rem;
+}
+
+.input::placeholder {
+  color: var(--color-body-bg);
+}
+
+label {
+  font-weight: 500;
+  color: var(--color-black);
+}
+
+.sign-in__extras {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sign-in__extras div {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+button:last-child {
+  margin-top: -0.5rem;
+}
+
+.next__page {
+  margin-top: 1rem;
+  text-align: center;
+  display: block;
+}
+
+.sign-in__logo {
+  display: grid;
+  place-content: center;
+  background: url("../assets/texture.jpg"), var(--color-primary);
+  height: 100%;
+}
+
+.sign-in__logo div {
+  width: 22rem;
+  aspect-ratio: 1/1;
+}
+
+/* Media Queries (small screens) */
+
+@media screen and (max-width: 600px) {
+  body {
+    display: block;
+    background: var(--color-white);
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .sign-in {
+    grid-template-columns: 1fr;
+    width: 100vw;
+    overflow: visible;
+  }
+
+  .sign-in__details {
+    grid-row: 2/3;
+    padding: 2rem 1.5rem;
+  }
+
+  .sign-in__form {
+    margin-top: 1.5rem;
+    gap: 1rem;
+  }
+
+  .sign-in__extras {
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .sign-in__logo {
+    padding: 1.5rem 0;
+  }
+
+  .sign-in__logo div {
+    width: 12rem;
+  }
+}
