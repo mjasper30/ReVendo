@@ -1,26 +1,14 @@
+import React from "react";
 import { useState } from "react";
+import Counting from "./Counting";
+import Test from "./Test";
+import "./index.css";
 
 export default function App() {
-  const [name, setName] = useState("Jasper");
   const [count, setCount] = useState(0);
-
-  function handleClick() {
-    setCount(count + 1);
-  }
-
-  function handleName() {
-    setName("Ira");
-  }
-
-  function MyButton({ count, onClick }) {
-    return <button onClick={onClick}>Clicked {count} times</button>;
-  }
-
-  const user = {
-    name: "Jasper",
-    age: 21,
-    isTall: true,
-    imgSource: "https://i.imgur.com/yXOvdOSs.jpg",
+  const student = {
+    name: "Jasper Macaraeg",
+    course: "BSCS",
   };
 
   const products = [
@@ -29,43 +17,50 @@ export default function App() {
     { title: "Apple", isFruit: true, id: 3 },
   ];
 
+  const students = [
+    { name: "Jasper", age: 21, course: "BSCS", id: 1 },
+    { name: "Ira", age: 21, course: "BSEMC", id: 2 },
+    { name: "Jiro", age: 21, course: "BSIT", id: 3 },
+  ];
+
   const listItems = products.map((product) => (
-    <li
-      key={product.id}
-      style={{
-        color: product.isFruit ? "red" : "blue",
-        backgroundColor: product.isFruit ? "black" : "green",
-      }}
-    >
+    <li key={product.id} style={{ color: product.isFruit ? "blue" : "red" }}>
       {product.title}
     </li>
   ));
 
-  const Alert = () => {
-    alert("ALERT ALERT ALERT");
-  };
+  const studentList = students.map((student) => (
+    <tr key={student.id}>
+      <td>{student.name}</td>
+      <td>{student.age}</td>
+      <td>{student.course}</td>
+    </tr>
+  ));
+
+  function handleCount() {
+    setCount(count + 1);
+  }
 
   return (
     <>
-      <h1 className="btn">Hello World</h1>
-      <p style={{ color: "blue" }}>{user.name}</p>
-      <img src={user.imgSource} />
-      {console.log("Hello World")}
-      <MyComponent />
-      <div>{user.isTall ? "TRUE" : "FALSE"}</div>
-      <div>{user.isTall && "TRUE NOTHING ELSE"}</div>
+      <Test />
+      <Counting count={count} Counting={handleCount} />
+      <p>Your name is {student.name}</p>
+      <p>Your course is {student.course}</p>
       <ul>{listItems}</ul>
-      <button onClick={Alert}>Alert me</button>
-      <button onClick={handleName}>{name}</button>
-      <MyButton count={count} onClick={handleClick} />
+      <table>
+        <tr>
+          <td>Name</td>
+          <td>Age</td>
+          <td>Course</td>
+        </tr>
+        {studentList}
+      </table>
+      <MyButton />
     </>
   );
 }
 
-function MyComponent() {
-  return (
-    <>
-      <button>Click Me</button>
-    </>
-  );
+function MyButton() {
+  return <button className="btn">Click Me</button>;
 }

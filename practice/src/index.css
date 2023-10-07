@@ -1,3 +1,9 @@
 .btn {
   background-color: red;
 }
+
+table,
+tr,
+td {
+  border: solid 1px black;
+}
