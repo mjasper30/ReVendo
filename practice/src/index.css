@@ -1,9 +1,3 @@
-.btn {
-  background-color: red;
-}
-
-table,
-tr,
-td {
-  border: solid 1px black;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
