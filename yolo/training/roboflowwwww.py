@@ -1,10 +1,13 @@
 from roboflow import Roboflow
+import os
+
 rf = Roboflow(api_key="iyUSOVTNeycQRjr1ru8y")
 project = rf.workspace().project("revendo")
 model = project.version(1).model
 
 # infer on a local image
-print(model.predict("your_image.jpg", confidence=40, overlap=30).json())
+image_path = os.path.abspath("test.jpg")
+print(model.predict(image_path, confidence=40, overlap=30).json())
 
 # visualize your prediction
 # model.predict("your_image.jpg", confidence=40, overlap=30).save("prediction.jpg")
