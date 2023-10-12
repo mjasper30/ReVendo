@@ -23,7 +23,6 @@
 
 body {
   font-family: "Poppins", san-serif;
-  background: var(--color-body-bg);
   color: var(--color-dark);
   font-size: 0.9rem;
   display: grid;

@@ -1,6 +1,5 @@
 import "./css/LoginAndSignUp.css";
 import logo from "./assets/Revendo_logo.png";
-import googleLogo from "./assets/google-logo.png";
 
 function Login() {
   return (
@@ -8,7 +7,7 @@ function Login() {
       <section className="sign-in">
         <article className="sign-in__details">
           <h1>Sign in</h1>
-          <p>Log in to your account using your credentials</p>
+          <p>Log in to your account</p>
           <form action="" className="sign-in__form">
             <div className="form__control">
               <label htmlFor="email">Email</label>
@@ -32,14 +31,8 @@ function Login() {
             <button className="btn primary" type="submit">
               Sign In
             </button>
-            <button className="btn">
-              <img src={googleLogo} alt="Google logo" />
-              <p>Sign in with Google</p>
-            </button>
           </form>
-          <small className="next__page">
-            Dont have an account? <a href="sign-up.html">Sign up</a>
-          </small>
+          <small className="next__page">Dont have an account? Sign up</small>
         </article>
         <article className="sign-in__logo">
           <div>
