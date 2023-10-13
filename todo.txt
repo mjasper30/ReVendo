@@ -7,3 +7,4 @@ landing page
 learn backend using crud that saves in database
 learn how to implement database in react
 how to make all python files as one
+capture more images and train more
