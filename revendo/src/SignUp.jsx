@@ -1,6 +1,5 @@
 import "./css/LoginAndSignUp.css";
 import logo from "./assets/Revendo_logo.png";
-import googleLogo from "./assets/google-logo.png";
 
 const SignUp = () => {
   return (
@@ -45,10 +44,6 @@ const SignUp = () => {
             </div>
             <button className="btn primary" type="submit">
               Sign Up
-            </button>
-            <button className="btn">
-              <img src={googleLogo} alt="Google logo" />
-              <p>Sign up with Google</p>
             </button>
           </form>
           <small className="next__page">
