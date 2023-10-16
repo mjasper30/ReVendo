@@ -1,5 +1,6 @@
 import "./css/LoginAndSignUp.css";
 import logo from "./assets/Revendo_logo.png";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   return (
@@ -42,7 +43,7 @@ const SignUp = () => {
             </button>
           </form>
           <small className="next__page">
-            Already have an account? <a href="index.html">Sign in</a>
+            Already have an account? <Link to="/">Sign in</Link>
           </small>
         </article>
         <article className="sign-in__logo">

@@ -1,5 +1,6 @@
 import "./css/LoginAndSignUp.css";
 import logo from "./assets/Revendo_logo.png";
+import { Link } from "react-router-dom";
 
 function Login() {
   return (
@@ -26,13 +27,15 @@ function Login() {
                 <input type="checkbox" id="remember" />
                 <label htmlFor="remember">Keep me signed in</label>
               </div>
-              <a href="">Forgot password?</a>
+              <Link to="/forgot-password">Forgot password?</Link>
             </div>
             <button className="btn primary" type="submit">
               Sign In
             </button>
           </form>
-          <small className="next__page">Dont have an account? Sign up</small>
+          <small className="next__page">
+            Dont have an account? <Link to="/signup">Sign up</Link>
+          </small>
         </article>
         <article className="sign-in__logo">
           <div>
