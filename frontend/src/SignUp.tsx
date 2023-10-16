@@ -4,11 +4,6 @@ import logo from "./assets/Revendo_logo.png";
 const SignUp = () => {
   return (
     <>
-      <meta charSet="UTF-8" />
-      <meta name="viewport" content="width=Sign, initial-scale=1.0" />
-      <title>ReVendo - Sign Up</title>
-      <link rel="stylesheet" href="style.css" />
-      <link rel="icon" href="assets/Revendo_logo.png" type="image/x-icon" />
       <section className="sign-in">
         <article className="sign-in__details">
           <h1>Sign Up</h1>
