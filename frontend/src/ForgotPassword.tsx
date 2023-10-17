@@ -1,8 +1,28 @@
 import "./css/LoginAndSignUp.css";
 import logo from "./assets/Revendo_logo.png";
 import { Link } from "react-router-dom";
+import Validation from "./ForgotPasswordValidation";
+import { useState } from "react";
 
 function Login() {
+  const [values, setValues] = useState({
+    emailorphone: "",
+  });
+
+  const [errors, setErrors] = useState({});
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    setErrors(Validation(values));
+  };
+
+  const handleInput = (event: any) => {
+    setValues((values) => ({
+      ...values,
+      [event.target.id]: event.target.value,
+    }));
+  };
+
   return (
     <>
       <section className="sign-in">
@@ -11,14 +31,22 @@ function Login() {
           <p>
             Please enter your email or mobile number to search for your account.
           </p>
-          <form action="" className="sign-in__form">
+          <form action="" className="sign-in__form" onSubmit={handleSubmit}>
             <div className="form__control">
               <label htmlFor="emailorphone">Email or Phone Number</label>
               <input
                 type="text"
                 id="emailorphone"
+                name="emailorphone"
                 placeholder="Enter your email or phone number"
+                onChange={handleInput}
               />
+              {errors.emailorphone && (
+                <p className="text-red-500 flex items-center">
+                  <span className="text-lg material-symbols-sharp">error</span>
+                  {errors.emailorphone}
+                </p>
+              )}
             </div>
             <button className="btn primary" type="submit">
               Search

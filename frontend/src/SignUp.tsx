@@ -1,42 +1,100 @@
 import "./css/LoginAndSignUp.css";
 import logo from "./assets/Revendo_logo.png";
 import { Link } from "react-router-dom";
+import Validation from "./SignupValidation";
+import { useState } from "react";
 
 const SignUp = () => {
+  const [values, setValues] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState({});
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    setErrors(Validation(values));
+  };
+
+  const handleInput = (event: any) => {
+    setValues((values) => ({
+      ...values,
+      [event.target.id]: event.target.value,
+    }));
+  };
+
   return (
     <>
       <section className="sign-in">
         <article className="sign-in__details">
           <h1>Sign Up</h1>
           <p>Fill the form below to create your account</p>
-          <form action="" className="sign-in__form">
+          <form action="" className="sign-in__form" onSubmit={handleSubmit}>
             <div className="form__control">
               <label htmlFor="fullname">Full name</label>
               <input
                 type="text"
                 id="fullname"
+                name="fullname"
                 placeholder="Enter your fullname"
+                onChange={handleInput}
               />
+              {errors.name && (
+                <p className="text-red-500 flex items-center">
+                  <span className="text-lg material-symbols-sharp">error</span>
+                  {errors.name}
+                </p>
+              )}
             </div>
             <div className="form__control">
               <label htmlFor="email">Email</label>
-              <input type="email" id="email" placeholder="Enter your email" />
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                onChange={handleInput}
+              />
+              {errors.email && (
+                <p className="text-red-500 flex items-center">
+                  <span className="text-lg material-symbols-sharp">error</span>
+                  {errors.email}
+                </p>
+              )}
             </div>
             <div className="form__control">
               <label htmlFor="password">Password</label>
               <input
                 type="password"
                 id="password"
+                name="password"
                 placeholder="Enter your password"
+                onChange={handleInput}
               />
+              {errors.password && (
+                <p className="text-red-500 flex items-center">
+                  <span className="text-lg material-symbols-sharp">error</span>
+                  {errors.password}
+                </p>
+              )}
             </div>
-            <div className="form__control">
+            <div className="form__control mb-3">
               <label htmlFor="confirm_password">Confirm Password</label>
               <input
                 type="password"
                 id="confirm_password"
+                name="confirm_password"
                 placeholder="Enter your confirm password"
+                onChange={handleInput}
               />
+              {errors.password && (
+                <p className="text-red-500 flex items-center">
+                  <span className="text-lg material-symbols-sharp">error</span>
+                  {errors.password}
+                </p>
+              )}
             </div>
             <button className="btn primary" type="submit">
               Sign Up
