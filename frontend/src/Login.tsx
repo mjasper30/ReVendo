@@ -84,19 +84,19 @@ function Login() {
               )}
             </div>
             <div className="sign-in__extras">
-              <div>
+              {/* <div>
                 <input type="checkbox" id="remember" />
                 <label htmlFor="remember">Keep me signed in</label>
-              </div>
+              </div> */}
               <Link to="/forgot-password">Forgot password?</Link>
             </div>
-            <button className="btn primary" type="submit">
+            <button className="btn primary mb-5" type="submit">
               Sign In
             </button>
           </form>
-          <small className="next__page">
+          {/* <small className="next__page">
             Dont have an account? <Link to="/signup">Sign up</Link>
-          </small>
+          </small> */}
         </article>
         <article className="sign-in__logo">
           <div>

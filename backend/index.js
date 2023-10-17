@@ -37,13 +37,28 @@ app.post("/signup", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  const sql = "SELECT * FROM `users` WHERE `email`= ? AND `password` = ?";
-  db.query(sql, [req.body.email, req.body.password], (err, result) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const sql = "SELECT * FROM `users` WHERE `email`= ?";
+  db.query(sql, [email], (err, result) => {
     if (err) {
       return res.json({ error: err });
     }
     if (result.length > 0) {
-      return res.json("Success");
+      const storedHash = result[0].password;
+
+      // Compare the password with the stored hash
+      bcrypt.compare(password, storedHash, (err, passwordMatch) => {
+        if (err) {
+          return res.json({ error: err });
+        }
+        if (passwordMatch) {
+          return res.json("Success");
+        } else {
+          return res.json({ error: "Invalid email or password" });
+        }
+      });
     } else {
       return res.json({ error: "Invalid email or password" });
     }
