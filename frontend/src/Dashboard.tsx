@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "./assets/Revendo_logo.png";
 import profile1 from "./assets/profile-1.jpg";
 import profile2 from "./assets/profile-2.jpg";
@@ -84,10 +85,10 @@ const Dashboard = () => {
             <span className="material-symbols-sharp"> add </span>
             <h3>Add Product</h3>
           </a>
-          <a href="#">
+          <Link to={"/"}>
             <span className="material-symbols-sharp"> logout </span>
             <h3>Logout</h3>
-          </a>
+          </Link>
         </div>
       </aside>
       {/* End of Aside */}

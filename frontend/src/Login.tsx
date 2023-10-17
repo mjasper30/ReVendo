@@ -1,8 +1,9 @@
 import "./css/LoginAndSignUp.css";
 import logo from "./assets/Revendo_logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Validation from "./LoginValidation";
+import axios from "axios";
 
 function Login() {
   const [values, setValues] = useState({
@@ -12,9 +13,25 @@ function Login() {
 
   const [errors, setErrors] = useState({});
 
+  // Navigate after submit
+  const navigate = useNavigate();
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
     setErrors(Validation(values));
+
+    axios
+      .post("http://localhost:3001/login", values)
+      .then((res) => {
+        if (res.data === "Success") {
+          navigate("/dashboard");
+        } else {
+          alert("No user found");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleInput = (event: any) => {
