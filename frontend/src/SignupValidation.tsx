@@ -1,28 +1,34 @@
 interface FormValues {
-  name: string;
+  fullname: string;
   email: string;
   password: string;
+  confirm_password: string;
 }
 
 interface FormErrors {
-  name?: string;
+  fullname?: string;
   email?: string;
   password?: string;
+  confirm_password?: string;
 }
 
 function Validation(values: FormValues): FormErrors {
   const errors: FormErrors = {};
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/;
+  const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-  if (!values.name) {
-    errors.name = "Name is required";
+  if (!values.fullname.trim()) {
+    errors.fullname = "Name is required";
+  } else {
+    errors.fullname = "";
   }
 
   if (!values.email) {
     errors.email = "Email is required";
   } else if (!emailPattern.test(values.email)) {
     errors.email = "Invalid email address";
+  } else {
+    errors.email = "";
   }
 
   if (!values.password) {
@@ -30,6 +36,16 @@ function Validation(values: FormValues): FormErrors {
   } else if (!passwordPattern.test(values.password)) {
     errors.password =
       "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number";
+  } else {
+    errors.password = "";
+  }
+
+  if (!values.confirm_password) {
+    errors.confirm_password = "Confirm password is required";
+  } else if (values.password !== values.confirm_password) {
+    errors.confirm_password = "Passwords do not match";
+  } else {
+    errors.confirm_password = "";
   }
 
   return errors;

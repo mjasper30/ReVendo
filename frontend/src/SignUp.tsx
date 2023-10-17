@@ -1,21 +1,40 @@
 import "./css/LoginAndSignUp.css";
 import logo from "./assets/Revendo_logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Validation from "./SignupValidation";
 import { useState } from "react";
+import axios from "axios";
 
 const SignUp = () => {
   const [values, setValues] = useState({
-    name: "",
+    fullname: "",
     email: "",
     password: "",
   });
 
   const [errors, setErrors] = useState({});
 
+  // Navigate after submit
+  const navigate = useNavigate();
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
     setErrors(Validation(values));
+    if (
+      errors.fullname === "" &&
+      errors.email === "" &&
+      errors.password === "" &&
+      errors.confirm_password === ""
+    ) {
+      axios
+        .post("http://localhost:3001/signup", values)
+        .then((res) => {
+          navigate("/");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const handleInput = (event: any) => {
@@ -41,10 +60,10 @@ const SignUp = () => {
                 placeholder="Enter your fullname"
                 onChange={handleInput}
               />
-              {errors.name && (
+              {errors.fullname && (
                 <p className="text-red-500 flex items-center">
                   <span className="text-lg material-symbols-sharp">error</span>
-                  {errors.name}
+                  {errors.fullname}
                 </p>
               )}
             </div>
@@ -89,10 +108,10 @@ const SignUp = () => {
                 placeholder="Enter your confirm password"
                 onChange={handleInput}
               />
-              {errors.password && (
+              {errors.confirm_password && (
                 <p className="text-red-500 flex items-center">
                   <span className="text-lg material-symbols-sharp">error</span>
-                  {errors.password}
+                  {errors.confirm_password}
                 </p>
               )}
             </div>
