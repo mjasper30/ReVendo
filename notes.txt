@@ -1,0 +1,26 @@
+login and registration page
+https://www.youtube.com/watch?v=F53MPHqOmYI
+
+IN BACKEND
+1. create folder backend then cd for backend
+2. install neccessary packages
+* npm init - create a package json file
+* npm i mysql express cors nodemon - install mysql and express
+* npm install bcrypt - for password encryption
+
+//connection in mysql 
+const express = require("express");
+const mysql = require("mysql");
+const cors = require("cors");
+
+const app = express();
+app.use(cors());
+
+IN FRONTEND
+1. npm create vite@latest -> TYPESCRIPT + SWC -> .
+2. install bootstrap or tailwind
+3. npm install react-router-dom
+
+In bootstrap
+import 'bootstrap/dist/css/bootstrap.min.css'
+
