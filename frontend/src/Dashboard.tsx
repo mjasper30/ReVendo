@@ -41,44 +41,46 @@ export default function Dashboard() {
           <Navbar.Toggle />
         </div>
       </Navbar>
-      <div className="fixed sidebar bg-[#35363D] text-white w-16 left-0 h-screen flex flex-col justify-center items-center">
-        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-[15px] mr-1 drop-shadow-md hover:drop-shadow-xl">
-          <span className="material-symbols-rounded text-[#2B2D31] p-2 ">
+      <div className="fixed sidebar bg-[#35363D] text-white w-20 left-0 h-screen flex flex-col justify-center items-center">
+        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-[15px] mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2">
+          <span className="material-symbols-rounded text-[#2B2D31] p-2">
+            {/* White Rectacle Active */}
+            <div className="vertical-rectangle absolute top-0 left-[-14px] w-2 h-10 bg-white rounded-lg"></div>
             home
           </span>
         </i>
-        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl">
+        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2">
           <span className="material-symbols-rounded text-[#2B2D31] p-2 ">
             add
           </span>
         </i>
-        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl">
+        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2">
           <span className="material-symbols-rounded text-[#2B2D31] p-2">
             person_add
           </span>
         </i>
-        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl">
+        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2">
           <span className="material-symbols-rounded text-[#2B2D31] p-2">
             monitoring
           </span>
         </i>
 
-        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl">
+        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2">
           <span className="material-symbols-rounded text-[#2B2D31] p-2">
             style
           </span>
         </i>
-        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl">
+        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2">
           <span className="material-symbols-rounded text-[#2B2D31] p-2">
             ad_units
           </span>
         </i>
-        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl">
+        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2">
           <span className="material-symbols-rounded text-[#2B2D31] p-2">
             manage_accounts
           </span>
         </i>
-        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl">
+        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2">
           <span className="material-symbols-rounded text-[#2B2D31] p-2">
             settings
           </span>
