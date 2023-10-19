@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Validation from "./LoginValidation";
 import axios from "axios";
-import Swal from "sweetalert2";
 
 function Login() {
   const [values, setValues] = useState({
@@ -25,21 +24,10 @@ function Login() {
       .post("http://localhost:3001/login", values)
       .then((res) => {
         if (res.data === "Success") {
-          Swal.fire({
-            icon: "success",
-            title: "Login Success!",
-            text: "",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigate("/dashboard");
-            }
-          });
+          navigate("/dashboard");
         } else {
-          Swal.fire({
-            icon: "error",
-            title: "Login Failed!",
-            text: "",
-          });
+          errors.password = "Email or password is incorrect";
+          setErrors(errors);
         }
       })
       .catch((err) => {
