@@ -41,44 +41,44 @@ export default function Dashboard() {
           <Navbar.Toggle />
         </div>
       </Navbar>
-      <div className="fixed sidebar bg-[#313338] text-white w-16 left-0 h-screen flex flex-col justify-center items-center">
-        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-[15px] mr-1">
+      <div className="fixed sidebar bg-[#35363D] text-white w-16 left-0 h-screen flex flex-col justify-center items-center">
+        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-[15px] mr-1 drop-shadow-md hover:drop-shadow-xl">
           <span className="material-symbols-rounded text-[#2B2D31] p-2 ">
             home
           </span>
         </i>
-        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1">
+        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl">
           <span className="material-symbols-rounded text-[#2B2D31] p-2 ">
             add
           </span>
         </i>
-        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1">
+        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl">
           <span className="material-symbols-rounded text-[#2B2D31] p-2">
             person_add
           </span>
         </i>
-        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1">
+        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl">
           <span className="material-symbols-rounded text-[#2B2D31] p-2">
             monitoring
           </span>
         </i>
 
-        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1">
+        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl">
           <span className="material-symbols-rounded text-[#2B2D31] p-2">
             style
           </span>
         </i>
-        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1">
+        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl">
           <span className="material-symbols-rounded text-[#2B2D31] p-2">
             ad_units
           </span>
         </i>
-        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1">
+        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl">
           <span className="material-symbols-rounded text-[#2B2D31] p-2">
             manage_accounts
           </span>
         </i>
-        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1">
+        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-full mr-1 drop-shadow-md hover:drop-shadow-xl">
           <span className="material-symbols-rounded text-[#2B2D31] p-2">
             settings
           </span>
