@@ -89,8 +89,14 @@ export default function Dashboard() {
 
       <div className="flex-1">
         <h1>Dashboard</h1>
+        {/* FIGMA */}
+        {/* https://www.figma.com/file/anz0wiQQ08mjdOT430yCCE/REVENDO-LOGIN-PAGE-NEW?type=design&node-id=0-1&mode=design&t=zTyJN98PbElkrQaY-0 */}
+
         {/* USE CARDS */}
+        {/* https://www.flowbite-react.com/docs/components/card */}
+
         {/* ICONS */}
+        {/* https://fonts.google.com/icons?icon.style=Rounded&icon.set=Material+Symbols */}
       </div>
     </div>
   );
