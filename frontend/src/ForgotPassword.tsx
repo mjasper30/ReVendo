@@ -53,7 +53,7 @@ function Login() {
             </button>
           </form>
           <small className="next__page">
-            <Link to="/">Back to sign in</Link>
+            <Link to="/">Back to login</Link>
           </small>
         </article>
         <article className="sign-in__logo">

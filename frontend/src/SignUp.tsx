@@ -120,7 +120,7 @@ const SignUp = () => {
             </button>
           </form>
           <small className="next__page">
-            Already have an account? <Link to="/">Sign in</Link>
+            Already have an account? <Link to="/">Login</Link>
           </small>
         </article>
         <article className="sign-in__logo">

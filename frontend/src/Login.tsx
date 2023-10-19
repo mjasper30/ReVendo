@@ -45,8 +45,8 @@ function Login() {
     <>
       <section className="sign-in">
         <article className="sign-in__details">
-          <h1>Sign in</h1>
-          <p>Log in to your account</p>
+          <h1>Login</h1>
+          <p>Login your account</p>
           <form action="" className="sign-in__form" onSubmit={handleSubmit}>
             <div className="form__control">
               <label htmlFor="email">Email</label>
@@ -91,7 +91,7 @@ function Login() {
               <Link to="/forgot-password">Forgot password?</Link>
             </div>
             <button className="btn primary mb-5" type="submit">
-              Sign In
+              Login
             </button>
           </form>
           {/* <small className="next__page">
