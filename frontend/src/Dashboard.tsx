@@ -42,7 +42,7 @@ export default function Dashboard() {
         </div>
       </Navbar>
       <div className="fixed sidebar bg-[#313338] text-white w-16 left-0 h-screen flex flex-col justify-center items-center">
-        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-md mr-1">
+        <i className="icon my-4 text-2xl bg-[#FFFFFF] rounded-[15px] mr-1">
           <span className="material-symbols-rounded text-[#2B2D31] p-2 ">
             home
           </span>
