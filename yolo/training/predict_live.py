@@ -16,7 +16,7 @@ H, W, _ = frame.shape
 out = cv2.VideoWriter('live_cam.mp4', cv2.VideoWriter_fourcc(*'MP4V'), 30, (W, H))
 
 # Specify the path to your YOLO model
-model_path = os.path.join('.', 'runs', 'detect', 'train', 'weights', 'last.pt')
+model_path = os.path.join('.', 'yolo', 'training', 'runs', 'detect', 'train', 'weights', 'last.pt')
 
 # Load the YOLO model
 model = YOLO(model_path)

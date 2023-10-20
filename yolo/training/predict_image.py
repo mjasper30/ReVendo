@@ -4,14 +4,15 @@ from ultralytics import YOLO
 
 # Define the paths
 # Replace 'images' with the folder containing your images
-IMAGE_DIR = os.path.join('.', 'images')
-output_dir = os.path.join('.', 'output_images')
+IMAGE_DIR = os.path.join('.', 'yolo', 'training', 'images')
+output_dir = os.path.join('.', 'yolo', 'training', 'output_images')
 
 # Create the output directory if it doesn't exist
 os.makedirs(output_dir, exist_ok=True)
 
 # Path to the YOLO model weights
-model_path = os.path.join('.', 'runs', 'detect', 'train', 'weights', 'last.pt')
+model_path = os.path.join('.', 'yolo', 'training',
+                          'runs', 'detect', 'train', 'weights', 'best1.pt')
 
 # Load the YOLO model
 model = YOLO(model_path)
