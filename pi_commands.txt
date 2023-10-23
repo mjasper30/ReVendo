@@ -1,0 +1,39 @@
+RASPBERRY PI CONFIGURAITON
+sudo raspi-config
+
+KNOW MORE ABOUT OS, IPADDRESS ETC.
+ifconfig
+ip addr
+cat /etc/os-release
+uname -a
+
+CHECK VERSION OF PYTHON
+python3 --version
+python --version
+
+DOWNLOAD FROM LINK PROVIDED
+wget (link)
+
+OLD TESTING OF CAMERA - LEGACY CAMERA
+raspistill -o image.jpg 
+eog image.jpg
+raspivid -o video.h264 -t 10000
+vlc video.h264
+
+UPDATE AND UPGRADE PI
+sudo apt update
+sudo apt upgrade
+
+KNOW IF 64bit or 32bit
+getconf LONG_BIT
+
+CREATE VIRTUAL ENVIRONMENT
+python3 -m venv myenv
+source myenv/bin/activate -> pip install something
+deactivate
+
+TEST CAMERA - NEWEST VERSION LIBCAMERA
+libcamera-hello -t 0
+
+CHECK STORAGE
+df -h
