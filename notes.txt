@@ -1,6 +1,8 @@
 JASPER PYTHON VERSION: Python 3.11.3
 RASPBERRY PI PYTHON VERSION: Python 3.9.2
 
+Raspberry Pi IP ADDRESS - 192.168.68.127
+
 login and registration page
 https://www.youtube.com/watch?v=F53MPHqOmYI
 
