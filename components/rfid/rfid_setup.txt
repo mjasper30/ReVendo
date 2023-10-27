@@ -1,0 +1,65 @@
+HOW TO SETUP RFID RC522 IN RASPBERRY PI
+https://youtu.be/evRuZRxvPFI?si=CCRdDEG2HMwBL_6J
+
+PI		RFID
+
+PIN1 - (3V3)	3V3 PIN
+PIN22 - (GPIO22) 	RST PIN
+PIN6 - (GROUND)	GND PIN
+PIN21 - (MISO)	MISO PIN
+PIN19 - (MOSI)	MOSI PIN
+PIN23 - (SCK)	SCK PIN
+PIN24 - (SDA)	SDA PIN
+
+COMMANDS
+
+- sudo raspi-config
+- Interface Options - > SPI - > Yes to enable -> Ok
+- sudo reboot
+Retrieve a list of active kernel mods
+- ismod | grep spi
+If "spi_bcm2835" appears then the SPI has interface has been successfully setup
+-sudo apt-get update
+-sudo apt-get upgrade
+-sudo apt-get install python3-dev python3-pip
+-sudo pip3 install spidev
+-sudo pip3 install mfrc522
+-mkdir ~/pi-rfid
+-cd ~/pi-rfid
+-sudo nano Write.py
+
+CODE:
+
+import RPi.GPIO as GPIO
+from mfrc522 import SimpleMFRC522
+
+reader = SimpleMFRC522()
+
+try:
+	text = input("New data:")
+	print("Now place your tag to write")
+	reader.write(text)
+	print("Written")
+finally:
+	GPIO.cleanup()
+
+-sudo python3 Write.py
+
+-----------------
+
+-sudo nano Read.py
+
+CODE:
+
+import RPi.GPIO as GPIO
+from mfrc522 import SimpleMFRC522
+
+reader = SimpleMFRC522()
+try:
+	id, text = reader.read()
+	print(id)
+	print(text)
+finally:
+	GPIO.cleanup()	
+
+-sudo python3 Read.py
