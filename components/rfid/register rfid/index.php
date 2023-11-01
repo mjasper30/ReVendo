@@ -13,6 +13,7 @@
         <option value="inactive">Inactive</option>
     </select>
     <button id="addRFIDButton">Add RFID Data</button>
+    <div id="responseMessage"></div>
 
     <script>
     function updateRFID() {
@@ -34,7 +35,9 @@
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.readyState === 4 && this.status === 200) {
-                console.log("Data added to the database.");
+                document.getElementById("responseMessage").innerText = this.responseText;
+                // You can display an alert instead if you prefer
+                // alert(this.responseText);
             }
         };
         xhttp.open("POST", "AddDataToDatabase.php", true);
