@@ -1,17 +1,17 @@
 ReVendo Machine
 
-Scan RFID
+✅Scan RFID
 
-Check if registered
+✅Check if registered
 
-If not invalid scan the card again
+✅If not invalid scan the card again
 
 If registered proceed to open the door by servo
 
 Store the RFID number
 
 If objected detected by the load cell
-Capture the object
+✅Capture the object
 
 If object not detected by yolo reject the object
 
@@ -33,19 +33,19 @@ If not reset the rfid number assign and reset all points to 0. Proceed to main s
 
 RFID registration
 From the admin dashboard
-we can register RFID card for user who will buy the card.
+✅we can register RFID card for user who will buy the card.
 
-Scan the card
+✅Scan the card
 
-The card number must appear on the text box
+✅The card number must appear on the text box
 
-Add that rfid
+✅Add that rfid
 
-If RFID already registered failed
+✅If RFID already registered failed
 
-If not.. registered that card as active and has balance for example
+✅If not.. registered that card as active and has balance for example
 
-Reset all text input fields
+✅Reset all text input fields
 
 --------------------------------------------------
 
