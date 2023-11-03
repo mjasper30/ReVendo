@@ -13,15 +13,8 @@ file_put_contents('UIDContainer.php', $Write);
 // Send the RFID data back as a response
 echo $rfid;
 
-// Sample response for the NodeMCU
-// $response = array('status' => 'success', 'message' => 'RFID received successfully');
-// echo json_encode($response);
 } else {
 // If the 'rfid' parameter is not found in the POST request
 echo "RFID not received";
-
-// If the 'rfid' parameter is not found in the POST request
-// $response = array('status' => 'error', 'message' => 'RFID not received');
-// echo json_encode($response);
 }
 ?>
