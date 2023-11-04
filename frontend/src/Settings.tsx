@@ -45,9 +45,9 @@ export default function Dashboard() {
     </div>
 
     <div className="h-full w-screen flex items-center justify-center">
-      <h1>Dashboard</h1>
+      <h1>Settings</h1>
       </div>
-      <div className="fixed sidebar bg-[#35363D] text-white w-20 h-screen flex flex-col justify-center items-center p-3">
+      <div className="fixed sidebar bg-[#35363D] text-white w-20 h-screen flex flex-col justify-center items-center">
         <ul>
           {SidebarData.map((val, key) => {
             return (
