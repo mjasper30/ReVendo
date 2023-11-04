@@ -129,10 +129,6 @@ export default function RFID() {
         <div className="flex items-center justify-center h-full">
           <div className="w-full sm:w-4/5">
             <div className="font-bold text-xl text-white my-10">RFID</div>
-            <Button className="mb-5" onClick={() => setOpenModal(true)}>
-              <span className="material-symbols-rounded -ml-1">add</span>
-              Add RFID
-            </Button>
 
             <Modal show={openModal} onClose={() => setOpenModal(false)}>
               <Modal.Header>Add RFID</Modal.Header>
@@ -176,16 +172,19 @@ export default function RFID() {
                 </div>
               </Modal.Body>
             </Modal>
-            <div className="max-w-xs">
-              <div className="mb-2 block">
-                <Label htmlFor="search" value="Your email" />
+            <div className="flex items-center justify-between mb-5">
+              <Button className="mb-5" onClick={() => setOpenModal(true)}>
+                <span className="material-symbols-rounded -ml-1">add</span>
+                Add RFID
+              </Button>
+              <div className="max-w-xs">
+                <TextInput
+                  id="search"
+                  type="text"
+                  placeholder="Search"
+                  className="mb-3"
+                />
               </div>
-              <TextInput
-                id="search"
-                type="text"
-                placeholder="Search"
-                className="mb-3"
-              />
             </div>
             <Table className="text-center" striped hoverable>
               <Table.Head className="bg-slate-600">
