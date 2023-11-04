@@ -1,14 +1,70 @@
-import "./css/index.css";
 import logo from "./assets/Revendo_logo.png";
-import { Avatar, Dropdown, Navbar} from "flowbite-react";
-import { SidebarData } from './SidebarData';
+import { Avatar, Dropdown, Navbar } from "flowbite-react";
+import "./css/index.css";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   return (
-    <>
-    <div className="flex flex-col flex-1 w-full">
+    <div className="bg-[#1E1F22] h-full w-screen flex">
+      <div className="fixed sidebar bg-[#35363D] text-white w-20 h-screen flex flex-col justify-center items-center">
+        <Link
+          className="icon my-4 text-2xl bg-[#FFFFFF] rounded-[15px] mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2"
+          to="/dashboard"
+        >
+          <i>
+            <span className="material-symbols-rounded text-[#2B2D31] p-2">
+              {/* White Rectacle Active */}
+              <div className="vertical-rectangle absolute top-0 left-[-14px] w-2 h-10 bg-white rounded-lg"></div>
+              dashboard
+            </span>
+          </i>
+        </Link>
+        <Link
+          className="icon my-4 text-2xl bg-[#FFFFFF] rounded-[15px] mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2"
+          to="/AddUser"
+        >
+          <i>
+            <span className="material-symbols-rounded text-[#2B2D31] p-2">
+              style
+            </span>
+          </i>
+        </Link>
+        <Link
+          className="icon my-4 text-2xl bg-[#FFFFFF] rounded-[15px] mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2"
+          to="/AddUser"
+        >
+          <i>
+            <span className="material-symbols-rounded text-[#2B2D31] p-2">
+              ad_units
+            </span>
+          </i>
+        </Link>
+        <Link
+          className="icon my-4 text-2xl bg-[#FFFFFF] rounded-[15px] mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2"
+          to="/AddUser"
+        >
+          <i>
+            <span className="material-symbols-rounded text-[#2B2D31] p-2">
+              manage_accounts
+            </span>
+          </i>
+        </Link>
+        <Link
+          className="icon my-4 text-2xl bg-[#FFFFFF] rounded-[15px] mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2"
+          to="/AddUser"
+        >
+          <i>
+            <span className="material-symbols-rounded text-[#2B2D31] p-2">
+              settings
+            </span>
+          </i>
+        </Link>
+      </div>
+
+      <div className="flex flex-col flex-1 w-full">
         <Navbar
           fluid
+          rounded
           className="fixed top-0 left-0 w-full z-50 bg-[#7289DA]"
         >
           <Navbar.Brand>
@@ -42,27 +98,11 @@ export default function Dashboard() {
             <Navbar.Toggle />
           </div>
         </Navbar>
-    </div>
 
-
-    <div className="h-full w-screen flex items-center justify-center">
-      <h1>Monitoring</h1>
+        <div className="flex flex-col ml-24">
+          <div className="font-bold text-xl text-white ml-10">Dashboard</div>
+        </div>
       </div>
-      <div className="fixed sidebar bg-[#35363D] text-white w-20 h-screen flex flex-col justify-center items-center">
-        <ul>
-          {SidebarData.map((val, key) => {
-            return (
-              <li key = {key} onClick = { () => {
-                window.location.pathname = val.link}}
-                > 
-                {" "}
-                <div className = "py-2">{val.icon}</div>{" "}
-                <div>
-                </div>
-                </li>
-            )})}
-            </ul>
-            </div>
-  </>
-  )
+    </div>
+  );
 }

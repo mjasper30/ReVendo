@@ -3,7 +3,7 @@ import { Avatar, Dropdown, Navbar, Table, Tooltip } from "flowbite-react";
 import "./css/index.css";
 import { Link } from "react-router-dom";
 
-export default function Settings() {
+export default function Accounts() {
   return (
     <div className="h-full w-screen flex">
       <div className="fixed sidebar bg-[#35363D] text-white w-20 h-screen flex flex-col justify-center items-center z-50">
@@ -50,6 +50,8 @@ export default function Settings() {
           <Tooltip content="Accounts" placement="right">
             <i>
               <span className="material-symbols-rounded text-[#2B2D31] p-2">
+                {/* White Rectacle Active */}
+                <div className="vertical-rectangle absolute top-0 left-[-14px] w-2 h-10 bg-white rounded-lg"></div>
                 manage_accounts
               </span>
             </i>
@@ -62,8 +64,6 @@ export default function Settings() {
           <Tooltip content="Settings" placement="right">
             <i>
               <span className="material-symbols-rounded text-[#2B2D31] p-2">
-                {/* White Rectacle Active */}
-                <div className="vertical-rectangle absolute top-0 left-[-14px] w-2 h-10 bg-white rounded-lg"></div>
                 settings
               </span>
             </i>
@@ -111,9 +111,84 @@ export default function Settings() {
 
         <div className="flex items-center justify-center h-full">
           <div className="w-full sm:w-4/5">
-            <div className="font-bold text-xl text-white my-10 z-100">
-              Settings
+            <div className="font-bold text-xl text-white my-10">
+              Manage Accounts
             </div>
+            <Table striped hoverable>
+              <Table.Head className="bg-slate-600">
+                <Table.HeadCell>#</Table.HeadCell>
+                <Table.HeadCell>Name</Table.HeadCell>
+                <Table.HeadCell>Email</Table.HeadCell>
+                <Table.HeadCell>Gender</Table.HeadCell>
+                <Table.HeadCell>Role</Table.HeadCell>
+                <Table.HeadCell>Action</Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="divide-y">
+                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    1
+                  </Table.Cell>
+                  <Table.Cell>Jasper Macaraeg</Table.Cell>
+                  <Table.Cell>jasper.macaraeg@gmail.com</Table.Cell>
+                  <Table.Cell>Male</Table.Cell>
+                  <Table.Cell>Admin</Table.Cell>
+                  <Table.Cell>
+                    <i>
+                      <span className="material-symbols-rounded text-green-600 p-2">
+                        edit
+                      </span>
+                    </i>
+                    <i>
+                      <span className="material-symbols-rounded text-red-600 p-2">
+                        delete
+                      </span>
+                    </i>
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    2
+                  </Table.Cell>
+                  <Table.Cell>John Kenneth Adriano</Table.Cell>
+                  <Table.Cell>johnk@gmail.com</Table.Cell>
+                  <Table.Cell>Male</Table.Cell>
+                  <Table.Cell>Staff</Table.Cell>
+                  <Table.Cell>
+                    <i>
+                      <span className="material-symbols-rounded text-green-600 p-2">
+                        edit
+                      </span>
+                    </i>
+                    <i>
+                      <span className="material-symbols-rounded text-red-600 p-2">
+                        delete
+                      </span>
+                    </i>
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    3
+                  </Table.Cell>
+                  <Table.Cell>Black</Table.Cell>
+                  <Table.Cell>15</Table.Cell>
+                  <Table.Cell>Active</Table.Cell>
+                  <Table.Cell>Staff</Table.Cell>
+                  <Table.Cell>
+                    <i>
+                      <span className="material-symbols-rounded text-green-600 p-2">
+                        edit
+                      </span>
+                    </i>
+                    <i>
+                      <span className="material-symbols-rounded text-red-600 p-2">
+                        delete
+                      </span>
+                    </i>
+                  </Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            </Table>
           </div>
         </div>
       </div>
