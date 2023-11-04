@@ -1,10 +1,1 @@
-try to test the model in raspberry pi
-get more images
-get the height of the object -> bounding box lang
-how can i install the ultralytics sa raspberry pi to test na mag work yung live cam object detection
-install torch
-landing page
-learn backend using crud that saves in database
-learn how to implement database in react
-how to make all python files as one
-capture more images and train more
+gawin yung rfid box
