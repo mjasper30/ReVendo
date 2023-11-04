@@ -138,11 +138,6 @@ export default function Accounts() {
                         edit
                       </span>
                     </i>
-                    <i>
-                      <span className="material-symbols-rounded text-red-600 p-2">
-                        delete
-                      </span>
-                    </i>
                   </Table.Cell>
                 </Table.Row>
                 <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">

@@ -1,5 +1,5 @@
 import logo from "./assets/Revendo_logo.png";
-import { Avatar, Dropdown, Navbar, Table, Tooltip } from "flowbite-react";
+import { Avatar, Dropdown, Navbar, Tooltip } from "flowbite-react";
 import "./css/index.css";
 import { Link } from "react-router-dom";
 
