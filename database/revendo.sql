@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 17, 2023 at 07:08 AM
+-- Generation Time: Nov 01, 2023 at 01:41 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -20,6 +20,28 @@ SET time_zone = "+00:00";
 --
 -- Database: `revendo`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rfid`
+--
+
+CREATE TABLE `rfid` (
+  `id` int(11) NOT NULL,
+  `rfid_number` varchar(255) NOT NULL,
+  `points` int(11) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `date_created` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `rfid`
+--
+
+INSERT INTO `rfid` (`id`, `rfid_number`, `points`, `status`, `date_created`) VALUES
+(1, '33a537c2', 300, 'Active', '2023-11-01'),
+(2, '737832c2', 300, 'Active', '2023-11-01');
 
 -- --------------------------------------------------------
 
@@ -47,6 +69,12 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`) VALUES
 --
 
 --
+-- Indexes for table `rfid`
+--
+ALTER TABLE `rfid`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -55,6 +83,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `rfid`
+--
+ALTER TABLE `rfid`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`

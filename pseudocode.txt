@@ -1,0 +1,68 @@
+ReVendo Machine
+
+✅Scan RFID
+
+✅Check if registered
+
+✅If not invalid scan the card again
+
+If registered proceed to open the door by servo
+
+Store the RFID number
+
+If objected detected by the load cell
+✅Capture the object
+
+If object not detected by yolo reject the object
+
+If object detected by yolo as accepted. accept the object
+
+Get the height of detect object then the point of that plastic bottle based on assign height either small medium or large plastic bottle.
+
+Insert the capture object to database
+
+Store that currentState of points
+
+Is there more plastic bottles?
+
+If yes same rfid number then store all the points to that as more plastic bottles process
+
+If not reset the rfid number assign and reset all points to 0. Proceed to main screen again
+
+------------------------------------------------
+
+RFID registration
+From the admin dashboard
+✅we can register RFID card for user who will buy the card.
+
+✅Scan the card
+
+✅The card number must appear on the text box
+
+✅Add that rfid
+
+✅If RFID already registered failed
+
+✅If not.. registered that card as active and has balance for example
+
+✅Reset all text input fields
+
+--------------------------------------------------
+
+Charging Station
+
+Scan the card
+
+Check if RFID is registered.
+
+If not registered failed
+
+If registered proceed to more process
+
+Check the balance of the card
+
+If there no balance failed
+
+If there is balance can charge
+
+if has charge can charge cellphone
