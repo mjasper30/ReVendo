@@ -1,72 +1,45 @@
-// SidebarComponent.js
-import { Tooltip } from "flowbite-react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import SidebarLink from "./SidebarLink";
 
 const SidebarComponent = () => {
+  const [activeLink, setActiveLink] = useState("/dashboard");
   return (
     <div className="fixed sidebar bg-[#35363D] text-white w-20 h-screen flex flex-col justify-center items-center z-50">
-      <Link
-        className="icon my-4 text-2xl bg-[#FFFFFF] rounded-[15px] mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2"
+      <SidebarLink
         to="/dashboard"
-      >
-        <Tooltip content="Dashboard" placement="right">
-          <i>
-            <span className="material-symbols-rounded text-[#2B2D31] p-2">
-              {/* White Rectacle Active */}
-              <div className="vertical-rectangle absolute top-0 left-[-14px] w-2 h-10 bg-white rounded-lg"></div>
-              dashboard
-            </span>
-          </i>
-        </Tooltip>
-      </Link>
-      <Link
-        className="icon my-4 text-2xl bg-[#FFFFFF] rounded-[15px] mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2"
+        tooltipContent="Dashboard"
+        text="dashboard"
+        isActive={activeLink === "/dashboard"}
+        onClick={() => setActiveLink("/dashboard")}
+      />
+      <SidebarLink
         to="/rfid"
-      >
-        <Tooltip content="RFID" placement="right">
-          <i>
-            <span className="material-symbols-rounded text-[#2B2D31] p-2">
-              style
-            </span>
-          </i>
-        </Tooltip>
-      </Link>
-      <Link
-        className="icon my-4 text-2xl bg-[#FFFFFF] rounded-[15px] mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2"
+        tooltipContent="RFID"
+        text="style"
+        isActive={activeLink === "/rfid"}
+        onClick={() => setActiveLink("/rfid")}
+      />
+      <SidebarLink
         to="/units"
-      >
-        <Tooltip content="Units" placement="right">
-          <i>
-            <span className="material-symbols-rounded text-[#2B2D31] p-2">
-              ad_units
-            </span>
-          </i>
-        </Tooltip>
-      </Link>
-      <Link
-        className="icon my-4 text-2xl bg-[#FFFFFF] rounded-[15px] mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2"
+        tooltipContent="Units"
+        text="ad_units"
+        isActive={activeLink === "/units"}
+        onClick={() => setActiveLink("/units")}
+      />
+      <SidebarLink
         to="/manage-accounts"
-      >
-        <Tooltip content="Accounts" placement="right">
-          <i>
-            <span className="material-symbols-rounded text-[#2B2D31] p-2">
-              manage_accounts
-            </span>
-          </i>
-        </Tooltip>
-      </Link>
-      <Link
-        className="icon my-4 text-2xl bg-[#FFFFFF] rounded-[15px] mr-1 drop-shadow-md hover:drop-shadow-xl cursor-pointer ml-2"
+        tooltipContent="Accounts"
+        text="manage_accounts"
+        isActive={activeLink === "/manage-accounts"}
+        onClick={() => setActiveLink("/manage-accounts")}
+      />
+      <SidebarLink
         to="/settings"
-      >
-        <Tooltip content="Settings" placement="right">
-          <i>
-            <span className="material-symbols-rounded text-[#2B2D31] p-2">
-              settings
-            </span>
-          </i>
-        </Tooltip>
-      </Link>
+        tooltipContent="Settings"
+        text="settings"
+        isActive={activeLink === "/settings"}
+        onClick={() => setActiveLink("/settings")}
+      />
     </div>
   );
 };

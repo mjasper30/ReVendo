@@ -17,7 +17,30 @@ export default function Dashboard() {
             Dashboard
           </div>
           <div className="flex w-full items-center justify-between ml-10 mb-5 gap-4">
-            <CardsComponent />
+            <CardsComponent
+              bgColor="bg-green-500"
+              icon="manage_accounts"
+              title="Registered RFID"
+              value="456"
+            />
+            <CardsComponent
+              bgColor="bg-red-500"
+              icon="water_bottle"
+              title="Plastic Bottles"
+              value="7489412"
+            />
+            <CardsComponent
+              bgColor="bg-orange-500"
+              icon="inventory_2"
+              title="Capacity Status"
+              value="Not full"
+            />
+            <CardsComponent
+              bgColor="bg-violet-500"
+              icon="battery_charging_full"
+              title="Battery Status"
+              value="56%"
+            />
           </div>
           <div className="flex  ml-10 mb-5 gap-4">
             <TableComponent />
