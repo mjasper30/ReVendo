@@ -172,7 +172,7 @@ export default function RFID() {
                 </div>
               </Modal.Body>
             </Modal>
-            <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center justify-between">
               <Button className="mb-5" onClick={() => setOpenModal(true)}>
                 <span className="material-symbols-rounded -ml-1">add</span>
                 Add RFID

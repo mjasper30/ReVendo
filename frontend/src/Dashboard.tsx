@@ -16,10 +16,10 @@ export default function Dashboard() {
           <div className="font-bold text-xl text-white ml-10 my-10 z-100">
             Dashboard
           </div>
-          <div className="flex items-center justify-between ml-10 mb-5 gap-4">
+          <div className="flex w-full items-center justify-between ml-10 mb-5 gap-4">
             <CardsComponent />
           </div>
-          <div className="flex ml-10 mb-5 gap-4">
+          <div className="flex  ml-10 mb-5 gap-4">
             <TableComponent />
           </div>
         </div>

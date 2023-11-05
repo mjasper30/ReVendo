@@ -136,7 +136,7 @@ export default function Units() {
                 id="search"
                 type="text"
                 placeholder="Search"
-                className="mb-3"
+                className="mb-5"
               />
             </div>
             <Table striped hoverable className="text-center">
