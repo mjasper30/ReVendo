@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 01, 2023 at 01:41 PM
+-- Generation Time: Nov 05, 2023 at 03:55 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `rfid` (
   `id` int(11) NOT NULL,
-  `rfid_number` varchar(255) NOT NULL,
+  `rfid_number` longtext NOT NULL,
   `points` int(11) DEFAULT NULL,
   `status` varchar(255) DEFAULT NULL,
   `date_created` date NOT NULL DEFAULT current_timestamp()
@@ -40,8 +40,13 @@ CREATE TABLE `rfid` (
 --
 
 INSERT INTO `rfid` (`id`, `rfid_number`, `points`, `status`, `date_created`) VALUES
-(1, '33a537c2', 300, 'Active', '2023-11-01'),
-(2, '737832c2', 300, 'Active', '2023-11-01');
+(1, '33a537c2', 300, 'active', '2023-11-01'),
+(2, '737832c2', 300, 'active', '2023-11-01'),
+(3, 'e3153ec2', 500, 'inactive', '2023-11-01'),
+(4, '9305e8be', 1000, 'active', '2023-11-03'),
+(5, '633bfec1', 500, 'active', '2023-11-03'),
+(6, 'c3c9101e', 50, 'active', '2023-11-03'),
+(7, '837f43c2', 50, 'active', '2023-11-03');
 
 -- --------------------------------------------------------
 
@@ -54,7 +59,7 @@ CREATE TABLE `users` (
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` text NOT NULL,
-  `role` varchar(255) NOT NULL
+  `role` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -62,7 +67,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`) VALUES
-(1, 'Jasper Macaraeg', 'jasper.macaraeg42@gmail.com', '$2b$10$3EK9x3O0QpXY/ZKZZFny6uy0TyXjYkKvM0Ek6yWBxRwIkEv3W8zIO', 'user');
+(1, 'Jasper Macaraeg', 'jasper.macaraeg42@gmail.com', '$2b$10$wmhcVSmM.8JYktxdxOzKj.jFvxLuGCNMLqj9AKNC9Kjrprqako/W2', 'admin'),
+(2, 'Revendo Admin', 'revendo@gmail.com', '$2b$10$wmhcVSmM.8JYktxdxOzKj.jFvxLuGCNMLqj9AKNC9Kjrprqako/W2', 'admin'),
+(3, 'John Kenneth Adriano', 'johnkenneth@gmail.com', '$2b$10$C0LJwq6IsTanbGcChAcfdO7Xj1ET0hUgLxnj5/sNCjcQnwxL2yU7u', 'staff');
 
 --
 -- Indexes for dumped tables
@@ -88,13 +95,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `rfid`
 --
 ALTER TABLE `rfid`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
