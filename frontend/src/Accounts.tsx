@@ -1,9 +1,24 @@
 import logo from "./assets/Revendo_logo.png";
-import { Avatar, Dropdown, Navbar, Table, Tooltip } from "flowbite-react";
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  Label,
+  Modal,
+  Navbar,
+  Radio,
+  Select,
+  Table,
+  TextInput,
+  Tooltip,
+} from "flowbite-react";
 import "./css/index.css";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export default function Accounts() {
+  const [openModal, setOpenModal] = useState(false);
+
   return (
     <div className="h-full w-screen flex">
       <div className="fixed sidebar bg-[#35363D] text-white w-20 h-screen flex flex-col justify-center items-center z-50">
@@ -114,6 +129,85 @@ export default function Accounts() {
             <div className="font-bold text-xl text-white my-10">
               Manage Accounts
             </div>
+            <Modal show={openModal} onClose={() => setOpenModal(false)}>
+              <Modal.Header>Add User</Modal.Header>
+              <Modal.Body>
+                <div className="space-y-6">
+                  <form className="flex flex-col gap-4">
+                    <div className="block">
+                      <Label htmlFor="name" value="Name" />
+                    </div>
+                    <TextInput
+                      id="name"
+                      type="text"
+                      placeholder="Enter name"
+                      required
+                    />
+                    <div className="block">
+                      <Label htmlFor="email" value="Email" />
+                    </div>
+                    <TextInput
+                      id="email"
+                      type="text"
+                      placeholder="Enter email"
+                      required
+                    />
+                    <fieldset className="flex flex-col gap-4">
+                      <div className="block">
+                        <Label value="Gender" />
+                      </div>
+                      <div className="flex items-center gap-12">
+                        <div className="flex items-center gap-2">
+                          <Radio
+                            id="united-state"
+                            name="countries"
+                            value="USA"
+                          />
+                          <Label htmlFor="united-state">Male</Label>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Radio
+                            id="united-state"
+                            name="countries"
+                            value="USA"
+                          />
+                          <Label htmlFor="united-state">Female</Label>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="mb-2 block">
+                          <Label htmlFor="password1" value="Your password" />
+                        </div>
+                        <TextInput id="password1" type="password" required />
+                      </div>
+                      <div>
+                        <div className="mb-2 block">
+                          <Label htmlFor="password2" value="Confirm password" />
+                        </div>
+                        <TextInput id="password2" type="password" required />
+                      </div>
+                    </fieldset>
+                    <div className="max-w">
+                      <div className="mb-2 block">
+                        <Label htmlFor="role" value="Role" />
+                      </div>
+                      <Select id="role" required>
+                        <option>Staff</option>
+                        <option>Admin</option>
+                      </Select>
+                    </div>
+                    <Button type="submit">Add</Button>
+                    <Button color="gray" onClick={() => setOpenModal(false)}>
+                      Cancel
+                    </Button>
+                  </form>
+                </div>
+              </Modal.Body>
+            </Modal>
+            <Button className="mb-5" onClick={() => setOpenModal(true)}>
+              <span className="material-symbols-rounded -ml-1">add</span>
+              Add User
+            </Button>
             <Table striped hoverable>
               <Table.Head className="bg-slate-600">
                 <Table.HeadCell>#</Table.HeadCell>

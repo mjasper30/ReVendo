@@ -3,7 +3,6 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
 import Dashboard from "./Dashboard";
-import Monitoring from "./Monitoring";
 import Settings from "./Settings";
 import RFID from "./RFID";
 import Units from "./Units";
@@ -19,7 +18,6 @@ function App() {
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/forgot-password" element={<ForgotPassword />}></Route>
           <Route path="/dashboard" element={<Dashboard />}></Route>
-          <Route path="/monitoring" element={<Monitoring />}></Route>
           <Route path="/settings" element={<Settings />}></Route>
           <Route path="/rfid" element={<RFID />}></Route>
           <Route path="/manage-accounts" element={<Accounts />}></Route>

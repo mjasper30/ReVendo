@@ -89,7 +89,7 @@ function Login() {
                 <input type="checkbox" id="remember" />
                 <label htmlFor="remember">Keep me signed in</label>
               </div> */}
-              <Link to="/forgot-password">Forgot password?</Link>
+              {/* <Link to="/forgot-password">Forgot password?</Link> */}
             </div>
             <button className="btn primary mb-5" type="submit">
               Login
