@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SidebarLink from "./SidebarLink";
+import { useLocation } from "react-router-dom";
 
 const SidebarComponent = () => {
-  const [activeLink, setActiveLink] = useState("/dashboard");
+  const location = useLocation();
+  const [activeLink, setActiveLink] = useState(location.pathname);
+
+  useEffect(() => {
+    setActiveLink(location.pathname);
+  }, [location]);
+
   return (
     <div className="fixed sidebar bg-[#35363D] text-white w-20 h-screen flex flex-col justify-center items-center z-50">
       <SidebarLink
