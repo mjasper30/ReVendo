@@ -100,13 +100,15 @@ def tutorial_page():
 
 
 def menu():
-    global revendo_logo, label, get_points_button, check_balance_button, image_button
+    global revendo_logo, label, get_points_button, check_balance_button, image_button, tutorial_steps, tutorial_header
 
     revendo_logo.place_forget()
     label.place_forget()
     get_points_button.place_forget()
     check_balance_button.place_forget()
     image_button.place_forget()
+    tutorial_steps.place_forget()
+    tutorial_header.place_forget()
 
     revendo_logo_path = "Revendo_logo.png"
     center_revendo_logo = Image.open(revendo_logo_path)
