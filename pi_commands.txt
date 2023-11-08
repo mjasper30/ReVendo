@@ -46,3 +46,7 @@ sudo halt or sudo shutdown now
 
 TO RUN PYTHON FILE
 python3 [name of the file.py]
+
+TO CONNECT VNC
+vncserver
+vncserver-virtual
