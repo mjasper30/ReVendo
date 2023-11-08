@@ -1,1 +1,15 @@
-gawin yung rfid box
+* gawin yung rfid box
+* bili ng hosting
+* bili ng lcd screen para matest na yung resolution ng desktop app and kung gumagana ba yung * camera test sa lcd screen
+* servo testing sa pi - angles of accept and rejected
+* load cell - accurate measurement sa pi
+* paganahin yung website sa hosting
+* centralize all the data from the mysql database ng hosting
+* place the rfid scan card coming from the esp8266 to the textbox of RFID textbox from the react admin dashboard
+* finalize yung functionality ng nasa admin dashboard (backend stuffs)
+* ultrasonic sensor for capacity of the box
+* make sure sa desktop app is magrun yung nagawa na yolo:
+- incrementing total of plastic bottle detected
+- scanning of rfid from desktop app to the database (mysql) to hosting
+- looping process for detecting plastic bottles
+* finalize all bugs errors and object detections
