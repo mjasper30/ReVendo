@@ -37,3 +37,12 @@ libcamera-hello -t 0
 
 CHECK STORAGE
 df -h
+
+UPDATE DATE AND TIME 
+sudo date -s "YYYY-MM-DD HH:MM:SS"
+
+SHUTDOWN RASPBERRY PI
+sudo halt or sudo shutdown now
+
+TO RUN PYTHON FILE
+python3 [name of the file.py]
