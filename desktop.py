@@ -89,7 +89,7 @@ def scan_rfid():
     image_label.place(relx=0.5, rely=0.5, anchor='center')
 
     new_button = tk.Button(app, text="Cancel", font=(
-        "Arial", 16), command=destroy_elements, bg='SystemButtonFace', padx=20)
+        "Arial", 16), command=destroy_elements, bg='#f0f0f0', padx=20)
     new_button.place(relx=0.5, rely=0.8, anchor='center',
                      width=150, height=40)
 
@@ -117,7 +117,7 @@ def process_plastic_bottles():
     image_label.place(relx=0.3, rely=0.55, anchor='center')
 
     balance_text = tk.Entry(app, state='disabled', font=(
-        "Arial", 16), bg='SystemButtonFace', justify='center')
+        "Arial", 16), bg='#f0f0f0', justify='center')
     balance_text.insert(0, "Your balance")
     balance_text.place(relx=0.6, rely=0.1, anchor='center',
                        width=400, height=40)
@@ -131,7 +131,7 @@ def process_plastic_bottles():
     balance_text.config(state='disabled')
 
     largebottle_text = tk.Entry(app, state='disabled', font=(
-        "Arial", 16), bg='SystemButtonFace', justify='center')
+        "Arial", 16), bg='#f0f0f0', justify='center')
     largebottle_text.insert(0, "Your balance")
     largebottle_text.place(relx=0.21, rely=0.35, anchor='center',
                            width=60, height=40)
@@ -143,7 +143,7 @@ def process_plastic_bottles():
     largebottle_text.config(state='disabled')
 
     totalplasticbottle_text = tk.Entry(app, state='disabled', font=(
-        "Arial", 16), bg='SystemButtonFace', justify='center')
+        "Arial", 16), bg='#f0f0f0', justify='center')
     totalplasticbottle_text.insert(0, "Your balance")
     totalplasticbottle_text.place(relx=0.41, rely=0.35, anchor='center',
                                   width=100, height=40)
@@ -156,7 +156,7 @@ def process_plastic_bottles():
     totalplasticbottle_text.config(state='disabled')
 
     mediumbottle_text = tk.Entry(app, state='disabled', font=(
-        "Arial", 16), bg='SystemButtonFace', justify='center')
+        "Arial", 16), bg='#f0f0f0', justify='center')
     mediumbottle_text.insert(0, "Your balance")
     mediumbottle_text.place(relx=0.21, rely=0.6, anchor='center',
                             width=60, height=40)
@@ -169,7 +169,7 @@ def process_plastic_bottles():
     mediumbottle_text.config(state='disabled')
 
     totalpoints_text = tk.Entry(app, state='disabled', font=(
-        "Arial", 16), bg='SystemButtonFace', justify='center')
+        "Arial", 16), bg='#f0f0f0', justify='center')
     totalpoints_text.insert(0, "Your balance")
     totalpoints_text.place(relx=0.41, rely=0.6, anchor='center',
                            width=100, height=40)
@@ -182,7 +182,7 @@ def process_plastic_bottles():
     totalpoints_text.config(state='disabled')
 
     smallbottle_text = tk.Entry(app, state='disabled', font=(
-        "Arial", 16), bg='SystemButtonFace', justify='center')
+        "Arial", 16), bg='#f0f0f0', justify='center')
     smallbottle_text.insert(0, "Your balance")
     smallbottle_text.place(relx=0.21, rely=0.82, anchor='center',
                            width=60, height=40)
@@ -195,12 +195,12 @@ def process_plastic_bottles():
     smallbottle_text.config(state='disabled')
 
     cancel_button = tk.Button(app, text="Cancel", font=(
-        "Arial", 16), command=destroy_elements2, bg='SystemButtonFace', padx=20)
+        "Arial", 16), command=destroy_elements2, bg='#f0f0f0', padx=20)
     cancel_button.place(relx=0.8, rely=0.8, anchor='center',
                         width=150, height=40)
 
     claim_button = tk.Button(app, text="Claim Points", font=(
-        "Arial", 16), command=claim_points, bg='SystemButtonFace', padx=20)
+        "Arial", 16), command=claim_points, bg='#f0f0f0', padx=20)
     claim_button.place(relx=0.8, rely=0.7, anchor='center',
                        width=150, height=40)
 
@@ -221,7 +221,7 @@ def check_points_page():
     tutorial_header.place(relx=0.5, rely=0.2, anchor='center')
 
     new_button = tk.Button(app, text="Cancel", font=(
-        "Arial", 16), command=destroy_elements, bg='SystemButtonFace', padx=20)
+        "Arial", 16), command=destroy_elements, bg='#f0f0f0', padx=20)
     new_button.place(relx=0.5, rely=0.8, anchor='center',
                      width=150, height=40)
 
@@ -253,7 +253,7 @@ def tutorial_page():
     tutorial_steps.place(relx=0.5, rely=0.5, anchor='center')
 
     button = tk.Button(app, text="Okay", font=("Arial", 16),
-                       command=destroy_elements1, bg='SystemButtonFace', padx=20)
+                       command=destroy_elements1, bg='#f0f0f0', padx=20)
     button.place(relx=0.5, rely=0.8, anchor='center', width=150, height=40)
 
    # Hiding specific elements
@@ -282,12 +282,12 @@ def menu():
     label.place(relx=0.5, rely=0.5, anchor='center')
 
     get_points_button = tk.Button(app, text="Get Points", font=("Arial", 16),
-                                  command=scan_rfid, bg='SystemButtonFace', padx=20)
+                                  command=scan_rfid, bg='#f0f0f0', padx=20)
     get_points_button.place(
         relx=0.3, rely=0.7, anchor='center', width=130, height=40)
 
     check_balance_button = tk.Button(app, text="Check Balance", font=("Arial", 16),
-                                     command=check_points_page, bg='SystemButtonFace', padx=20)
+                                     command=check_points_page, bg='#f0f0f0', padx=20)
     check_balance_button.place(
         relx=0.7, rely=0.7, anchor='center', width=160, height=40)
 
