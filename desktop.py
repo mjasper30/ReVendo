@@ -22,6 +22,10 @@ def trigger_script():
     os.system('python hello.py')
 
 
+def claim_points():
+    os.system('python hello.py')
+
+
 def destroy_elements():
     revendo_logo.place_forget()
     label.place_forget()
@@ -43,6 +47,28 @@ def destroy_elements1():
     button.place_forget()
     tutorial_header.place_forget()
     tutorial_steps.place_forget()
+
+    menu()
+
+
+def destroy_elements2():
+    revendo_logo.place_forget()
+    label.place_forget()
+    get_points_button.place_forget()
+    check_balance_button.place_forget()
+    image_button.place_forget()
+    background_label
+    tutorial_header.place_forget()
+    image_label.place_forget()
+    balance_text.place_forget()
+    largebottle_text.place_forget()
+    smallbottle_text.place_forget()
+    totalplasticbottle_text.place_forget()
+    mediumbottle_text.place_forget()
+    totalpoints_text.place_forget()
+    smallbottle_text.place_forget()
+    cancel_button.place_forget()
+    claim_button.place_forget()
 
     menu()
 
@@ -76,6 +102,8 @@ def scan_rfid():
 
 
 def process_plastic_bottles():
+    global tutorial_header, image_label, largebottle_text, balance_text, smallbottle_text, totalplasticbottle_text, mediumbottle_text, totalpoints_text, smallbottle_text, cancel_button, claim_button
+
     tutorial_header = tk.Label(
         app, text="Balance", font=("Arial", 24), bg='white')
     tutorial_header.place(relx=0.2, rely=0.1, anchor='center')
@@ -102,17 +130,17 @@ def process_plastic_bottles():
     balance_text.insert(0, str(balance_value))  # Insert the new value
     balance_text.config(state='disabled')
 
-    smallbottle_text = tk.Entry(app, state='disabled', font=(
+    largebottle_text = tk.Entry(app, state='disabled', font=(
         "Arial", 16), bg='SystemButtonFace', justify='center')
-    smallbottle_text.insert(0, "Your balance")
-    smallbottle_text.place(relx=0.21, rely=0.35, anchor='center',
+    largebottle_text.insert(0, "Your balance")
+    largebottle_text.place(relx=0.21, rely=0.35, anchor='center',
                            width=60, height=40)
 
-    smallbot_value = 3  # Example value
-    smallbottle_text.config(state='normal')
-    smallbottle_text.delete(0, 'end')  # Clear the current value
-    smallbottle_text.insert(0, str(smallbot_value))  # Insert the new value
-    smallbottle_text.config(state='disabled')
+    largebot_value = 3  # Example value
+    largebottle_text.config(state='normal')
+    largebottle_text.delete(0, 'end')  # Clear the current value
+    largebottle_text.insert(0, str(largebot_value))  # Insert the new value
+    largebottle_text.config(state='disabled')
 
     totalplasticbottle_text = tk.Entry(app, state='disabled', font=(
         "Arial", 16), bg='SystemButtonFace', justify='center')
@@ -166,10 +194,15 @@ def process_plastic_bottles():
                             )  # Insert the new value
     smallbottle_text.config(state='disabled')
 
-    new_button = tk.Button(app, text="Cancel", font=(
-        "Arial", 16), command=destroy_elements, bg='SystemButtonFace', padx=20)
-    new_button.place(relx=0.5, rely=0.8, anchor='center',
-                     width=150, height=40)
+    cancel_button = tk.Button(app, text="Cancel", font=(
+        "Arial", 16), command=destroy_elements2, bg='SystemButtonFace', padx=20)
+    cancel_button.place(relx=0.8, rely=0.8, anchor='center',
+                        width=150, height=40)
+
+    claim_button = tk.Button(app, text="Claim Points", font=(
+        "Arial", 16), command=claim_points, bg='SystemButtonFace', padx=20)
+    claim_button.place(relx=0.8, rely=0.7, anchor='center',
+                       width=150, height=40)
 
     # Hiding specific elements
     revendo_logo.place_forget()
@@ -177,7 +210,7 @@ def process_plastic_bottles():
     get_points_button.place_forget()
     check_balance_button.place_forget()
     image_button.place_forget()
-    new_button.place_forget()
+    # new_button.place_forget()
 
 
 def check_points_page():
