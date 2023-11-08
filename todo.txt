@@ -4,6 +4,7 @@
 * servo testing sa pi - angles of accept and rejected
 * load cell - accurate measurement sa pi
 * paganahin yung website sa hosting
+* height measurement should be accurate based on distance
 * centralize all the data from the mysql database ng hosting
 * place the rfid scan card coming from the esp8266 to the textbox of RFID textbox from the react admin dashboard
 * finalize yung functionality ng nasa admin dashboard (backend stuffs)
