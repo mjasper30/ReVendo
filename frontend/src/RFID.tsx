@@ -18,6 +18,31 @@ export default function RFID() {
 
   const onPageChange = (page: number) => setCurrentPage(page);
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    // Fetch POST request to create RFID
+    fetch("/api/rfid", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        rfidNumber: e.target.rfid.value,
+        points: e.target.points.value,
+        status: e.target["rfid-status"].value,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data); // handle success
+        setOpenModal(false);
+      })
+      .catch((error) => {
+        console.error("Error:", error); // handle error
+      });
+  };
+
   return (
     <div className="h-full w-screen flex">
       <SidebarComponent />
@@ -34,7 +59,10 @@ export default function RFID() {
               <Modal.Header>Add RFID</Modal.Header>
               <Modal.Body>
                 <div className="space-y-6">
-                  <form className="flex max-w flex-col gap-4">
+                  <form
+                    className="flex max-w flex-col gap-4"
+                    onSubmit={onSubmit}
+                  >
                     <div className="block">
                       <Label htmlFor="rfid" value="RFID number" />
                     </div>
@@ -49,9 +77,9 @@ export default function RFID() {
                         <Label htmlFor="rfid-status" value="Status of RFID" />
                       </div>
                       <Select id="rfid-status" required>
-                        <option>Active</option>
-                        <option>Inactive</option>
-                        <option>Disable</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                        <option value="Disable">Disable</option>
                       </Select>
                     </div>
                     <div className="block">

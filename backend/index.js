@@ -2,10 +2,12 @@ const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
+const bodyParser = require("body-parser");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json());
 
 // Create connection
 const db = mysql.createConnection({
@@ -61,6 +63,65 @@ app.post("/login", (req, res) => {
       });
     } else {
       return res.json({ error: "Invalid email or password" });
+    }
+  });
+});
+
+// CRUD operations
+
+// Create
+app.post("/api/rfid", (req, res) => {
+  const { rfidNumber, points, status } = req.body;
+  const query =
+    "INSERT INTO rfid (rfid_number, points, status) VALUES (?, ?, ?)";
+  db.query(query, [rfidNumber, points, status], (err, result) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.status(201).send("RFID added successfully");
+    }
+  });
+});
+
+// Read
+app.get("/api/rfid", (req, res) => {
+  const query = "SELECT * FROM rfid";
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
+
+// Update
+app.put("/api/rfid/:id", (req, res) => {
+  const { id } = req.params;
+  const { points, status } = req.body;
+  const query = "UPDATE rfid SET points = ?, status = ? WHERE id = ?";
+  db.query(query, [points, status, id], (err, result) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.status(200).send("RFID updated successfully");
+    }
+  });
+});
+
+// Delete
+app.delete("/api/rfid/:id", (req, res) => {
+  const { id } = req.params;
+  const query = "DELETE FROM rfid WHERE id = ?";
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.status(200).send("RFID deleted successfully");
     }
   });
 });
