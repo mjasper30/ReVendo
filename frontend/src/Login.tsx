@@ -1,22 +1,32 @@
 import "./css/LoginAndSignUp.css";
 import logo from "./assets/Revendo_logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Validation from "./LoginValidation";
 import axios from "axios";
 
+interface FormValues {
+  email: string;
+  password: string;
+}
+
+interface FormErrors {
+  email?: string;
+  password?: string;
+}
+
 function Login() {
-  const [values, setValues] = useState({
+  const [values, setValues] = useState<FormValues>({
     email: "",
     password: "",
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
   // Navigate after submit
   const navigate = useNavigate();
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setErrors(Validation(values));
 
@@ -26,18 +36,20 @@ function Login() {
         if (res.data === "Success") {
           navigate("/dashboard");
         } else {
-          errors.password = "Email or password is incorrect";
-          setErrors(errors);
+          setErrors({
+            ...errors,
+            password: "Email or password is incorrect",
+          });
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
-  const handleInput = (event: any) => {
-    setValues((values) => ({
-      ...values,
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValues((prevValues) => ({
+      ...prevValues,
       [event.target.id]: event.target.value,
     }));
   };
@@ -47,7 +59,7 @@ function Login() {
       <section className="sign-in">
         <article className="sign-in__details">
           <h1>Login</h1>
-          <p>Login your account</p>
+          <p>Login to your account</p>
           <form action="" className="sign-in__form" onSubmit={handleSubmit}>
             <div className="form__control">
               <label htmlFor="email">Email</label>
@@ -56,6 +68,7 @@ function Login() {
                 id="email"
                 name="email"
                 placeholder="Enter your email"
+                value={values.email}
                 onChange={handleInput}
               />
               {errors.email && (
@@ -72,6 +85,7 @@ function Login() {
                 id="password"
                 name="password"
                 placeholder="Enter your password"
+                value={values.password}
                 onChange={handleInput}
               />
               {errors.password && (
@@ -96,7 +110,7 @@ function Login() {
             </button>
           </form>
           {/* <small className="next__page">
-            Dont have an account? <Link to="/signup">Sign up</Link>
+            Don't have an account? <Link to="/signup">Sign up</Link>
           </small> */}
         </article>
         <article className="sign-in__logo">

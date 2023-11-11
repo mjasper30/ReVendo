@@ -5,30 +5,45 @@ import Validation from "./SignupValidation";
 import { useState } from "react";
 import axios from "axios";
 
+interface FormValues {
+  fullname: string;
+  email: string;
+  password: string;
+  confirm_password: string;
+}
+
+interface FormErrors {
+  fullname?: string;
+  email?: string;
+  password?: string;
+  confirm_password?: string;
+}
+
 const SignUp = () => {
-  const [values, setValues] = useState({
+  const [values, setValues] = useState<FormValues>({
     fullname: "",
     email: "",
     password: "",
+    confirm_password: "",
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
   // Navigate after submit
   const navigate = useNavigate();
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setErrors(Validation(values));
     if (
-      errors.fullname === "" &&
-      errors.email === "" &&
-      errors.password === "" &&
-      errors.confirm_password === ""
+      !errors.fullname &&
+      !errors.email &&
+      !errors.password &&
+      !errors.confirm_password
     ) {
       axios
         .post("http://localhost:3001/signup", values)
-        .then((res) => {
+        .then(() => {
           navigate("/");
         })
         .catch((err) => {
@@ -37,9 +52,9 @@ const SignUp = () => {
     }
   };
 
-  const handleInput = (event: any) => {
-    setValues((values) => ({
-      ...values,
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValues((prevValues) => ({
+      ...prevValues,
       [event.target.id]: event.target.value,
     }));
   };

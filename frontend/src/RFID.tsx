@@ -13,25 +13,32 @@ import SidebarComponent from "./component/SidebarComponent";
 import NavbarComponent from "./component/NavbarComponent";
 import axios from "axios";
 
+interface RFIDData {
+  id: number;
+  rfid_number: string;
+  points: number;
+  status: string;
+}
+
 export default function RFID() {
   const [currentPage, setCurrentPage] = useState(1);
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [rfidData, setRfidData] = useState([]);
-  const [selectedRfid, setSelectedRfid] = useState(null);
+  const [rfidData, setRfidData] = useState<RFIDData[]>([]);
+  const [selectedRfid, setSelectedRfid] = useState<RFIDData | null>(null);
 
   const onPageChange = (page: number) => setCurrentPage(page);
 
   // Adding RFID data
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       const response = await axios.post("http://localhost:3001/api/rfid", {
-        rfidNumber: e.target.rfid.value,
-        points: e.target.points.value,
-        status: e.target["rfid-status"].value,
+        rfidNumber: e.currentTarget.rfid.value,
+        points: e.currentTarget.points.value,
+        status: e.currentTarget["rfid-status"].value,
       });
 
       console.log(response.data); // handle success
@@ -53,21 +60,21 @@ export default function RFID() {
   };
 
   // Function to handle edit button click
-  const handleEditClick = (rfid) => {
+  const handleEditClick = (rfid: RFIDData) => {
     setSelectedRfid(rfid);
     setOpenEditModal(true);
   };
 
   // Function to handle edit form submission
-  const handleEditSubmit = async (e) => {
+  const handleEditSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
       // Assuming that your server endpoint for edit is something like "/api/rfid/:id"
-      await axios.put(`http://localhost:3001/api/rfid/${selectedRfid.id}`, {
-        rfid_number: e.target.rfid.value,
-        points: e.target.points.value,
-        status: e.target["rfid-status"].value,
+      await axios.put(`http://localhost:3001/api/rfid/${selectedRfid?.id}`, {
+        rfid_number: e.currentTarget.rfid.value,
+        points: e.currentTarget.points.value,
+        status: e.currentTarget["rfid-status"].value,
       });
 
       // Close the edit modal
@@ -84,7 +91,7 @@ export default function RFID() {
   const handleDeleteClick = async () => {
     try {
       // Assuming that your server endpoint for delete is something like "/api/rfid/:id"
-      await axios.delete(`http://localhost:3001/api/rfid/${selectedRfid.id}`);
+      await axios.delete(`http://localhost:3001/api/rfid/${selectedRfid?.id}`);
 
       // Close the delete modal
       setOpenDeleteModal(false);
@@ -180,7 +187,7 @@ export default function RFID() {
                       value={selectedRfid?.rfid_number || ""}
                       onChange={(e) =>
                         setSelectedRfid({
-                          ...selectedRfid,
+                          ...selectedRfid!,
                           rfid_number: e.target.value,
                         })
                       }
@@ -195,7 +202,7 @@ export default function RFID() {
                         value={selectedRfid?.status || ""}
                         onChange={(e) =>
                           setSelectedRfid({
-                            ...selectedRfid,
+                            ...selectedRfid!,
                             status: e.target.value,
                           })
                         }
@@ -214,11 +221,11 @@ export default function RFID() {
                       type="number"
                       placeholder="Enter RFID Points"
                       required
-                      value={selectedRfid?.points || ""}
+                      value={selectedRfid?.points || 0}
                       onChange={(e) =>
                         setSelectedRfid({
-                          ...selectedRfid,
-                          points: e.target.value,
+                          ...selectedRfid!,
+                          points: +e.target.value,
                         })
                       }
                     />

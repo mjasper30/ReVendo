@@ -4,21 +4,29 @@ import { Link } from "react-router-dom";
 import Validation from "./ForgotPasswordValidation";
 import { useState } from "react";
 
+interface FormValues {
+  emailorphone: string;
+}
+
+interface FormErrors {
+  emailorphone?: string;
+}
+
 function Login() {
-  const [values, setValues] = useState({
+  const [values, setValues] = useState<FormValues>({
     emailorphone: "",
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setErrors(Validation(values));
   };
 
-  const handleInput = (event: any) => {
-    setValues((values) => ({
-      ...values,
+  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValues((prevValues) => ({
+      ...prevValues,
       [event.target.id]: event.target.value,
     }));
   };
