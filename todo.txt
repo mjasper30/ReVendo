@@ -1,5 +1,4 @@
 * gawin yung rfid box
-* bili ng hosting
 * bili ng lcd screen para matest na yung resolution ng desktop app and kung gumagana ba yung * camera test sa lcd screen
 * servo testing sa pi - angles of accept and rejected
 * load cell - accurate measurement sa pi
