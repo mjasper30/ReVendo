@@ -11,6 +11,7 @@ import "./css/index.css";
 import { useState } from "react";
 import SidebarComponent from "./component/SidebarComponent";
 import NavbarComponent from "./component/NavbarComponent";
+import axios from "axios";
 
 export default function RFID() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,29 +19,22 @@ export default function RFID() {
 
   const onPageChange = (page: number) => setCurrentPage(page);
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    // Fetch POST request to create RFID
-    fetch("/api/rfid", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    try {
+      const response = await axios.post("http://localhost:3001/api/rfid", {
         rfidNumber: e.target.rfid.value,
         points: e.target.points.value,
         status: e.target["rfid-status"].value,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data); // handle success
-        setOpenModal(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error); // handle error
       });
+
+      console.log(response.data); // handle success
+      setOpenModal(false); // Close the modal after successful submission
+      // You might want to refresh the data or update the state after a successful submission.
+    } catch (error) {
+      console.error("Error"); // handle error
+    }
   };
 
   return (

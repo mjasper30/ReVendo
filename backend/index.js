@@ -74,12 +74,13 @@ app.post("/api/rfid", (req, res) => {
   const { rfidNumber, points, status } = req.body;
   const query =
     "INSERT INTO rfid (rfid_number, points, status) VALUES (?, ?, ?)";
+
   db.query(query, [rfidNumber, points, status], (err, result) => {
     if (err) {
       console.error("Error executing query:", err);
-      res.status(500).send("Internal Server Error");
+      res.status(500).json({ error: "Internal Server Error" });
     } else {
-      res.status(201).send("RFID added successfully");
+      res.status(201).json({ message: "RFID added successfully" });
     }
   });
 });
