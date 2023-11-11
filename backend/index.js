@@ -101,9 +101,10 @@ app.get("/api/rfid", (req, res) => {
 // Update
 app.put("/api/rfid/:id", (req, res) => {
   const { id } = req.params;
-  const { points, status } = req.body;
-  const query = "UPDATE rfid SET points = ?, status = ? WHERE id = ?";
-  db.query(query, [points, status, id], (err, result) => {
+  const { rfid_number, points, status } = req.body;
+  const query =
+    "UPDATE rfid SET rfid_number = ?, points = ?, status = ? WHERE id = ?";
+  db.query(query, [rfid_number, points, status, id], (err, result) => {
     if (err) {
       console.error("Error executing query:", err);
       res.status(500).send("Internal Server Error");
