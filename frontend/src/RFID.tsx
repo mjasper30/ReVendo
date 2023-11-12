@@ -27,6 +27,7 @@ export default function RFID() {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [rfidData, setRfidData] = useState<RFIDData[]>([]);
   const [selectedRfid, setSelectedRfid] = useState<RFIDData | null>(null);
+  const [currentRFIDValue, setCurrentRFIDValue] = useState("");
 
   const onPageChange = (page: number) => setCurrentPage(page);
 
@@ -103,9 +104,28 @@ export default function RFID() {
     }
   };
 
-  // Fetch data when the component mounts
+  // Fetch current RFID value when the component mounts
   useEffect(() => {
-    fetchData();
+    const fetchCurrentValue = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3001/api/rfid/currentValue"
+        );
+        setCurrentRFIDValue(response.data.rfidValue);
+      } catch (error) {
+        console.error("Error fetching current value:", error);
+      }
+    };
+
+    fetchCurrentValue();
+
+    fetchData(); // Initial fetch
+
+    // Set up an interval to fetch data every 3 seconds
+    const intervalId = setInterval(fetchCurrentValue, 3000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
   }, []); // Empty dependency array means this effect runs once after the initial render
 
   return (
@@ -136,7 +156,9 @@ export default function RFID() {
                       id="rfid"
                       type="text"
                       placeholder="Detecting RFID number"
+                      readOnly
                       required
+                      value={currentRFIDValue} // Set the current value from the state
                     />
                     <div className="max-w">
                       <div className="mb-2 block">

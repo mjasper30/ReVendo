@@ -3,11 +3,46 @@ const mysql = require("mysql");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
+const fs = require("fs/promises");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.post("/rfid", (req, res) => {
+  const rfidUID = req.body.rfid;
+  console.log("Received RFID:", rfidUID);
+
+  // Store the RFID UID in a text file
+  const filePath = "rfidData.txt";
+
+  // Write the RFID UID to the file (overwrite the existing content)
+  fs.writeFile(filePath, rfidUID + "\n", (err) => {
+    if (err) {
+      console.error("Error writing to file:", err);
+      res.status(500).json({ success: false, error: "Internal Server Error" });
+    } else {
+      console.log("RFID UID stored in file:", filePath);
+      res.json({ success: true });
+    }
+  });
+});
+
+app.get("/api/rfid/currentValue", async (req, res) => {
+  try {
+    // Read the current value from the text file
+    const filePath = "rfidData.txt";
+    const data = await fs.readFile(filePath, "utf-8");
+
+    // Send the data as JSON response
+    res.json({ rfidValue: data.trim() });
+  } catch (error) {
+    console.error("Error reading current value:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 // Create connection
 const db = mysql.createConnection({
