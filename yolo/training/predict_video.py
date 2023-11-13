@@ -4,7 +4,7 @@ import cv2
 
 VIDEOS_DIR = os.path.join('.', 'yolo', 'training', 'videos')
 
-video_path = os.path.join(VIDEOS_DIR, 'test2.mp4')
+video_path = os.path.join(VIDEOS_DIR, 'test_all.mp4')
 video_path_out = '{}_out.mp4'.format(video_path)
 
 cap = cv2.VideoCapture(video_path)
@@ -14,7 +14,7 @@ out = cv2.VideoWriter(video_path_out, cv2.VideoWriter_fourcc(
     *'MP4V'), int(cap.get(cv2.CAP_PROP_FPS)), (W, H))
 
 model_path = os.path.join('.', 'yolo', 'training',
-                          'runs', 'detect', 'train', 'weights', 'best3.pt')
+                          'runs', 'detect', 'train', 'weights', 'best4.pt')
 
 # Load a model
 model = YOLO(model_path)  # load a custom model

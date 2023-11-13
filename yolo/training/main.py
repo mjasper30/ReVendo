@@ -46,7 +46,7 @@ try:
             os.makedirs(output_dir, exist_ok=True)
 
             # Path to the YOLO model weights
-            model_path = os.path.join('.', 'model', 'best3.pt')
+            model_path = os.path.join('.', 'model', 'best4.pt')
             # model_path = os.path.join('.', 'model', 'best1.pt')
 
             # Load the YOLO model
