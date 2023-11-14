@@ -4,12 +4,18 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
 const fs = require("fs/promises");
+const multer = require("multer");
+const port = 3001;
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// Multer storage configuration
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 // Localhost Database - Create connection pool
 const db = mysql.createPool({
@@ -243,11 +249,13 @@ app.get("/api/rfid/currentValue", async (req, res) => {
 });
 
 // Insert data in history to every object detected in the machine
-app.post("/addDataHistory", (req, res) => {
+app.post("/addDataHistory", upload.single("image"), (req, res) => {
   const { rfid, height } = req.body;
-  const query = "INSERT INTO history (rfid_number, height) VALUES (?, ?)";
+  const image = req.file ? req.file.buffer : null;
+  const query =
+    "INSERT INTO history (rfid_number, height, captured_image) VALUES (?, ?, ?)";
 
-  db.query(query, [rfid, height], (err, result) => {
+  db.query(query, [rfid, height, image], (err, result) => {
     if (err) {
       console.error("Error executing query:", err);
       res.status(500).json({ error: "Internal Server Error" });
@@ -257,6 +265,7 @@ app.post("/addDataHistory", (req, res) => {
   });
 });
 
-app.listen(3001, () => {
-  console.log("Server is running on port 3001");
+// Start the Express.js server
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
