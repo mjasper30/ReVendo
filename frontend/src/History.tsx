@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import SidebarComponent from "./component/SidebarComponent";
 import NavbarComponent from "./component/NavbarComponent";
 import axios from "axios";
-import logo from "./assets/Revendo_logo.png";
+// import logo from "./assets/Revendo_logo.png";
 
 interface HistoryData {
   id: number;
@@ -37,6 +37,11 @@ export default function RFID() {
   useEffect(() => {
     fetchData(); // Initial fetch
   }, []); // Empty dependency array means this effect runs once after the initial render
+
+  // Function to convert blob data to base64
+  const convertBlobToBase64 = (blobData: string) => {
+    return `data:image/jpeg;base64,${btoa(blobData)}`;
+  };
 
   return (
     <div className="h-full w-screen flex">
@@ -85,10 +90,9 @@ export default function RFID() {
                     <Table.Cell>{history.height}</Table.Cell>
                     <Table.Cell>{history.weight}</Table.Cell>
                     <Table.Cell>{history.size}</Table.Cell>
-                    {/* <Table.Cell>{history.captured_image}</Table.Cell> */}
                     <Table.Cell>
                       <img
-                        src={logo}
+                        src={convertBlobToBase64(history.captured_image)}
                         alt="Captured Image"
                         style={{ maxWidth: "100%", maxHeight: "100px" }}
                       />
