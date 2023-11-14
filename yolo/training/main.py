@@ -14,8 +14,7 @@ script_path = 'capture_image.sh'
 reader = SimpleMFRC522()
 
 url_check_rfid = "http://192.168.68.113:3001/check_rfid"
-# Update with your actual API endpoint
-url_update_data = "http://192.168.68.113:3001/addDataHistory"
+url_update_data = "http://192.168.68.113:3001/addDataHistory"  # Update with your actual API endpoint
 
 # Assuming the camera has a vertical field of view of 60 degrees,
 # you may need to adjust this value based on your camera specifications.
@@ -37,13 +36,12 @@ try:
         payload = {'rfid': rfidUID}
         headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
-        response_check_rfid = requests.post(
-            url_check_rfid, data=payload, headers=headers)
+        response_check_rfid = requests.post(url_check_rfid, data=payload, headers=headers)
         if response_check_rfid.status_code == 200:
             print("HTTP Response:", response_check_rfid.text)
             if "success" in response_check_rfid.text:
                 print("RFID is registered in the database.")
-
+                
                 # Run the script using the subprocess module.
                 try:
                     subprocess.run(['bash', script_path], check=True)
@@ -51,7 +49,7 @@ try:
                     print(f"An error occurred: {e}")
                 else:
                     print("Script executed successfully.")
-
+                    
                     # Define the paths
                     # Replace 'images' with the folder containing your images
                     IMAGE_DIR = os.path.join('.', 'capture')
@@ -87,12 +85,10 @@ try:
                         image_height = frame.shape[0]
 
                         # Convert the FOV to radians for the trigonometric calculations.
-                        fov_vertical_radians = fov_vertical_degrees * \
-                            (3.141592653589793 / 180.0)
+                        fov_vertical_radians = fov_vertical_degrees * (3.141592653589793 / 180.0)
 
                         # Calculate the height of the object in centimeters.
-                        height_cm = int(
-                            (image_height / frame.shape[0]) * distance * math.tan(fov_vertical_radians / 2) * 2)
+                        height_cm = int((image_height / frame.shape[0]) * distance * math.tan(fov_vertical_radians / 2) * 2)
 
                         # Perform object detection
                         results = model(frame)[0]
@@ -114,29 +110,27 @@ try:
                                             cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
 
                                 # Make the class label text bigger
-                                class_label = results.names[int(
-                                    class_id)].upper()
+                                class_label = results.names[int(class_id)].upper()
                                 cv2.putText(frame, class_label, (int(x1), int(y1) - 10),
                                             cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
 
                         # Save the annotated image to the output directory
-                        output_image_path = os.path.join(
-                            output_dir, image_file)
+                        output_image_path = os.path.join(output_dir, image_file)
                         cv2.imwrite(output_image_path, frame)
-
-                        # Send RFID and height data to the API
+                        
+                        # Send RFID, height, and image data to the API
                         data = {'rfid': rfidUID, 'height': height_cm}
-                        response_update_data = requests.post(
-                            url_update_data, data=data)
+                        files = {'image': open(image_path, 'rb')}
+                        response_update_data = requests.post(url_update_data, data=data, files=files)
                         if response_update_data.status_code == 200:
                             print("Data sent to the server successfully.")
                         else:
                             print("Failed to send data to the server.")
-
+                    
                     print("Object detection on images completed.")
             else:
                 print("RFID is not registered in the database.")
-
+        
         choice = input("Do you want to continue (y/n)? ")
         if choice.lower() != "y":
             break
