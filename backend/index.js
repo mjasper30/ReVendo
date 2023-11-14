@@ -115,7 +115,7 @@ app.post("/login", (req, res) => {
 
 // CRUD operations
 
-// Create
+// Create new rfid
 app.post("/api/rfid", (req, res) => {
   const { rfidNumber, points, status } = req.body;
   const query =
@@ -131,7 +131,7 @@ app.post("/api/rfid", (req, res) => {
   });
 });
 
-// Read
+// Read all rfid in database
 app.get("/api/rfid", (req, res) => {
   const query = "SELECT * FROM rfid";
   db.query(query, (err, result) => {
@@ -144,7 +144,7 @@ app.get("/api/rfid", (req, res) => {
   });
 });
 
-// Update
+// Update rfid
 app.put("/api/rfid/:id", (req, res) => {
   const { id } = req.params;
   const { rfid_number, points, status } = req.body;
@@ -160,7 +160,7 @@ app.put("/api/rfid/:id", (req, res) => {
   });
 });
 
-// Delete
+// Delete rfid
 app.delete("/api/rfid/:id", (req, res) => {
   const { id } = req.params;
   const query = "DELETE FROM rfid WHERE id = ?";
@@ -218,6 +218,7 @@ app.post("/check_rfid", (req, res) => {
   }
 });
 
+// Get the current rfid value in text file
 app.get("/api/rfid/currentValue", async (req, res) => {
   try {
     // Read the current value from the text file
