@@ -11,6 +11,25 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// Create connection pool
+const db = mysql.createPool({
+  connectionLimit: 10, // Adjust this based on your needs
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "revendo",
+});
+
+db.on("error", (err) => {
+  console.error("Database error:", err);
+  if (err.code === "PROTOCOL_CONNECTION_LOST") {
+    // Reconnect the database
+    db.connect();
+  } else {
+    throw err;
+  }
+});
+
 app.post("/rfid", (req, res) => {
   const rfidUID = req.body.rfid;
   console.log("Received RFID:", rfidUID);
@@ -42,14 +61,6 @@ app.get("/api/rfid/currentValue", async (req, res) => {
     console.error("Error reading current value:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-});
-
-// Create connection
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "revendo",
 });
 
 app.post("/signup", (req, res) => {
@@ -161,6 +172,64 @@ app.delete("/api/rfid/:id", (req, res) => {
       res.status(200).send("RFID deleted successfully");
     }
   });
+});
+
+// Read RFID to check if RFID is exist in the database
+app.post("/check_rfid", (req, res) => {
+  const rfidUID = req.body.rfid;
+  console.log("Received RFID:", rfidUID);
+
+  // Check the connection state before using it
+  if (db.state === "disconnected") {
+    console.log("Reconnecting to the database...");
+    db.connect((err) => {
+      if (err) {
+        console.error("Database connection failed:", err);
+        res
+          .status(500)
+          .json({ success: false, error: "Internal Server Error" });
+        return;
+      }
+      console.log("Database reconnected.");
+      handleRFID();
+    });
+  } else {
+    handleRFID();
+  }
+
+  function handleRFID() {
+    // Check if the RFID is present in the database
+    const query = "SELECT * FROM rfid WHERE rfid_number = ?";
+    db.query(query, [rfidUID], (err, result) => {
+      if (err) {
+        console.error("Error executing query:", err);
+        res
+          .status(500)
+          .json({ success: false, error: "Internal Server Error" });
+      } else {
+        // Check if the result set is not empty
+        if (result.length > 0) {
+          res.json("success");
+        } else {
+          res.json("failed");
+        }
+      }
+    });
+  }
+});
+
+app.get("/api/rfid/currentValue", async (req, res) => {
+  try {
+    // Read the current value from the text file
+    const filePath = "rfidData.txt";
+    const data = await fs.readFile(filePath, "utf-8");
+
+    // Send the data as JSON response
+    res.json({ rfidValue: data.trim() });
+  } catch (error) {
+    console.error("Error reading current value:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 app.listen(3001, () => {
