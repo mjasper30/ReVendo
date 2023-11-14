@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Create connection pool
+// Localhost Database - Create connection pool
 const db = mysql.createPool({
   connectionLimit: 10, // Adjust this based on your needs
   host: "localhost",
@@ -19,6 +19,15 @@ const db = mysql.createPool({
   password: "",
   database: "revendo",
 });
+
+// Hosting Database - Create connection pool
+// const db = mysql.createPool({
+//   connectionLimit: 10, // Adjust this based on your needs
+//   host: "u943563710_revendo",
+//   user: "u943563710_revendo",
+//   password: "ReVendo2023!",
+//   database: "u943563710_revendo",
+// });
 
 db.on("error", (err) => {
   console.error("Database error:", err);
@@ -231,6 +240,21 @@ app.get("/api/rfid/currentValue", async (req, res) => {
     console.error("Error reading current value:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
+});
+
+// Insert data in history to every object detected in the machine
+app.post("/addDataHistory", (req, res) => {
+  const { rfid, height } = req.body;
+  const query = "INSERT INTO history (rfid_number, height) VALUES (?, ?)";
+
+  db.query(query, [rfid, height], (err, result) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      res.status(200).json({ message: "Add data to history successfully" });
+    }
+  });
 });
 
 app.listen(3001, () => {
