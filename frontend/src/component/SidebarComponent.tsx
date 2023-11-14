@@ -41,6 +41,13 @@ const SidebarComponent = () => {
         onClick={() => setActiveLink("/manage-accounts")}
       />
       <SidebarLink
+        to="/history"
+        tooltipContent="History"
+        text="history"
+        isActive={activeLink === "/history"}
+        onClick={() => setActiveLink("/history")}
+      />
+      <SidebarLink
         to="/settings"
         tooltipContent="Settings"
         text="settings"

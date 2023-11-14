@@ -146,6 +146,19 @@ app.post("/api/rfid", (req, res) => {
   });
 });
 
+//Read all history in database
+app.get("/api/history", (req, res) => {
+  const query = "SELECT * FROM history";
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
+
 // Read all rfid in database
 app.get("/api/rfid", (req, res) => {
   const query = "SELECT * FROM rfid";

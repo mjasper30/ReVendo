@@ -7,6 +7,7 @@ import Settings from "./Settings";
 import RFID from "./RFID";
 import Units from "./Units";
 import Accounts from "./Accounts";
+import History from "./History";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/rfid" element={<RFID />}></Route>
           <Route path="/manage-accounts" element={<Accounts />}></Route>
           <Route path="/units" element={<Units />}></Route>
+          <Route path="/history" element={<History />}></Route>
         </Routes>
       </BrowserRouter>
     </>
