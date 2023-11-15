@@ -178,6 +178,7 @@ try:
                     elif height_cm >= 2 and int(weight) >= 20:
                         print("Accepted Small Plastic Bottle")
                         total_small += 1
+                        size_of_object = "Small"
                         servo.angle = 90
                         time.sleep(2)
                     else:
