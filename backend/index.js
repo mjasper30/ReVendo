@@ -285,6 +285,39 @@ app.post("/addDataHistory", upload.single("image"), (req, res) => {
   });
 });
 
+// Update points of user
+app.post("/updatePoints", (req, res) => {
+  const { rfid, additionalPoints } = req.body;
+
+  // Retrieve current points from the database
+  db.query(
+    "SELECT points FROM rfid WHERE rfid_number = ?",
+    [rfid],
+    (error, results) => {
+      if (error) throw error;
+
+      if (results.length === 0) {
+        // RFID not found, handle accordingly
+        res.status(404).send("RFID not found.");
+      } else {
+        const currentPoints = results[0].points;
+        const updatedPoints = currentPoints + additionalPoints;
+
+        // Update points in the database
+        db.query(
+          "UPDATE rfid SET points = ? WHERE rfid_number = ?",
+          [updatedPoints, rfid],
+          (updateError) => {
+            if (updateError) throw updateError;
+
+            res.status(200).send("Points updated successfully.");
+          }
+        );
+      }
+    }
+  );
+});
+
 // Start the Express.js server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
