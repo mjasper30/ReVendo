@@ -270,19 +270,23 @@ app.get("/api/rfid/currentValue", async (req, res) => {
 
 // Insert data in history to every object detected in the machine
 app.post("/addDataHistory", upload.single("image"), (req, res) => {
-  const { rfid, height, size, no_object } = req.body;
+  const { rfid, height, weight, size, no_object } = req.body;
   const image = req.file ? req.file.buffer : null;
   const query =
-    "INSERT INTO history (rfid_number, height, size, captured_image, is_valid) VALUES (?, ?, ?, ?, ?)";
+    "INSERT INTO history (rfid_number, height, weight, size, captured_image, is_valid) VALUES (?, ?, ?, ?, ?, ?)";
 
-  db.query(query, [rfid, height, size, image, no_object], (err, result) => {
-    if (err) {
-      console.error("Error executing query:", err);
-      res.status(500).json({ error: "Internal Server Error" });
-    } else {
-      res.status(200).json({ message: "Add data to history successfully" });
+  db.query(
+    query,
+    [rfid, height, weight, size, image, no_object],
+    (err, result) => {
+      if (err) {
+        console.error("Error executing query:", err);
+        res.status(500).json({ error: "Internal Server Error" });
+      } else {
+        res.status(200).json({ message: "Add data to history successfully" });
+      }
     }
-  });
+  );
 });
 
 // Update points of user
