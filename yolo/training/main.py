@@ -19,14 +19,15 @@ script_path = 'capture_image.sh'
 reader = SimpleMFRC522()
 
 # MACARAEG PLACE
-url_check_rfid = "http://192.168.68.113:3001/check_rfid"
 # Update with your actual API endpoint
+url_check_rfid = "http://192.168.68.113:3001/check_rfid"
 url_update_data = "http://192.168.68.113:3001/addDataHistory"
 url_update_points = "http://192.168.68.113:3001/updatePoints"
 
 # CUSTODIO PLACE
+# Update with your actual API endpoint
 # url_check_rfid = "http://192.168.1.105:3001/check_rfid"
-# url_update_data = "http://192.168.1.105:3001/addDataHistory"  # Update with your actual API endpoint
+# url_update_data = "http://192.168.1.105:3001/addDataHistory"
 # url_update_points = "http://192.168.1.105:3001/updatePoints"
 
 # Assuming the camera has a vertical field of view of 60 degrees,
@@ -40,6 +41,7 @@ plastic_bottles_detected = 0
 total_small = 0
 total_medium = 0
 total_large = 0
+size_of_object = ""
 
 # GPIO.cleanup()
 
@@ -154,36 +156,23 @@ try:
                             output_dir, image_file)
                         cv2.imwrite(output_image_path, frame)
 
-                        # Send RFID, height, and image data to the API
-                        data = {'rfid': rfidUID, 'height': height_cm,
-                                'no_object': 'no' if not results.boxes.data.tolist() else 'yes'}
-                        files = {'image': open(image_path, 'rb')}
-                        response_update_data = requests.post(
-                            url_update_data, data=data, files=files)
-                        if response_update_data.status_code == 200:
-                            print("Data sent to the server successfully.")
-                        else:
-                            print("Failed to send data to the server.")
+                        print("Object detection on images completed.")
 
-                    print("Object detection on images completed.")
-                    # Move the servo to 0 degrees
-                    # set_angle(0)
-                    # Move the servo to 90 degrees
-                    # set_angle(90)
-                    # Move the servo to 180 degrees
-                    # set_angle(180)
                     if int(weight) <= 19 or int(weight) >= 44:
                         print("Rejected")
+                        size_of_object = "Invalid Object"
                         servo.angle = -90
                         time.sleep(2)
                     elif height_cm >= 8 and int(weight) >= 43:
                         print("Accepted Large Plastic Bottle")
                         total_large += 1
+                        size_of_object = "Large"
                         servo.angle = 90
                         time.sleep(2)
                     elif height_cm >= 5 and int(weight) >= 30:
                         print("Accepted Medium Plastic Bottle")
                         total_medium += 1
+                        size_of_object = "Medium"
                         servo.angle = 90
                         time.sleep(2)
                     elif height_cm >= 2 and int(weight) >= 20:
@@ -193,6 +182,17 @@ try:
                         time.sleep(2)
                     else:
                         pass
+
+                    # Send RFID, height, and image data to the API
+                    data = {'rfid': rfidUID, 'height': height_cm, 'size': size_of_object,
+                            'no_object': 'no' if not results.boxes.data.tolist() else 'yes'}
+                    files = {'image': open(image_path, 'rb')}
+                    response_update_data = requests.post(
+                        url_update_data, data=data, files=files)
+                    if response_update_data.status_code == 200:
+                        print("Data sent to the server successfully.")
+                    else:
+                        print("Failed to send data to the server.")
 
                     # Reset angle
                     servo.angle = 0
