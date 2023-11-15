@@ -50,3 +50,8 @@ python3 [name of the file.py]
 TO CONNECT VNC
 vncserver
 vncserver-virtual
+
+CONNECT TO WIFI USING TERMINAL
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+sudo systemctl restart networking
+wpa_passphrase your_SSID your_password | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf > /dev/null
