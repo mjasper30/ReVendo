@@ -158,9 +158,15 @@ try:
 
                         print("Object detection on images completed.")
 
-                    if int(weight) <= 19 or int(weight) >= 44:
-                        print("Rejected")
-                        size_of_object = "Invalid Object"
+                    if int(weight) >= 44:
+                        print("Rejected - Heavy")
+                        size_of_object = "Invalid Object - Heavy"
+                        height_cm = 0
+                        servo.angle = -90
+                        time.sleep(2)
+                    elif int(weight) <= 19:
+                        print("Rejected - Light")
+                        size_of_object = "Invalid Object - Light"
                         height_cm = 0
                         servo.angle = -90
                         time.sleep(2)
@@ -186,7 +192,7 @@ try:
                         pass
 
                     # Send RFID, height, and image data to the API
-                    data = {'rfid': rfidUID, 'height': height_cm, 'weight': weight, 'size': size_of_object,
+                    data = {'rfid': rfidUID, 'height': height_cm, 'weight': int(weight), 'size': size_of_object,
                             'no_object': 'no' if not results.boxes.data.tolist() else 'yes'}
                     files = {'image': open(image_path, 'rb')}
                     response_update_data = requests.post(
