@@ -161,6 +161,7 @@ try:
                     if int(weight) <= 19 or int(weight) >= 44:
                         print("Rejected")
                         size_of_object = "Invalid Object"
+                        height_cm = 0
                         servo.angle = -90
                         time.sleep(2)
                     elif height_cm >= 8 and int(weight) >= 43:
