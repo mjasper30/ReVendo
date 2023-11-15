@@ -18,3 +18,7 @@ h1{
   display: flex;
   text-align: center;
 }
+.text-gray-900,
+.dark\:text-gray-300 {
+  color: white !important;
+}
