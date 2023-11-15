@@ -160,13 +160,13 @@ try:
 
                     if int(weight) >= 44:
                         print("Rejected - Heavy")
-                        size_of_object = "Invalid Object - Heavy"
+                        size_of_object = "Heavy"
                         height_cm = 0
                         servo.angle = -90
                         time.sleep(2)
                     elif int(weight) <= 19:
                         print("Rejected - Light")
-                        size_of_object = "Invalid Object - Light"
+                        size_of_object = "Light"
                         height_cm = 0
                         servo.angle = -90
                         time.sleep(2)
