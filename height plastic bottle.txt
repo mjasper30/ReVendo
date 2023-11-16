@@ -36,6 +36,6 @@ Pepsi 600ml - 24cm - 29g
 Aqua Life 1liter - 25.5cm - 32g
 Pepsi 2 liters - 36.5cm - 56g
 
-s - 2 3 4 - 1 point
-m - 5 6 7 - 2 points
-l - 8 9 10 - 3 points
+small - 2 3 4 - 1 point
+medium - 5 6 7 - 2 points
+large - 8 9 10 - 3 points

@@ -21,13 +21,13 @@ export default function Dashboard() {
               bgColor="bg-green-500"
               icon="manage_accounts"
               title="Registered RFID"
-              value="456"
+              value="7"
             />
             <CardsComponent
               bgColor="bg-red-500"
               icon="water_bottle"
               title="Plastic Bottles"
-              value="7489412"
+              value="12"
             />
             <CardsComponent
               bgColor="bg-orange-500"
