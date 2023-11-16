@@ -26,13 +26,13 @@ const SidebarComponent = () => {
         isActive={activeLink === "/rfid"}
         onClick={() => setActiveLink("/rfid")}
       />
-      <SidebarLink
+      {/* <SidebarLink
         to="/units"
         tooltipContent="Units"
         text="ad_units"
         isActive={activeLink === "/units"}
         onClick={() => setActiveLink("/units")}
-      />
+      /> */}
       <SidebarLink
         to="/manage-accounts"
         tooltipContent="Accounts"

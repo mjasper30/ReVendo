@@ -153,27 +153,6 @@ export default function Accounts() {
                     </i>
                   </Table.Cell>
                 </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    3
-                  </Table.Cell>
-                  <Table.Cell>Black</Table.Cell>
-                  <Table.Cell>15</Table.Cell>
-                  <Table.Cell>Active</Table.Cell>
-                  <Table.Cell>Staff</Table.Cell>
-                  <Table.Cell>
-                    <i>
-                      <span className="material-symbols-rounded text-green-600 p-2">
-                        edit
-                      </span>
-                    </i>
-                    <i>
-                      <span className="material-symbols-rounded text-red-600 p-2">
-                        delete
-                      </span>
-                    </i>
-                  </Table.Cell>
-                </Table.Row>
               </Table.Body>
             </Table>
           </div>
