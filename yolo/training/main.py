@@ -158,31 +158,34 @@ try:
 
                         print("Object detection on images completed.")
 
-                    if int(weight) >= 44:
+                    if int(weight) <= 0:
+                        size_of_object = "No Object"
+                        height_cm = 0
+                    elif int(weight) >= 57:
                         print("Rejected - Heavy")
                         size_of_object = "Heavy"
                         height_cm = 0
                         servo.angle = -90
                         time.sleep(2)
-                    elif int(weight) <= 19:
+                    elif int(weight) <= 8 and int(weight) <= 0:
                         print("Rejected - Light")
                         size_of_object = "Light"
                         height_cm = 0
                         servo.angle = -90
                         time.sleep(2)
-                    elif height_cm >= 8 and int(weight) >= 43:
+                    elif height_cm >= 8:
                         print("Accepted Large Plastic Bottle")
                         total_large += 1
                         size_of_object = "Large"
                         servo.angle = 90
                         time.sleep(2)
-                    elif height_cm >= 5 and int(weight) >= 30:
+                    elif height_cm >= 5:
                         print("Accepted Medium Plastic Bottle")
                         total_medium += 1
                         size_of_object = "Medium"
                         servo.angle = 90
                         time.sleep(2)
-                    elif height_cm >= 2 and int(weight) >= 20:
+                    elif height_cm >= 2:
                         print("Accepted Small Plastic Bottle")
                         total_small += 1
                         size_of_object = "Small"
