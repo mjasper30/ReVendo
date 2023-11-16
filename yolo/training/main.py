@@ -4,18 +4,31 @@ from ultralytics import YOLO
 import subprocess
 import time
 import RPi.GPIO as GPIO
+from gpiozero import AngularServo, Device
+from gpiozero.pins.pigpio import PiGPIOFactory
+from hx711 import HX711
 from mfrc522 import SimpleMFRC522
 import requests
 import math
+
+GPIO.setwarnings(False)
 
 # Replace 'your_script.sh' with the path to your bash script.
 script_path = 'capture_image.sh'
 
 reader = SimpleMFRC522()
 
+# MACARAEG PLACE
 # Update with your actual API endpoint
 url_check_rfid = "http://192.168.68.113:3001/check_rfid"
 url_update_data = "http://192.168.68.113:3001/addDataHistory"
+url_update_points = "http://192.168.68.113:3001/updatePoints"
+
+# CUSTODIO PLACE
+# Update with your actual API endpoint
+# url_check_rfid = "http://192.168.1.105:3001/check_rfid"
+# url_update_data = "http://192.168.1.105:3001/addDataHistory"
+# url_update_points = "http://192.168.1.105:3001/updatePoints"
 
 # Assuming the camera has a vertical field of view of 60 degrees,
 # you may need to adjust this value based on your camera specifications.
@@ -24,11 +37,25 @@ fov_vertical_degrees = 60
 # Set the actual distance from the camera to the object in inches
 distance = 19
 
+plastic_bottles_detected = 0
+total_small = 0
+total_medium = 0
+total_large = 0
+size_of_object = ""
+
 # GPIO.cleanup()
+
+id, text = reader.read()
+
+# Set up pigpio pin factory
+Device.pin_factory = PiGPIOFactory(host='localhost', port=8888)
+
+# Your existing code
+servo = AngularServo(26, min_pulse_width=0.0006, max_pulse_width=0.0023)
 
 try:
     while True:
-        id, text = reader.read()
+        weight = input("Enter weight: ")
         # Convert the RFID number to hexadecimal format
         rfidUID = format(id, 'x')
 
@@ -103,15 +130,18 @@ try:
                             x1, y1, x2, y2, score, class_id = result
 
                             if score > threshold:
+                                # Increment the counter for plastic bottles
+                                plastic_bottles_detected += 1
+
                                 # Calculate the height of the bounding box in centimeters
-                                height_cm = int((y2 - y1) * pixels_to_cm + 13)
+                                height_cm = int((y2 - y1) * pixels_to_cm)
 
                                 # Draw the bounding box
                                 cv2.rectangle(frame, (int(x1), int(y1)),
                                               (int(x2), int(y2)), (0, 255, 0), 4)
 
                                 # Annotate the height in centimeters
-                                text = f'Height: {height_cm} cm'
+                                text = f'Height: {height_cm} '
                                 cv2.putText(frame, text, (int(x2) + 10, int(y1) + 30),
                                             cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
 
@@ -126,23 +156,80 @@ try:
                             output_dir, image_file)
                         cv2.imwrite(output_image_path, frame)
 
-                        # Send RFID, height, and image data to the API
-                        data = {'rfid': rfidUID, 'height': height_cm,
-                                'no_object': 'no' if not results.boxes.data.tolist() else 'yes'}
-                        files = {'image': open(image_path, 'rb')}
-                        response_update_data = requests.post(
-                            url_update_data, data=data, files=files)
-                        if response_update_data.status_code == 200:
-                            print("Data sent to the server successfully.")
-                        else:
-                            print("Failed to send data to the server.")
+                        print("Object detection on images completed.")
 
-                    print("Object detection on images completed.")
+                    if int(weight) >= 44:
+                        print("Rejected - Heavy")
+                        size_of_object = "Heavy"
+                        height_cm = 0
+                        servo.angle = -90
+                        time.sleep(2)
+                    elif int(weight) <= 19:
+                        print("Rejected - Light")
+                        size_of_object = "Light"
+                        height_cm = 0
+                        servo.angle = -90
+                        time.sleep(2)
+                    elif height_cm >= 8 and int(weight) >= 43:
+                        print("Accepted Large Plastic Bottle")
+                        total_large += 1
+                        size_of_object = "Large"
+                        servo.angle = 90
+                        time.sleep(2)
+                    elif height_cm >= 5 and int(weight) >= 30:
+                        print("Accepted Medium Plastic Bottle")
+                        total_medium += 1
+                        size_of_object = "Medium"
+                        servo.angle = 90
+                        time.sleep(2)
+                    elif height_cm >= 2 and int(weight) >= 20:
+                        print("Accepted Small Plastic Bottle")
+                        total_small += 1
+                        size_of_object = "Small"
+                        servo.angle = 90
+                        time.sleep(2)
+                    else:
+                        pass
+
+                    # Send RFID, height, and image data to the API
+                    data = {'rfid': rfidUID, 'height': height_cm, 'weight': int(weight), 'size': size_of_object,
+                            'no_object': 'no' if not results.boxes.data.tolist() else 'yes'}
+                    files = {'image': open(image_path, 'rb')}
+                    response_update_data = requests.post(
+                        url_update_data, data=data, files=files)
+                    if response_update_data.status_code == 200:
+                        print("Data sent to the server successfully.")
+                    else:
+                        print("Failed to send data to the server.")
+
+                    # Reset angle
+                    servo.angle = 0
+                    time.sleep(2)
+
             else:
                 print("RFID is not registered in the database.")
 
         choice = input("Do you want to continue (y/n)? ")
         if choice.lower() != "y":
+            print("Total Small Plastic Bottle:", total_small)
+            print("Total Medium Plastic Bottle:", total_medium)
+            print("Total Large Plastic Bottle:", total_large)
+            print("Total Plastic Bottles Detected:", plastic_bottles_detected)
+            # Replace POINTS_PER_BOTTLE with your actual points value
+            total_points = (total_large * 3) + \
+                (total_medium * 2) + (total_small)
+            print("Total Points:", total_points)
+            # Prepare the data to be sent to the API
+            data_to_update_points = {'rfid': rfidUID,
+                                     'additionalPoints': total_points}
+            response_update_points = requests.post(
+                url_update_points, json=data_to_update_points)
+
+            if response_update_points.status_code == 200:
+                print("Points updated in the database successfully.")
+            else:
+                print("Failed to update points in the database.")
+
             break
 
 finally:
