@@ -1,7 +1,7 @@
 import SidebarComponent from "./component/SidebarComponent";
 import NavbarComponent from "./component/NavbarComponent";
 import { ToggleSwitch } from 'flowbite-react';
-import { Label, RangeSlider} from 'flowbite-react';
+import { Label, RangeSlider, TextInput} from 'flowbite-react';
 import { useState } from 'react';
 import "./css/index.css";
 
@@ -43,13 +43,28 @@ export default function Settings() {
                 <ToggleSwitch checked={switch4} label="Fortnite" onChange={setSwitch4} />
                 </div>
                 <div className="flex max-w-md flex-col gap-4">
-                <div>
                   <div className="mb-1 block">
                     <Label htmlFor="default-range" value="Font Size" />
                   <RangeSlider id="default-range" />
                 </div>
                 </div>
-                </div>
+                <div className="font-bold text-m text-white my-10 z-100">
+                Account Settings
+              </div>
+              <div className="text-m text-white my-10 z-100">
+                Change Password
+              <TextInput
+                id="pw"
+                type="password"
+              />
+              </div>
+              <div className="text-m text-white my-10 z-100">
+                Confirm Password
+              <TextInput
+                id="pw"
+                type="password"
+              />
+              </div>
             </div>
           </div>
         </div>
