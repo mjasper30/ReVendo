@@ -7,7 +7,7 @@ function Loader() {
         <div className="bg-background fixed inset-0 bg-cover bg-center fade-in">
           <div className="flex justify-center items-center flex-col pt-11">
             <img
-              className="firstLoop bounce2 max-w-full h-auto"
+              className="firstLoop bounce2 mx-auto w-96 h-96"
               src="/src/assets/Revendo.png"
               alt="ReVendo Logo"
             />

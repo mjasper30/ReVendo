@@ -25,9 +25,9 @@ export default function LandingPage() {
   return isLoading ? (
     <Loader />
   ) : (
-    <div className="bg-[#1E1F22] fixed inset-0 bg-cover bg-center scrollable-container">
+    <div className="bg-[#1E1F22] min-h-screen scrollable-container">
       <nav
-        className={`bg-[#5865F2] fixed top-0 w-full h-[85px] shadow-lg rounded-b-3xl z-10 ${
+        className={`bg-[#5865F2] fixed top-0 w-full shadow-lg z-10 ${
           showNavbar ? "slideDown" : "hidden-nav"
         }`}
       >
@@ -53,11 +53,7 @@ export default function LandingPage() {
               fill="none"
               viewBox="0 0 17 14"
             >
-              <path
-                stroke="currentColor"
-                stroke-width="2"
-                d="M1 1h15M1 7h15M1 13h15"
-              />
+              <path stroke="currentColor" d="M1 1h15M1 7h15M1 13h15" />
             </svg>
           </button>
           <div
@@ -117,8 +113,11 @@ export default function LandingPage() {
         </div>
       </nav>
       <div className="flex flex-col justify-start items-center">
-        <div className="tabletH:pt-[100px] pt-[100x] laptop::pt-0">
-          <Section id="home" className="items-center mt-28">
+        <div className="pt-10 sm:pt-20 md:pt-32 lg:pt-40">
+          <Section
+            id="home"
+            className="items-center mt-10 sm:mt-20 md:mt-24 lg:mt-32"
+          >
             <VerticalColumns>
               <HorizontalColumns>
                 <Column className="text-center flex flex-col justify-center">
