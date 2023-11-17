@@ -47,6 +47,10 @@ sudo halt or sudo shutdown now
 TO RUN PYTHON FILE
 python3 [name of the file.py]
 
+DOWNLOAD AND INSTALL VNCSERVER IN RASPBERRY PI
+sudo apt-get install xrdp
+sudo apt-get install tightvncserver
+
 TO CONNECT VNC
 vncserver
 vncserver-virtual
