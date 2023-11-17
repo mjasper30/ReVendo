@@ -6,28 +6,28 @@ ReVendo Machine
 
 ✅If not invalid scan the card again
 
-If registered proceed to open the door by servo
+✅If registered proceed to open the door by servo
 
-Store the RFID number
+✅Store the RFID number
 
 If objected detected by the load cell
 ✅Capture the object
 
-If object not detected by yolo reject the object
+✅If object not detected by yolo reject the object
 
-If object detected by yolo as accepted. accept the object
+✅If object detected by yolo as accepted. accept the object
 
-Get the height of detect object then the point of that plastic bottle based on assign height either small medium or large plastic bottle.
+✅Get the height of detect object then the point of that plastic bottle based on assign height either small medium or large plastic bottle.
 
-Insert the capture object to database
+✅Insert the capture object to database
 
-Store that currentState of points
+✅Store that currentState of points
 
-Is there more plastic bottles?
+✅Is there more plastic bottles?
 
-If yes same rfid number then store all the points to that as more plastic bottles process
+✅If yes same rfid number then store all the points to that as more plastic bottles process
 
-If not reset the rfid number assign and reset all points to 0. Proceed to main screen again
+✅If not reset the rfid number assign and reset all points to 0. Proceed to main screen again
 
 ------------------------------------------------
 
