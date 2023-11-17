@@ -118,7 +118,7 @@ export default function LandingPage() {
       </nav>
       <div className="flex flex-col justify-start items-center">
         <div className="tabletH:pt-[100px] pt-[100x] laptop::pt-0">
-          <Section id="home" className="items-center">
+          <Section id="home" className="items-center mt-28">
             <VerticalColumns>
               <HorizontalColumns>
                 <Column className="text-center flex flex-col justify-center">
