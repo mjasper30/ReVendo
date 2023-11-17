@@ -101,7 +101,7 @@ export default function LandingPage() {
                   className="text-black bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm pl-2.5 py-2 text-center mr-3 burger:mr-1 flex items-center w-40"
                 >
                   <img
-                    src="/src/assets/dlbtn.ico"
+                    src="src/assets/dlbtn.ico"
                     alt=""
                     className="mr-2 w-6 h-6"
                   />
@@ -116,32 +116,33 @@ export default function LandingPage() {
         <div className="pt-10 sm:pt-20 md:pt-32 lg:pt-40">
           <Section
             id="home"
-            className="items-center mt-10 sm:mt-20 md:mt-24 lg:mt-32"
+            className="items-center mt-3 sm:mt-20 md:mt-24 lg:mt-32"
           >
             <VerticalColumns>
               <HorizontalColumns>
                 <Column className="text-center flex flex-col justify-center">
-                  <Box className="text-7xl text-white NotoSansJP font-semibold pb-10 text-center  laptop:text-left ">
+                  <Box className="animate__animated animate__backInDown text-7xl text-white NotoSansJP font-semibold pb-10 text-center  laptop:text-left ">
                     ReVendo
                   </Box>
-                  <Box className="text-2xl text-white text-justify font-bold leading-10 font-outline-2 tracking-3 py-10   laptop:text-left">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nulla quam velit, vulputate eu pharetra nec, mattis ac
-                    neque.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac
-                    neque.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac
-                    neque.
+                  <Box className="text-2xl text-white text-justify font-bold leading-10 font-outline-2 tracking-3 py-10 laptop:text-left">
+                    Revolutionizing Recycling: Earn Rewards, Save the Planet!
+                  </Box>
+                  <Box className="text-sm text-white text-justify font-bold leading-10 font-outline-2 tracking-3 py-10 laptop:text-left">
+                    Welcome to the future of sustainability. Our
+                    state-of-the-art reverse vending machines turn plastic
+                    pollution into rewards. Deposit your plastic, earn points,
+                    and be part of the solution. Together, let's make recycling
+                    rewarding and make a lasting impact on our planet.
                   </Box>
                   <VerticalColumns className="">
                     <HorizontalColumns className="md:flex-row items-center py-10 text-center">
                       <Column>
-                        <Box className="rounded-3xl bg-discord border-discord border-4 py-5 w-72 text-center text-white font-black hover:bg-white hover:text-discord hover:border-none">
+                        <Box className="rounded-3xl bg-discord border-discord border-4 py-5 w-72 text-center text-white font-black hover:bg-[#5865F2] hover:text-discord hover:border-none">
                           GET STARTED
                         </Box>
                       </Column>
                       <Column>
-                        <Box className="rounded-3xl bg-discord border-discord border-4 py-5 w-72 text-center text-white font-black hover:bg-white hover:text-discord hover:border-none">
+                        <Box className="rounded-3xl bg-discord border-discord border-4 py-5 w-72 text-center text-white font-black hover:bg-[#5865F2] hover:text-discord hover:border-none">
                           LEARN MORE
                         </Box>
                       </Column>

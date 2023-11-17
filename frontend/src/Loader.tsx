@@ -12,10 +12,10 @@ function Loader() {
               alt="ReVendo Logo"
             />
             <div className="content mt-14 text-center">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
+              <h2 className="text-2xl mt-5 md:text-3xl lg:text-4xl xl:text-5xl">
                 ReVendo
               </h2>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
+              <h2 className="text-2xl mt-5 md:text-3xl lg:text-4xl xl:text-5xl">
                 ReVendo
               </h2>
             </div>
