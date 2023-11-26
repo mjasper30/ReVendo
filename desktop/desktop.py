@@ -28,7 +28,6 @@ def claim_points():
 
 def destroy_elements():
     revendo_logo.place_forget()
-    label.place_forget()
     get_points_button.place_forget()
     check_balance_button.place_forget()
     image_button.place_forget()
@@ -41,7 +40,6 @@ def destroy_elements():
 
 def destroy_elements1():
     revendo_logo.place_forget()
-    label.place_forget()
     get_points_button.place_forget()
     check_balance_button.place_forget()
     button.place_forget()
@@ -53,7 +51,6 @@ def destroy_elements1():
 
 def destroy_elements2():
     revendo_logo.place_forget()
-    label.place_forget()
     get_points_button.place_forget()
     check_balance_button.place_forget()
     image_button.place_forget()
@@ -74,13 +71,13 @@ def destroy_elements2():
 
 
 def scan_rfid():
-    global revendo_logo, label, get_points_button, check_balance_button, image_button, image_label, new_button, tutorial_header, tutorial_steps, button
+    global revendo_logo, get_points_button, check_balance_button, image_button, image_label, new_button, tutorial_header, tutorial_steps, button
 
     tutorial_header = tk.Label(
-        app, text="Scan your ReVendo Card", font=("Arial", 24), bg='white')
+        app, text="Scan your ReVendo Card", font=("Arial", 24), bg='#8599e0', fg="white")
     tutorial_header.place(relx=0.5, rely=0.2, anchor='center')
 
-    image_path = "desktop/rfid-reader.jpg"
+    image_path = "desktop/rfid-reader1.jpg"
     img = Image.open(image_path)
     img = img.resize((200, 150))
     photo = ImageTk.PhotoImage(img)
@@ -89,13 +86,12 @@ def scan_rfid():
     image_label.place(relx=0.5, rely=0.5, anchor='center')
 
     new_button = tk.Button(app, text="Cancel", font=(
-        "Arial", 16), command=destroy_elements, bg='#f0f0f0', padx=20)
+        "Arial", 16), command=destroy_elements, bg='#8599e0', padx=20, fg='white')
     new_button.place(relx=0.5, rely=0.8, anchor='center',
                      width=150, height=40)
 
     # Hiding specific elements
     revendo_logo.place_forget()
-    label.place_forget()
     get_points_button.place_forget()
     check_balance_button.place_forget()
     image_button.place_forget()
@@ -105,10 +101,10 @@ def process_plastic_bottles():
     global tutorial_header, image_label, largebottle_text, balance_text, smallbottle_text, totalplasticbottle_text, mediumbottle_text, totalpoints_text, smallbottle_text, cancel_button, claim_button
 
     tutorial_header = tk.Label(
-        app, text="Balance", font=("Arial", 24), bg='white')
+        app, text="Balance", font=("Arial", 24), bg='#8599e0', fg='white')
     tutorial_header.place(relx=0.2, rely=0.1, anchor='center')
 
-    image_path = "desktop/process_plastic_bottle.png"
+    image_path = "desktop/process_plastic_bottle1.png"
     img = Image.open(image_path)
     img = img.resize((380, 350))
     photo = ImageTk.PhotoImage(img)
@@ -195,18 +191,17 @@ def process_plastic_bottles():
     smallbottle_text.config(state='disabled')
 
     cancel_button = tk.Button(app, text="Cancel", font=(
-        "Arial", 16), command=destroy_elements2, bg='#f0f0f0', padx=20)
+        "Arial", 16), command=destroy_elements2, bg='#8599e0', padx=20, fg='white')
     cancel_button.place(relx=0.8, rely=0.8, anchor='center',
                         width=150, height=40)
 
     claim_button = tk.Button(app, text="Claim Points", font=(
-        "Arial", 16), command=claim_points, bg='#f0f0f0', padx=20)
+        "Arial", 16), command=claim_points, bg='#8599e0', padx=20, fg='white')
     claim_button.place(relx=0.8, rely=0.7, anchor='center',
                        width=150, height=40)
 
     # Hiding specific elements
     revendo_logo.place_forget()
-    label.place_forget()
     get_points_button.place_forget()
     check_balance_button.place_forget()
     image_button.place_forget()
@@ -214,18 +209,18 @@ def process_plastic_bottles():
 
 
 def check_points_page():
-    global revendo_logo, label, get_points_button, check_balance_button, image_button, image_label, new_button, tutorial_header, tutorial_steps, button
+    global revendo_logo, get_points_button, check_balance_button, image_button, image_label, new_button, tutorial_header, tutorial_steps, button
 
     tutorial_header = tk.Label(
-        app, text="Scan your ReVendo Card", font=("Arial", 24), bg='white')
+        app, text="Scan your ReVendo Card", font=("Arial", 24), bg='#8599e0', fg='white')
     tutorial_header.place(relx=0.5, rely=0.2, anchor='center')
 
     new_button = tk.Button(app, text="Cancel", font=(
-        "Arial", 16), command=destroy_elements, bg='#f0f0f0', padx=20)
+        "Arial", 16), command=destroy_elements, bg='#8599e0', padx=20, fg='white')
     new_button.place(relx=0.5, rely=0.8, anchor='center',
                      width=150, height=40)
 
-    image_path = "desktop/rfid-reader.jpg"
+    image_path = "desktop/rfid-reader1.jpg"
     img = Image.open(image_path)
     img = img.resize((200, 150))
     photo = ImageTk.PhotoImage(img)
@@ -235,7 +230,6 @@ def check_points_page():
 
     # Hiding specific elements
     revendo_logo.place_forget()
-    label.place_forget()
     get_points_button.place_forget()
     check_balance_button.place_forget()
     image_button.place_forget()
@@ -265,9 +259,9 @@ def tutorial_page():
 
 
 def menu():
-    global revendo_logo, label, get_points_button, check_balance_button, image_button, image_label, new_button, tutorial_header, tutorial_steps, button
+    global revendo_logo, get_points_button, check_balance_button, image_button, image_label, new_button, tutorial_header, tutorial_steps, button
 
-    revendo_logo_path = "desktop/Revendo_logo.png"
+    revendo_logo_path = "desktop/RevendoLOGO.png"
     center_revendo_logo = Image.open(revendo_logo_path)
     center_revendo_logo = center_revendo_logo.resize((200, 200))
 
@@ -278,20 +272,18 @@ def menu():
     revendo_logo.image = image_with_alpha
     revendo_logo.place(relx=0.5, rely=0.3, anchor='center')
 
-    label = tk.Label(app, text="ReVendo", font=("Arial", 24), bg='lightgray')
-    label.place(relx=0.5, rely=0.5, anchor='center')
-
     get_points_button = tk.Button(app, text="Get Points", font=("Arial", 16),
-                                  command=scan_rfid, bg='#f0f0f0', padx=20)
+                                  command=scan_rfid, bg='#8599e0', padx=20, fg='white')
+
     get_points_button.place(
         relx=0.3, rely=0.7, anchor='center', width=130, height=40)
 
     check_balance_button = tk.Button(app, text="Check Balance", font=("Arial", 16),
-                                     command=check_points_page, bg='#f0f0f0', padx=20)
+                                     command=check_points_page, bg='#8599e0', padx=20, fg='white')
     check_balance_button.place(
         relx=0.7, rely=0.7, anchor='center', width=160, height=40)
 
-    tutorial_button_path = "desktop/question.png"
+    tutorial_button_path = "desktop/question1.png"
     tutorial_button = Image.open(tutorial_button_path)
     tutorial_button = tutorial_button.resize((30, 30))
     photo_button = ImageTk.PhotoImage(tutorial_button)
@@ -307,12 +299,13 @@ def menu():
 screen_width = app.winfo_screenwidth()
 screen_height = app.winfo_screenheight()
 
-image_path = "desktop/revendo_white.png"
+image_path = "desktop/ReVendo-newBG.jpg"
 img = Image.open(image_path)
-img = img.resize((screen_width, screen_height))
+img = img.resize((800, 480))  # Set the size to 800x480
 background_image = ImageTk.PhotoImage(img)
 background_label = tk.Label(app, image=background_image)
 background_label.place(x=0, y=0, relwidth=1, relheight=1)
+
 
 # Run the application
 menu()
