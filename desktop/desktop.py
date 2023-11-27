@@ -342,6 +342,8 @@ background_image = ImageTk.PhotoImage(img)
 background_label = tk.Label(app, image=background_image)
 background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
+# Set the application to run in full screen - uncomment this if you are in raspberry pi
+# app.attributes('-fullscreen', True)
 
 # Run the application
 menu()
