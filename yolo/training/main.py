@@ -11,7 +11,40 @@ from mfrc522 import SimpleMFRC522
 import requests
 import math
 
+GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
+
+hx = HX711(dout_pin=6, pd_sck_pin=5)
+
+weight = 0
+
+# Check if a calibration file exists
+try:
+    with open("calibration_data.txt", "r") as file:
+        content = file.read().strip()
+        if content:
+            ratio = float(content)
+            hx.set_scale_ratio(ratio)
+        else:
+            raise ValueError("Calibration file is empty.")
+except FileNotFoundError:
+    print("Calibration file not found. Perform calibration.")
+    hx.zero()
+
+    # Wait for the user to place a known weight on the scale
+    input("Place a known weight on the scale and press Enter: ")
+
+    # Get and set the calibration ratio
+    reading = hx.get_data_mean(readings=100)
+    known_weight_grams = input(
+        "Enter the known weight in grams and press Enter: ")
+    value = float(known_weight_grams)
+    ratio = reading / value
+    hx.set_scale_ratio(ratio)
+
+    # Save the calibration ratio to a file
+    with open("calibration_data.txt", "w") as file:
+        file.write(str(ratio))
 
 # Replace 'your_script.sh' with the path to your bash script.
 script_path = 'capture_image.sh'
@@ -29,6 +62,12 @@ url_update_points = "http://192.168.68.113:3001/updatePoints"
 # url_check_rfid = "http://192.168.1.105:3001/check_rfid"
 # url_update_data = "http://192.168.1.105:3001/addDataHistory"
 # url_update_points = "http://192.168.1.105:3001/updatePoints"
+
+# ADRIANO PLACE
+# Update with your actual API endpoint
+# url_check_rfid = "http://192.168.8.15:3001/check_rfid"
+# url_update_data = "http://192.168.8.15:3001/addDataHistory"
+# url_update_points = "http://192.168.8.15:3001/updatePoints"
 
 # Assuming the camera has a vertical field of view of 60 degrees,
 # you may need to adjust this value based on your camera specifications.
@@ -55,7 +94,15 @@ servo = AngularServo(26, min_pulse_width=0.0006, max_pulse_width=0.0023)
 
 try:
     while True:
-        weight = input("Enter weight: ")
+        while True:
+            weight = hx.get_weight_mean()
+            print(abs(int(weight)) - 344)
+
+            if (abs(int(weight)) - 344) >= 9:
+                break
+            else:
+                continue
+
         # Convert the RFID number to hexadecimal format
         rfidUID = format(id, 'x')
 
@@ -157,21 +204,25 @@ try:
                         cv2.imwrite(output_image_path, frame)
 
                         print("Object detection on images completed.")
+                        print(height_cm)
 
-                    if int(weight) <= 0:
+                    if int(weight) <= 0 or height_cm == 21:
+                        print("No Object")
                         size_of_object = "No Object"
                         height_cm = 0
+                        # servo.angle = -90
+                        time.sleep(2)
                     elif int(weight) >= 57:
                         print("Rejected - Heavy")
                         size_of_object = "Heavy"
                         height_cm = 0
-                        servo.angle = -90
+                        # servo.angle = -90
                         time.sleep(2)
-                    elif int(weight) <= 8 and int(weight) <= 0:
+                    elif int(weight) <= 8:
                         print("Rejected - Light")
                         size_of_object = "Light"
                         height_cm = 0
-                        servo.angle = -90
+                        # servo.angle = -90
                         time.sleep(2)
                     elif height_cm >= 8:
                         print("Accepted Large Plastic Bottle")
@@ -212,30 +263,25 @@ try:
             else:
                 print("RFID is not registered in the database.")
 
-        choice = input("Do you want to continue (y/n)? ")
-        if choice.lower() != "y":
-            print("Total Small Plastic Bottle:", total_small)
-            print("Total Medium Plastic Bottle:", total_medium)
-            print("Total Large Plastic Bottle:", total_large)
-            print("Total Plastic Bottles Detected:", plastic_bottles_detected)
-            # Replace POINTS_PER_BOTTLE with your actual points value
-            total_points = (total_large * 3) + \
-                (total_medium * 2) + (total_small)
-            print("Total Points:", total_points)
-            # Prepare the data to be sent to the API
-            data_to_update_points = {'rfid': rfidUID,
-                                     'additionalPoints': total_points}
-            response_update_points = requests.post(
-                url_update_points, json=data_to_update_points)
-
-            if response_update_points.status_code == 200:
-                print("Points updated in the database successfully.")
-            else:
-                print("Failed to update points in the database.")
-
-            break
-
 finally:
+    # Dito maglagay ng trigger na kapag pindot ng claim points tsaka magbreak yung loop tapos kunin yung total points tapos send sa database
+    print("Total Small Plastic Bottle:", total_small)
+    print("Total Medium Plastic Bottle:", total_medium)
+    print("Total Large Plastic Bottle:", total_large)
+    print("Total Plastic Bottles Detected:", plastic_bottles_detected)
+    # Replace POINTS_PER_BOTTLE with your actual points value
+    total_points = (total_large * 3) + (total_medium * 2) + (total_small)
+    print("Total Points:", total_points)
+    # Prepare the data to be sent to the API
+    data_to_update_points = {'rfid': rfidUID, 'additionalPoints': total_points}
+    response_update_points = requests.post(
+        url_update_points, json=data_to_update_points)
+
+    if response_update_points.status_code == 200:
+        print("Points updated in the database successfully.")
+    else:
+        print("Failed to update points in the database.")
+
     print("Program ended.")
 
 # Clean up GPIO at the end of the program
