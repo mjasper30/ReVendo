@@ -1,4 +1,5 @@
 import "./css/loader.css";
+import loader from "./assets/Revendo.png";
 
 function Loader() {
   return (
@@ -8,7 +9,7 @@ function Loader() {
           <div className="flex justify-center items-center flex-col pt-11">
             <img
               className="firstLoop bounce2 mx-auto w-96 h-96"
-              src="/src/assets/Revendo.png"
+              src={loader}
               alt="ReVendo Logo"
             />
             <div className="content mt-14 text-center">

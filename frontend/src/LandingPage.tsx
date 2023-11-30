@@ -1,5 +1,14 @@
 import { useEffect, useState } from "react";
 import "./css/home.css";
+import navbar_logo from "./assets/Revendo-icon.png";
+import download_app_icon from "./assets/dlbtn.ico";
+import download_app_image from "./assets/dlimg.png";
+import image_revendo from "./assets/Untitled-3.webp";
+import image_revendo_1 from "./assets/Untitled-3.webp";
+import feature_one from "./assets/checkico.png";
+import feature_two from "./assets/flagico.png";
+import feature_three from "./assets/starico.png";
+
 import Loader from "./Loader";
 
 export default function LandingPage() {
@@ -34,7 +43,7 @@ export default function LandingPage() {
         <div className="flex flex-wrap items-center justify-between mx-auto p-4 mt-1">
           <a href="#" className="flex items-center">
             <img
-              src="/src/assets/Revendo-icon.png"
+              src={navbar_logo}
               className="h-auto w-auto max-h-[56px] max-w-[56px] pr-2"
             />
             <span className="self-center text-3xl font-semibold whitespace-nowrap text-[#]dark:text-white">
@@ -101,7 +110,7 @@ export default function LandingPage() {
                   className="text-black bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm pl-2.5 py-2 text-center mr-3 burger:mr-1 flex items-center w-40"
                 >
                   <img
-                    src="src/assets/dlbtn.ico"
+                    src={download_app_icon}
                     alt=""
                     className="mr-2 w-6 h-6"
                   />
@@ -153,7 +162,7 @@ export default function LandingPage() {
                   <Box>
                     <img
                       className="border-[13px] rounded-[85px] border-discord max-w-full max-h-[1200px]  imgH:max-w-[600px]  imgH:max-h-[700px]"
-                      src="src\assets\Untitled-3.webp"
+                      src={image_revendo}
                     />
                   </Box>
                 </Column>
@@ -167,7 +176,7 @@ export default function LandingPage() {
                 <Column className="bg-white border-[9px] h-[400px]  rounded-[85px] border-discord text-center flex flex-col p-6 mx-2 px-5  items-center m:w-1/2">
                   <img
                     className="w-[123px] h-[118px]"
-                    src="/src/assets/checkico.png"
+                    src={feature_one}
                     alt=""
                   />
                   <Box className="NotoSansJP font-black text-discord text-[36px] py-3">
@@ -182,7 +191,7 @@ export default function LandingPage() {
                 <Column className="bg-white border-[9px] h-[400px]  rounded-[85px] border-discord text-center flex flex-col p-6 mx-2 px-5   items-center m:w-1/2">
                   <img
                     className="w-[123px] h-[118px]"
-                    src="/src/assets/flagico.png"
+                    src={feature_two}
                     alt=""
                   />
                   <Box className="NotoSansJP font-black text-discord text-[36px] py-3">
@@ -197,7 +206,7 @@ export default function LandingPage() {
                 <Column className="bg-white border-[9px] h-[400px]  rounded-[85px] border-discord text-center flex flex-col p-6 mx-5 px-5  items-center m:w-1/2">
                   <img
                     className="w-[123px] h-[118px]"
-                    src="/src/assets/starico.png"
+                    src={feature_three}
                     alt=""
                   />
                   <Box className="NotoSansJP font-black text-discord text-[36px] py-3">
@@ -232,7 +241,7 @@ export default function LandingPage() {
                     <Column className="w-1/2 flex justify-end overflow-hidden">
                       <img
                         className="rounded-r-[76px] bigH:w-[570px]"
-                        src="src\assets\Untitled-4.webp"
+                        src={image_revendo_1}
                         alt=""
                       />
                     </Column>
@@ -262,21 +271,21 @@ export default function LandingPage() {
                   <Column className="m:w-[50%] mx-5 py-2">
                     <img
                       className="bg-white border-[9px] h-[450px]  rounded-[85px] border-discord text-center flex flex-col    items-center  m:w-100%"
-                      src="src\assets\Untitled-1.webp"
+                      src={image_revendo_1}
                       alt=""
                     />
                   </Column>
                   <Column className="m:w-[50%] mx-5 py-2">
                     <img
                       className="bg-white border-[9px] h-[450px]  rounded-[85px] border-discord text-center flex flex-col    items-center  m:w-100%"
-                      src="src\assets\Untitled-1.webp"
+                      src={image_revendo_1}
                       alt=""
                     />
                   </Column>
                   <Column className="m:w-[50%] mx-5 py-2">
                     <img
                       className="bg-white border-[9px] h-[450px]  rounded-[85px] border-discord text-center flex flex-col     items-center  m:w-100%"
-                      src="src\assets\Untitled-1.webp"
+                      src={image_revendo_1}
                       alt=""
                     />
                   </Column>
@@ -284,7 +293,7 @@ export default function LandingPage() {
               </HorizontalColumns>
               <Column>
                 <Box>
-                  <img className="mx-auto" src="/src/assets/dlimg.png" alt="" />
+                  <img className="mx-auto" src={download_app_image} alt="" />
                 </Box>
               </Column>
             </VerticalColumns>
