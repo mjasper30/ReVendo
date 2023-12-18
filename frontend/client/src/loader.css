@@ -1,0 +1,83 @@
+@keyframes fadeIn {
+	from {
+	  opacity: 1; /* Start with opacity 0 (fully transparent) */
+	}
+	to {
+	  opacity: 0; /* End with opacity 1 (fully visible) */
+	}
+  }
+  
+  /* Apply the animation to your element */
+  .fade-in {
+	animation: fadeIn 1s ease-in-out 3.7s; /* 4s delay, 1s duration, ease-in-out timing function */
+	/* You can adjust the duration, delay, and timing function as needed. */
+  }
+.bounce2 {
+  animation: bounce2 2s infinite;
+  animation-direction: alternate;
+  animation-timing-function: cubic-bezier(1, 1, 1, 1); /* Apply cubic bezier easing to the .bounce2 animation */
+}
+
+@keyframes bounce2   { 
+  from { 
+      transform: translate3d(0, 25px, 0); 
+  } 
+  to { 
+      transform: translate3d(0, 50px, 0); 
+      
+  } 
+} 
+.content {
+	position: relative;
+}
+
+.content h2 {
+	color: #fff;
+	font-size: 3.2em;
+	position: absolute;
+	transform: translate(-50%, -50%);
+}
+
+.content h2:nth-child(1) {
+  -webkit-background-clip: text;
+   background-clip: text;
+   color: #fff;
+}
+
+.content h2:nth-child(2) {
+  -webkit-background-clip: text;
+   background-clip: text;
+   color: #03A9F4;
+	animation: animate 4s ease-in-out infinite;
+}
+
+@keyframes animate {
+	0%,
+	100% {
+		clip-path: polygon(
+			0% 45%,
+			16% 44%,
+			33% 50%,
+			54% 60%,
+			70% 61%,
+			84% 59%,
+			100% 52%,
+			100% 100%,
+			0% 100%
+		);
+	}
+
+	50% {
+		clip-path: polygon(
+			0% 60%,
+			15% 65%,
+			34% 66%,
+			51% 62%,
+			67% 50%,
+			100% 45%,
+			100% 46%,
+			100% 100%,
+			0% 100%
+		);
+	}
+}

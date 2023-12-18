@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  .font-outline-2 {
+    -webkit-text-stroke: 5px rgba(255, 254, 254, 0.25);
+    line-height: normal;
+  }
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #8f54a0 #ffffff;
+  scroll-behavior: smooth;
+  scroll-padding:  10rem;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 4px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #40444b;
+  border-radius: 5px;
+  border: 1px solid transparent;
+}
