@@ -63,6 +63,4 @@ Check the balance of the card
 
 If there no balance failed
 
-If there is balance can charge
-
-if has charge can charge cellphone
+If there is balance switch the relay to connect the wires and add the timer based on the selected points to be charge
