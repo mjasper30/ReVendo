@@ -50,6 +50,7 @@ Landing Page
 * maangas na animations
 
 Admin Page
+* points updation for each size of plastic bottles (small, medium, large)
 * pagination tables
 * search bar tables
 * user account page 
