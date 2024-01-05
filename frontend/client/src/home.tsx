@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
 import "./home.css";
+import clemente from "./assets/clemente.jpg";
+import clave from "./assets/clave.jpg";
+import custodio from "./assets/custodio.png";
+import sigue from "./assets/sigue.png";
+import macaraeg from "./assets/macaraeg.jpg";
 import navbar_logo from "./assets/Revendo-icon.png";
 import download_app_icon from "./assets/dlbtn.ico";
 import download_app_image from "./assets/dlimg.png";
@@ -78,10 +83,10 @@ export default function Home() {
             <ul className="flex flex-col font-medium mt-4  rounded-lg bg-gray-50 burger:flex-row burger:space-x-8  burger:mt-0 burger:border-0 burger:bg-transparent dark:bg-gray-800 burger:dark:bg-transparent dark:border-gray-700">
               <li>
                 <a
-                  href="#team"
-                  className="block py-2 pl-3 pr-4 text-white  font-extrabold"
+                  href="#home"
+                  className="block py-2 pl-3 pr-4 text-white font-extrabold"
                 >
-                  Meet the team
+                  Home
                 </a>
               </li>
               <li>
@@ -102,10 +107,10 @@ export default function Home() {
               </li>
               <li>
                 <a
-                  href="#home"
-                  className="block py-2 pl-3 pr-4 text-white font-extrabold"
+                  href="#team"
+                  className="block py-2 pl-3 pr-4 text-white  font-extrabold"
                 >
-                  Home
+                  Meet the team
                 </a>
               </li>
               <li className="hidden burger:block">
@@ -301,61 +306,220 @@ export default function Home() {
 
           <Section id="team">
             <VerticalColumns>
-              <HorizontalColumns className="grid grid-cols-4 gap-4">
-                <Column className="flex justify-center ">
-                  <Box className="border border-white p-4 text-center">
-                    Andriel Geomer . Gabriel
+              <h2 className="text-4xl font-bold text-white mb-6">
+                Meet the Team
+              </h2>
+              <HorizontalColumns className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <Column className="flex flex-col items-center">
+                  <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
+                    <img
+                      src={image_revendo}
+                      alt="Team Member 1"
+                      className="w-32 h-32 rounded-full mb-4"
+                    />
+                    <h3 className="text-lg font-bold">
+                      Andriel Geomer Gabriel
+                    </h3>
+                    <p className="text-gray-500">Frontend/Backend Developer</p>
+                    <div className="flex space-x-4 mt-3">
+                      <a
+                        href={"https://www.facebook.com/Gravitationall.pull"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="text-3xl fa-brands fa-facebook"></i>
+                      </a>
+                      <a
+                        href={"https://github.com/J-i-w-o-o"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="text-3xl fa-brands fa-github"></i>
+                      </a>
+                    </div>
                   </Box>
                 </Column>
-              </HorizontalColumns>
-              <HorizontalColumns className="grid grid-cols-4 gap-4">
-                <Column className="flex justify-center">
-                  <Box className="border border-white p-4 text-center">
-                    Daniel Custodio{" "}
+                <Column className="flex flex-col items-center">
+                  <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
+                    <img
+                      src={macaraeg}
+                      alt="Team Member 1"
+                      className="w-32 h-32 rounded-full mb-4"
+                    />
+                    <h3 className="text-lg font-bold">Jasper Macaraeg</h3>
+                    <p className="text-gray-500">Frontend/Backend Developer</p>
+                    <div className="flex space-x-4 mt-3">
+                      <a
+                        href={"https://www.facebook.com/mjasper30"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="text-3xl fa-brands fa-facebook"></i>
+                      </a>
+                      <a
+                        href={"https://github.com/mjasper30"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="text-3xl fa-brands fa-github"></i>
+                      </a>
+                    </div>
                   </Box>
                 </Column>
-              </HorizontalColumns>
-              <HorizontalColumns className="grid grid-cols-4 gap-4">
-                <Column className="flex justify-center">
-                  <Box className="border border-white p-4 text-center">
-                    John Kenneth Adriano
+                <Column className="flex flex-col items-center">
+                  <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
+                    <img
+                      src={sigue}
+                      alt="Team Member 1"
+                      className="w-32 h-32 rounded-full mb-4"
+                    />
+                    <h3 className="text-lg font-bold">Daniel Sigue</h3>
+                    <p className="text-gray-500">Backend/Hardware Developer</p>
+                    <div className="flex space-x-4 mt-3">
+                      <a
+                        href={"https://www.facebook.com/daniel.sigue"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="text-3xl fa-brands fa-facebook"></i>
+                      </a>
+                      <a
+                        href={"https://github.com/dnlsigue"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="text-3xl fa-brands fa-github"></i>
+                      </a>
+                    </div>
                   </Box>
                 </Column>
-              </HorizontalColumns>
-              <HorizontalColumns className="grid grid-cols-4 gap-4">
-                <Column className="flex justify-center">
-                  <Box className="border border-white p-4 text-center">
-                    May Pearl Rivera
+                <Column className="flex flex-col items-center">
+                  <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
+                    <img
+                      src={custodio}
+                      alt="Team Member 1"
+                      className="w-32 h-32 rounded-full mb-4"
+                    />
+                    <h3 className="text-lg font-bold">Daniel Custodio</h3>
+                    <p className="text-gray-500">Hardware Developer</p>
+                    <div className="flex space-x-4 mt-3">
+                      <a
+                        href={"https://www.facebook.com/dnlcstd"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="text-3xl fa-brands fa-facebook"></i>
+                      </a>
+                      <a href={""} target="_blank" rel="noopener noreferrer">
+                        <i className="text-3xl fa-brands fa-github"></i>
+                      </a>
+                    </div>
                   </Box>
                 </Column>
-              </HorizontalColumns>
-            </VerticalColumns>
-            <VerticalColumns>
-              <HorizontalColumns className="grid grid-cols-4 gap-4">
-                <Column className="flex justify-center">
-                  <Box className="border border-white p-4 text-center">
-                    Jasper Macaraeg
+                <Column className="flex flex-col items-center">
+                  <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
+                    <img
+                      src={clemente}
+                      alt="Team Member 1"
+                      className="w-32 h-32 rounded-full mb-4"
+                    />
+                    <h3 className="text-lg font-bold">
+                      John Maverick Clemente
+                    </h3>
+                    <p className="text-gray-500">Hardware Developer</p>
+                    <div className="flex space-x-4 mt-3">
+                      <a
+                        href={"https://www.facebook.com/maestromav"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="text-3xl fa-brands fa-facebook"></i>
+                      </a>
+                      <a
+                        href={"https://github.com/MaestroMavs"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="text-3xl fa-brands fa-github"></i>
+                      </a>
+                    </div>
                   </Box>
                 </Column>
-              </HorizontalColumns>
-              <HorizontalColumns className="grid grid-cols-4 gap-4">
-                <Column className="flex justify-center">
-                  <Box className="border border-white p-4 text-center">
-                    Daniel Sigue
+                <Column className="flex flex-col items-center">
+                  <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
+                    <img
+                      src={image_revendo}
+                      alt="Team Member 1"
+                      className="w-32 h-32 rounded-full mb-4"
+                    />
+                    <h3 className="text-lg font-bold">John Kenneth Adriano</h3>
+                    <p className="text-gray-500">Frontend Developer</p>
+                    <div className="flex space-x-4 mt-3">
+                      <a
+                        href={"https://www.facebook.com/adrianojkenneth"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="text-3xl fa-brands fa-facebook"></i>
+                      </a>
+                      <a
+                        href={"https://github.com/jkamogus"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="text-3xl fa-brands fa-github"></i>
+                      </a>
+                    </div>
                   </Box>
                 </Column>
-              </HorizontalColumns>
-              <HorizontalColumns className="grid grid-cols-4 gap-4">
-                <Column className="flex justify-center">
-                  <Box className="border border-white p-4 text-center">
-                    John Maverick Clemente
+                <Column className="flex flex-col items-center">
+                  <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
+                    <img
+                      src={image_revendo}
+                      alt="Team Member 1"
+                      className="w-32 h-32 rounded-full mb-4"
+                    />
+                    <h3 className="text-lg font-bold">May Pearl Rivera</h3>
+                    <p className="text-gray-500">Documentator/Researcher</p>
+                    <div className="flex space-x-4 mt-3">
+                      <a
+                        href={"https://www.facebook.com/maypearl.rivera"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="text-3xl fa-brands fa-facebook"></i>
+                      </a>
+                      <a href={""} target="_blank" rel="noopener noreferrer">
+                        <i className="text-3xl fa-brands fa-github"></i>
+                      </a>
+                    </div>
                   </Box>
                 </Column>
-              </HorizontalColumns>
-              <HorizontalColumns className="grid grid-cols-4 gap-4">
-                <Column className="flex justify-center">
-                  <Box className="border border-white p-4 text-center">
-                    Ma Loelaida Clave
+                <Column className="flex flex-col items-center">
+                  <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
+                    <img
+                      src={clave}
+                      alt="Team Member 1"
+                      className="w-32 h-32 rounded-full mb-4"
+                    />
+                    <h3 className="text-lg font-bold">Ma. Loelaida Clave</h3>
+                    <p className="text-gray-500">Documentator/Researcher</p>
+                    <div className="flex space-x-4 mt-3">
+                      <a
+                        href={"https://www.facebook.com/leeelss"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="text-3xl fa-brands fa-facebook"></i>
+                      </a>
+                      <a
+                        href={"https://github.com/leee01"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <i className="text-3xl fa-brands fa-github"></i>
+                      </a>
+                    </div>
                   </Box>
                 </Column>
               </HorizontalColumns>
@@ -366,6 +530,7 @@ export default function Home() {
     </div>
   );
 }
+
 type CommonProps = {
   children: React.ReactNode;
   className?: string;
@@ -400,7 +565,6 @@ const HorizontalColumns = ({ children, className }: CommonProps) => (
 );
 
 //Fourth Div FOR CONTROL UNDER BOX DIV
-
 const Column = ({ children, className }: CommonProps) => (
   <div className={" " + className}>{children}</div>
 );
