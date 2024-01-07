@@ -99,10 +99,10 @@ export default function Home() {
               </li>
               <li>
                 <a
-                  href="#blog"
+                  href="#faq"
                   className="block py-2 pl-3 pr-4 text-white font-extrabold"
                 >
-                  Blog
+                  FAQ
                 </a>
               </li>
               <li>
@@ -111,6 +111,14 @@ export default function Home() {
                   className="block py-2 pl-3 pr-4 text-white  font-extrabold"
                 >
                   Meet the team
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#contact_us"
+                  className="block py-2 pl-3 pr-4 text-white  font-extrabold"
+                >
+                  Contact Us
                 </a>
               </li>
               <li className="hidden burger:block">
@@ -176,7 +184,7 @@ export default function Home() {
                 <Column className="imgH:bg-white imgH:border-[9px] imgH:h-[400px]  imgH:rounded-[85px] imgH:border-discord imgH:flex imgH:mx-5 hidden ">
                   <div className="flex">
                     <Column className="text-center w-2/3 mx-16 my-5 overflow-hidden">
-                      <Box className="mt-2 NotoSansJP font-black text-black text-[36px] py-3 text-left bigH:py-5 bigH:mt-5 ">
+                      <Box className="mt-2 NotoSansJP font-black text-black text-[48px] py-3 text-left bigH:py-5 bigH:mt-5 ">
                         What is ReVendo?
                       </Box>
                       <Box className="NotoSansJP font-black text-discord text-[20px] leading-[30px] text-left pt-3 bigH:pt-5">
@@ -211,7 +219,7 @@ export default function Home() {
                 </Box>
               </Column>
               <HorizontalColumns>
-                <Column className="bg-white border-[9px] h-[480px]  rounded-[85px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 w-[50%]">
+                <Column className="bg-white border-[9px] h-[420px]  rounded-[85px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 w-[50%]">
                   <img
                     className="w-[123px] h-[118px]"
                     src={feature_one}
@@ -225,7 +233,7 @@ export default function Home() {
                     plastic bottle inside the machine
                   </Box>
                 </Column>
-                <Column className="bg-white border-[9px] h-[480px]  rounded-[85px] border-discord text-center flex flex-col p-6 mx-2 px-5   items-center m:w-1/2 w-[50%]">
+                <Column className="bg-white border-[9px] h-[420px]  rounded-[85px] border-discord text-center flex flex-col p-6 mx-2 px-5   items-center m:w-1/2 w-[50%]">
                   <img
                     className="w-[123px] h-[118px]"
                     src={feature_two}
@@ -239,7 +247,7 @@ export default function Home() {
                     machine.
                   </Box>
                 </Column>
-                <Column className="bg-white border-[9px] h-[480px] rounded-[85px] border-discord text-center flex flex-col p-6 mx-5 px-5  items-center m:w-1/2 w-[50%]">
+                <Column className="bg-white border-[9px] h-[420px] rounded-[85px] border-discord text-center flex flex-col p-6 mx-5 px-5  items-center m:w-1/2 w-[50%]">
                   <img
                     className="w-[123px] h-[118px]"
                     src={feature_three}
@@ -253,7 +261,7 @@ export default function Home() {
                     as you deposit your plastic bottles.
                   </Box>
                 </Column>
-                <Column className="bg-white border-[9px] h-[480px]  rounded-[85px] border-discord text-center flex flex-col p-6 mx-5 px-5  items-center m:w-1/2 w-[50%]">
+                <Column className="bg-white border-[9px] h-[420px]  rounded-[85px] border-discord text-center flex flex-col p-6 mx-5 px-5  items-center m:w-1/2 w-[50%]">
                   <img
                     className="w-[123px] h-[118px]"
                     src={feature_three}
@@ -273,55 +281,41 @@ export default function Home() {
 
           <Section id="blog">
             <VerticalColumns>
-              <Column>
+              {/* <Column>
                 <Box className="text-4xl text-white NotoSansJP font-semibold pb-10 text-center">
                   TEXTTEXTTEXT
                 </Box>
-              </Column>
+              </Column> */}
               <Column>
                 <Box className="text-2xl text-white leading-10 font-outline-2 tracking-3  text-center max-w-[1250px]">
-                  Nam libero tempore, cum soluta nobis est eligendi optio cumque
-                  nihil impedit quo minus id quod maxime placeat facere
-                  possimus, omnis voluptas assumenda est, omnis dolor
-                  repellendus.
+                  Exchange your plastic bottles for a cleaner planet and earn
+                  valuable reward points with our state-of-the-art Reverse
+                  Vending Machine. Take a step towards sustainability and
+                  support your community by swapping plastic waste for
+                  EcoRewards. But that's not all – the positive impact doesn't
+                  stop there!
+                  <br></br>
+                  <br></br>
+                  Your collected reward points can be seamlessly converted into
+                  RFID credits, unlocking access to our innovative solar-powered
+                  charging stations. Charge your smart devices using clean,
+                  renewable energy while contributing to the reduction of
+                  plastic waste. Join us in building a greener future, one
+                  bottle at a time. Be a part of the change with EcoRewards!
+                  🌞🔋 #EcoRewards #SustainableLiving #PlasticFreeFuture
                 </Box>
               </Column>
-              <HorizontalColumns>
-                <div className="laptop:flex laptop:justify-between">
-                  <Column className="m:w-[50%] mx-5 py-2">
-                    <img
-                      className="bg-white border-[9px] h-[450px]  rounded-[85px] border-discord text-center flex flex-col    items-center  m:w-100%"
-                      src={image_revendo_2}
-                      alt=""
-                    />
-                  </Column>
-                  <Column className="m:w-[50%] mx-5 py-2">
-                    <img
-                      className="bg-white border-[9px] h-[450px]  rounded-[85px] border-discord text-center flex flex-col    items-center  m:w-100%"
-                      src={image_revendo_2}
-                      alt=""
-                    />
-                  </Column>
-                  <Column className="m:w-[50%] mx-5 py-2">
-                    <img
-                      className="bg-white border-[9px] h-[450px]  rounded-[85px] border-discord text-center flex flex-col     items-center  m:w-100%"
-                      src={image_revendo_2}
-                      alt=""
-                    />
-                  </Column>
-                </div>
-              </HorizontalColumns>
-              <Column>
+              {/* <Column>
                 <Box>
                   <img className="mx-auto" src={download_app_image} alt="" />
                 </Box>
-              </Column>
+              </Column> */}
             </VerticalColumns>
           </Section>
 
           <Section id="team">
             <VerticalColumns>
-              <h2 className="text-4xl font-bold text-white mb-6">
+              <h2 className="text-5xl font-bold text-white mb-6">
                 Meet the Team
               </h2>
               <HorizontalColumns className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -538,6 +532,20 @@ export default function Home() {
                   </Box>
                 </Column>
               </HorizontalColumns>
+            </VerticalColumns>
+          </Section>
+
+          <Section id="faq">
+            <VerticalColumns>
+              <h2 className="text-4xl font-bold text-white mb-6">
+                Frequently Asked Questions
+              </h2>
+            </VerticalColumns>
+          </Section>
+
+          <Section id="contact_us">
+            <VerticalColumns>
+              <h2 className="text-4xl font-bold text-white mb-6">Contact Us</h2>
             </VerticalColumns>
           </Section>
 
