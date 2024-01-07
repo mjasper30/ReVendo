@@ -99,18 +99,18 @@ export default function Home() {
               </li>
               <li>
                 <a
-                  href="#faq"
-                  className="block py-2 pl-3 pr-4 text-white font-extrabold"
-                >
-                  FAQ
-                </a>
-              </li>
-              <li>
-                <a
                   href="#team"
                   className="block py-2 pl-3 pr-4 text-white  font-extrabold"
                 >
                   Meet the team
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#faq"
+                  className="block py-2 pl-3 pr-4 text-white font-extrabold"
+                >
+                  FAQ
                 </a>
               </li>
               <li>
@@ -537,7 +537,7 @@ export default function Home() {
 
           <Section id="faq">
             <VerticalColumns>
-              <h2 className="text-4xl font-bold text-white mb-6">
+              <h2 className="text-5xl font-bold text-white mb-6">
                 Frequently Asked Questions
               </h2>
             </VerticalColumns>
@@ -545,7 +545,7 @@ export default function Home() {
 
           <Section id="contact_us">
             <VerticalColumns>
-              <h2 className="text-4xl font-bold text-white mb-6">Contact Us</h2>
+              <h2 className="text-5xl font-bold text-white mb-6">Contact Us</h2>
             </VerticalColumns>
           </Section>
 
