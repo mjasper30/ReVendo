@@ -131,22 +131,17 @@ export default function Home() {
         </div>
       </nav>
       <div className="flex flex-col justify-start items-center">
-        <div className="tabletH:pt-[100px] pt-[100x] laptop::pt-0">
+        <div className="tabletH:pt-[100px] pt-[10px] laptop::pt-0">
           <Section id="home" className="items-center">
             <VerticalColumns>
               <HorizontalColumns>
                 <Column className="text-center flex flex-col justify-center">
-                  <Box className="text-7xl text-white NotoSansJP font-semibold pb-10 text-center  laptop:text-left ">
+                  <Box className="text-7xl text-white NotoSansJP font-semibold pb-10 text-center laptop:text-left">
                     ReVendo
                   </Box>
-                  <Box className="text-2xl text-white text-justify font-bold leading-10 font-outline-2 tracking-3 py-10   laptop:text-left">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nulla quam velit, vulputate eu pharetra nec, mattis ac
-                    neque.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac
-                    neque.Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit. Nulla quam velit, vulputate eu pharetra nec, mattis ac
-                    neque.
+                  <Box className="text-2xl text-white text-justify font-bold leading-10 font-outline-2 tracking-3 py-10 laptop:text-left">
+                    Introducing the EcoRewards Reverse Vending Machine:
+                    Revolutionizing the fight against plastic bottle pollution!
                   </Box>
                   <VerticalColumns className="">
                     <HorizontalColumns className="md:flex-row items-center py-10 text-center">
@@ -178,68 +173,20 @@ export default function Home() {
           <Section id="about" className="align-top mt-5">
             <VerticalColumns>
               <HorizontalColumns>
-                <Column className="bg-white border-[9px] h-[400px]  rounded-[85px] border-discord text-center flex flex-col p-6 mx-2 px-5  items-center m:w-1/2">
-                  <img
-                    className="w-[123px] h-[118px]"
-                    src={feature_one}
-                    alt=""
-                  />
-                  <Box className="NotoSansJP font-black text-discord text-[36px] py-3">
-                    Feature One
-                  </Box>
-                  <Box className=" NotoSansJP font-black text-discord text-[20px] leading-[30px]">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-                    quis felis convallis, rhoncus leo id, scelerisque purus. Ut
-                    auctor gravida nulla.
-                  </Box>
-                </Column>
-                <Column className="bg-white border-[9px] h-[400px]  rounded-[85px] border-discord text-center flex flex-col p-6 mx-2 px-5   items-center m:w-1/2">
-                  <img
-                    className="w-[123px] h-[118px]"
-                    src={feature_two}
-                    alt=""
-                  />
-                  <Box className="NotoSansJP font-black text-discord text-[36px] py-3">
-                    Feature Two
-                  </Box>
-                  <Box className=" NotoSansJP font-black text-discord text-[20px] leading-[30px]">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-                    quis felis convallis, rhoncus leo id, scelerisque purus. Ut
-                    auctor gravida nulla.
-                  </Box>
-                </Column>
-                <Column className="bg-white border-[9px] h-[400px]  rounded-[85px] border-discord text-center flex flex-col p-6 mx-5 px-5  items-center m:w-1/2">
-                  <img
-                    className="w-[123px] h-[118px]"
-                    src={feature_three}
-                    alt=""
-                  />
-                  <Box className="NotoSansJP font-black text-discord text-[36px] py-3">
-                    Feature Three
-                  </Box>
-                  <Box className=" NotoSansJP font-black text-discord text-[20px] leading-[30px]">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-                    quis felis convallis, rhoncus leo id, scelerisque purus. Ut
-                    auctor gravida nulla.
-                  </Box>
-                </Column>
-              </HorizontalColumns>
-              <HorizontalColumns>
                 <Column className="imgH:bg-white imgH:border-[9px] imgH:h-[400px]  imgH:rounded-[85px] imgH:border-discord imgH:flex imgH:mx-5 hidden ">
                   <div className="flex">
-                    <Column className="text-center w-2/3 rounded-[85px] mx-16 my-5 overflow-hidden">
+                    <Column className="text-center w-2/3 mx-16 my-5 overflow-hidden">
                       <Box className="mt-2 NotoSansJP font-black text-black text-[36px] py-3 text-left bigH:py-5 bigH:mt-5 ">
-                        Heading explaining the main benefit of ReVendo
+                        What is ReVendo?
                       </Box>
                       <Box className="NotoSansJP font-black text-discord text-[20px] leading-[30px] text-left pt-3 bigH:pt-5">
-                        Sed ut perspiciatis unde omnis iste natus error sit
-                        voluptatem accusantium doloremque laudantium, totam rem
-                        aperiam, eaque ipsa quae ab illo inventore veritatiis.
-                      </Box>
-                      <br></br>
-                      <Box className="NotoSansJP font-black text-discord text-[20px] leading-[30px] text-left">
-                        Ut auctor gravida nulla. Nam id erat elementum, accumsan
-                        dui non, porttitor lorem.
+                        A Reverse Vending Machine that solves problem for
+                        plastic bottle pollution that exchange plastic bottles
+                        into reward points that will help community to reduce
+                        plastic bottle waste and promote eco-friendly machine
+                        that can exchange into RFID reward points into charging
+                        station to accumulate time charging for smart phones
+                        empowered by solar panel in the charging station.
                       </Box>
                     </Column>
 
@@ -253,6 +200,74 @@ export default function Home() {
                   </div>
                 </Column>
               </HorizontalColumns>
+              <h2 className="text-5xl font-bold text-white my-11">
+                How does it work?
+              </h2>
+              <Column>
+                <Box className="text-2xl text-white leading-10 font-outline-2 tracking-3  text-center max-w-[1250px] mb-11">
+                  This guide provides a detailed, step-by-step process for
+                  converting plastic bottles into points that are then stored in
+                  an RFID system.
+                </Box>
+              </Column>
+              <HorizontalColumns>
+                <Column className="bg-white border-[9px] h-[480px]  rounded-[85px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 w-[50%]">
+                  <img
+                    className="w-[123px] h-[118px]"
+                    src={feature_one}
+                    alt=""
+                  />
+                  <Box className="NotoSansJP font-black text-discord text-[36px] py-3">
+                    Step One
+                  </Box>
+                  <Box className=" NotoSansJP font-black text-discord text-[20px] leading-[30px]">
+                    Tap your RFID card on the scanner to begin. Place your
+                    plastic bottle inside the machine
+                  </Box>
+                </Column>
+                <Column className="bg-white border-[9px] h-[480px]  rounded-[85px] border-discord text-center flex flex-col p-6 mx-2 px-5   items-center m:w-1/2 w-[50%]">
+                  <img
+                    className="w-[123px] h-[118px]"
+                    src={feature_two}
+                    alt=""
+                  />
+                  <Box className="NotoSansJP font-black text-discord text-[36px] py-3">
+                    Step Two
+                  </Box>
+                  <Box className=" NotoSansJP font-black text-discord text-[20px] leading-[30px]">
+                    Insert your plastic bottle into the designated slot on the
+                    machine.
+                  </Box>
+                </Column>
+                <Column className="bg-white border-[9px] h-[480px] rounded-[85px] border-discord text-center flex flex-col p-6 mx-5 px-5  items-center m:w-1/2 w-[50%]">
+                  <img
+                    className="w-[123px] h-[118px]"
+                    src={feature_three}
+                    alt=""
+                  />
+                  <Box className="NotoSansJP font-black text-discord text-[36px] py-3">
+                    Step Three
+                  </Box>
+                  <Box className=" NotoSansJP font-black text-discord text-[20px] leading-[30px]">
+                    Observe your point status on the display screen in real-time
+                    as you deposit your plastic bottles.
+                  </Box>
+                </Column>
+                <Column className="bg-white border-[9px] h-[480px]  rounded-[85px] border-discord text-center flex flex-col p-6 mx-5 px-5  items-center m:w-1/2 w-[50%]">
+                  <img
+                    className="w-[123px] h-[118px]"
+                    src={feature_three}
+                    alt=""
+                  />
+                  <Box className="NotoSansJP font-black text-discord text-[36px] py-3">
+                    Step Four
+                  </Box>
+                  <Box className=" NotoSansJP font-black text-discord text-[20px] leading-[30px]">
+                    Upon completion, tap the "Claim Points" button to redeem
+                    your reward points.
+                  </Box>
+                </Column>
+              </HorizontalColumns>
             </VerticalColumns>
           </Section>
 
@@ -264,7 +279,7 @@ export default function Home() {
                 </Box>
               </Column>
               <Column>
-                <Box className="text-2xl text-white font-bold leading-10 font-outline-2 tracking-3  text-center max-w-[1250px]">
+                <Box className="text-2xl text-white leading-10 font-outline-2 tracking-3  text-center max-w-[1250px]">
                   Nam libero tempore, cum soluta nobis est eligendi optio cumque
                   nihil impedit quo minus id quod maxime placeat facere
                   possimus, omnis voluptas assumenda est, omnis dolor
@@ -525,6 +540,10 @@ export default function Home() {
               </HorizontalColumns>
             </VerticalColumns>
           </Section>
+
+          <footer className="bg-gray-800 text-white p-5 text-center">
+            <p>&copy; 2024 ReVendo. All rights reserved.</p>
+          </footer>
         </div>
       </div>
     </div>
