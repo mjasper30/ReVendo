@@ -1,3 +1,4 @@
+import "animate.css";
 import { useEffect, useState } from "react";
 import "./home.css";
 import clemente from "./assets/clemente.jpg";
@@ -144,22 +145,22 @@ export default function Home() {
             <VerticalColumns>
               <HorizontalColumns>
                 <Column className="text-center flex flex-col justify-center">
-                  <Box className="text-7xl text-white NotoSansJP font-semibold pb-10 text-center laptop:text-left">
+                  <Box className="animate__animated animate__fadeInLeft text-7xl text-white NotoSansJP font-semibold pb-10 text-center laptop:text-left">
                     ReVendo
                   </Box>
-                  <Box className="text-2xl text-white text-justify font-bold leading-10 font-outline-2 tracking-3 py-10 laptop:text-left">
+                  <Box className="animate__animated animate__fadeInLeft text-2xl text-white text-justify font-bold leading-10 font-outline-2 tracking-3 py-10 laptop:text-left">
                     Introducing the EcoRewards Reverse Vending Machine:
                     Revolutionizing the fight against plastic bottle pollution!
                   </Box>
                   <VerticalColumns className="">
                     <HorizontalColumns className="md:flex-row items-center py-10 text-center">
                       <Column>
-                        <Box className="rounded-3xl bg-discord border-discord border-4 py-5 w-72 text-center text-white font-black hover:bg-white hover:text-discord hover:border-none">
+                        <Box className="animate__animated animate__zoomIn rounded-3xl bg-discord border-discord border-4 py-5 w-72 text-center text-white font-black hover:bg-white hover:text-discord hover:border-none">
                           GET STARTED
                         </Box>
                       </Column>
                       <Column>
-                        <Box className="rounded-3xl bg-discord border-discord border-4 py-5 w-72 text-center text-white font-black hover:bg-white hover:text-discord hover:border-none">
+                        <Box className="animate__animated animate__zoomIn rounded-3xl bg-discord border-discord border-4 py-5 w-72 text-center text-white font-black hover:bg-white hover:text-discord hover:border-none">
                           LEARN MORE
                         </Box>
                       </Column>
@@ -169,7 +170,7 @@ export default function Home() {
                 <Column className="flex items-center justify-center">
                   <Box>
                     <img
-                      className="border-[13px] rounded-[85px] border-discord max-w-full max-h-[1200px]  imgH:max-w-[600px]  imgH:max-h-[700px]"
+                      className="animate__animated animate__zoomInDown border-[13px] rounded-[85px] border-discord max-w-full max-h-[1200px]  imgH:max-w-[600px]  imgH:max-h-[700px]"
                       src={image_revendo}
                     />
                   </Box>
