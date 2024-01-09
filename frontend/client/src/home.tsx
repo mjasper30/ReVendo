@@ -4,6 +4,7 @@ import { Accordion } from "flowbite-react";
 import "animate.css";
 import { useEffect, useState } from "react";
 import "./home.css";
+import adriano from "./assets/adriano.png";
 import clemente from "./assets/clemente.jpg";
 import clave from "./assets/clave.jpg";
 import custodio from "./assets/custodio.png";
@@ -452,7 +453,7 @@ export default function Home() {
                 <Column className="flex flex-col items-center">
                   <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
                     <img
-                      src={image_revendo}
+                      src={adriano}
                       alt="Team Member 1"
                       className="w-32 h-32 rounded-full mb-4"
                     />
@@ -629,41 +630,12 @@ export default function Home() {
                       </Accordion.Title>
                       <Accordion.Content>
                         <p className="mb-2 text-gray-500 dark:text-gray-400">
-                          The main difference is that the core components from
-                          Flowbite are open source under the MIT license,
-                          whereas Tailwind UI is a paid product. Another
-                          difference is that Flowbite relies on smaller and
-                          standalone components, whereas Tailwind UI offers
-                          sections of pages.
+                          If the plastic bottle is reject it will indicate led
+                          lights and sound that is not accepted. You need to get
+                          the bottle and try to insert valid plastic bottle.
+                          Only clean plastic bottles or PET bottles are accepted
+                          in order to get points.
                         </p>
-                        <p className="mb-2 text-gray-500 dark:text-gray-400">
-                          However, we actually recommend using both Flowbite,
-                          Flowbite Pro, and even Tailwind UI as there is no
-                          technical reason stopping you from using the best of
-                          two worlds.
-                        </p>
-                        <p className="mb-2 text-gray-500 dark:text-gray-400">
-                          Learn more about these technologies:
-                        </p>
-                        <ul className="list-disc pl-5 text-gray-500 dark:text-gray-400">
-                          <li>
-                            <a
-                              href="https://flowbite.com/pro/"
-                              className="text-cyan-600 hover:underline dark:text-cyan-500"
-                            >
-                              Flowbite Pro
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="https://tailwindui.com/"
-                              rel="nofollow"
-                              className="text-cyan-600 hover:underline dark:text-cyan-500"
-                            >
-                              Tailwind UI
-                            </a>
-                          </li>
-                        </ul>
                       </Accordion.Content>
                     </Accordion.Panel>
                   </Accordion>
