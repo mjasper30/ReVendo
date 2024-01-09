@@ -38,9 +38,9 @@ export default function RFID() {
     fetchData(); // Initial fetch
   }, []); // Empty dependency array means this effect runs once after the initial render
 
-  // Function to convert blob data to base64
-  const convertBlobToBase64 = (blobData: string) => {
-    return `data:image/jpeg;base64,${btoa(blobData)}`;
+  // Function to convert base64 string to image URL
+  const convertBase64ToImageUrl = (base64Data: string) => {
+    return `data:image/jpeg;base64,${base64Data}`;
   };
 
   return (
@@ -92,7 +92,7 @@ export default function RFID() {
                     <Table.Cell>{history.size}</Table.Cell>
                     <Table.Cell>
                       <img
-                        src={convertBlobToBase64(history.captured_image)}
+                        src={convertBase64ToImageUrl(history.captured_image)}
                         alt="Captured Image"
                         style={{ maxWidth: "100%", maxHeight: "100px" }}
                       />

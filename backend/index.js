@@ -146,7 +146,7 @@ app.post("/api/rfid", (req, res) => {
   });
 });
 
-//Read all history in database
+// Read all history in database
 app.get("/api/history", (req, res) => {
   const query = "SELECT * FROM history";
   db.query(query, (err, result) => {
@@ -154,11 +154,25 @@ app.get("/api/history", (req, res) => {
       console.error("Error executing query:", err);
       res.status(500).send("Internal Server Error");
     } else {
-      res.status(200).json(result);
+      // Process the longblob data before sending the response
+      const processedResult = result.map((row) => {
+        // Assuming 'your_longblob_column' is the name of the longblob column in your table
+        const longblobData = row.captured_image;
+
+        // Convert the longblob data to a base64 string or any other suitable format
+        const base64Data = Buffer.from(longblobData).toString("base64");
+
+        // Include the processed data in the result
+        return {
+          ...row,
+          captured_image: base64Data,
+        };
+      });
+
+      res.status(200).json(processedResult);
     }
   });
 });
-
 // Read all rfid in database
 app.get("/api/rfid", (req, res) => {
   const query = "SELECT * FROM rfid";
