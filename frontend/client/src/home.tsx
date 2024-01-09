@@ -9,6 +9,8 @@ import clemente from "./assets/clemente.jpg";
 import clave from "./assets/clave.jpg";
 import custodio from "./assets/custodio.png";
 import sigue from "./assets/sigue.png";
+import rivera from "./assets/rivera.jpg";
+import gabriel from "./assets/gabriel.png";
 import macaraeg from "./assets/macaraeg.jpg";
 import navbar_logo from "./assets/Revendo-icon.png";
 import download_app_icon from "./assets/dlbtn.ico";
@@ -318,7 +320,7 @@ export default function Home() {
                 <Column className="flex flex-col items-center">
                   <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
                     <img
-                      src={image_revendo}
+                      src={gabriel}
                       alt="Team Member 1"
                       className="w-32 h-32 rounded-full mb-4"
                     />
@@ -480,7 +482,7 @@ export default function Home() {
                 <Column className="flex flex-col items-center">
                   <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
                     <img
-                      src={image_revendo}
+                      src={rivera}
                       alt="Team Member 1"
                       className="w-32 h-32 rounded-full mb-4"
                     />
@@ -494,7 +496,11 @@ export default function Home() {
                       >
                         <i className="text-3xl fa-brands fa-facebook"></i>
                       </a>
-                      <a href={""} target="_blank" rel="noopener noreferrer">
+                      <a
+                        href={"https://github.com/Nepheleee"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <i className="text-3xl fa-brands fa-github"></i>
                       </a>
                     </div>
