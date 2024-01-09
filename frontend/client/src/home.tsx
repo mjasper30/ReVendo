@@ -1,3 +1,6 @@
+"use client";
+
+import { Accordion } from "flowbite-react";
 import "animate.css";
 import { useEffect, useState } from "react";
 import "./home.css";
@@ -41,6 +44,7 @@ export default function Home() {
     <Loader />
   ) : (
     <div className="bg-[#1E1F22] fixed inset-0 bg-cover bg-center scrollable-container">
+      {/* Navigation Bar */}
       <nav
         className={`bg-[#5865F2] fixed top-0 w-full h-[85px] shadow-lg rounded-b-3xl z-10 ${
           showNavbar ? "slideDown" : "hidden-nav"
@@ -52,7 +56,7 @@ export default function Home() {
               src={navbar_logo}
               className="h-auto w-auto max-h-[56px] max-w-[56px] pr-2"
             />
-            <span className="self-center text-3xl font-semibold whitespace-nowrap dark:text-white">
+            <span className="self-center text-3xl font-semibold whitespace-nowrap text-white dark:text-white">
               ReVendo
             </span>
           </a>
@@ -139,8 +143,11 @@ export default function Home() {
           </div>
         </div>
       </nav>
+      {/* End of Navigation Bar */}
+
       <div className="flex flex-col justify-start items-center">
         <div className="tabletH:pt-[100px] pt-[10px] laptop::pt-0">
+          {/* Home Section */}
           <Section id="home" className="items-center">
             <VerticalColumns>
               <HorizontalColumns>
@@ -148,7 +155,7 @@ export default function Home() {
                   <Box className="animate__animated animate__fadeInLeft text-7xl text-white NotoSansJP font-semibold pb-10 text-center laptop:text-left">
                     ReVendo
                   </Box>
-                  <Box className="animate__animated animate__fadeInLeft text-2xl text-white text-justify font-bold leading-10 font-outline-2 tracking-3 py-10 laptop:text-left">
+                  <Box className="animate__animated animate__fadeInLeft text-2xl text-white text-justify font-bold leading-10 font-outline-2 tracking-3 py-10 pr-40 laptop:text-left">
                     Introducing the EcoRewards Reverse Vending Machine:
                     Revolutionizing the fight against plastic bottle pollution!
                   </Box>
@@ -178,8 +185,10 @@ export default function Home() {
               </HorizontalColumns>
             </VerticalColumns>
           </Section>
+          {/* End of Home Section */}
 
-          <Section id="about" className="align-top mt-5">
+          {/* About Section */}
+          <Section id="about" className="align-top mt-20">
             <VerticalColumns>
               <HorizontalColumns>
                 <Column className="imgH:bg-white imgH:border-[9px] imgH:h-[400px]  imgH:rounded-[85px] imgH:border-discord imgH:flex imgH:mx-5 hidden ">
@@ -277,18 +286,8 @@ export default function Home() {
                   </Box>
                 </Column>
               </HorizontalColumns>
-            </VerticalColumns>
-          </Section>
-
-          <Section id="blog">
-            <VerticalColumns>
-              {/* <Column>
-                <Box className="text-4xl text-white NotoSansJP font-semibold pb-10 text-center">
-                  TEXTTEXTTEXT
-                </Box>
-              </Column> */}
-              <Column>
-                <Box className="text-2xl text-white leading-10 font-outline-2 tracking-3  text-center max-w-[1250px]">
+              <HorizontalColumns>
+                <Box className="text-2xl text-white leading-10 font-outline-2 tracking-3 text-center max-w-[1250px]">
                   Exchange your plastic bottles for a cleaner planet and earn
                   valuable reward points with our state-of-the-art Reverse
                   Vending Machine. Take a step towards sustainability and
@@ -305,16 +304,13 @@ export default function Home() {
                   bottle at a time. Be a part of the change with EcoRewards!
                   🌞🔋 #EcoRewards #SustainableLiving #PlasticFreeFuture
                 </Box>
-              </Column>
-              {/* <Column>
-                <Box>
-                  <img className="mx-auto" src={download_app_image} alt="" />
-                </Box>
-              </Column> */}
+              </HorizontalColumns>
             </VerticalColumns>
           </Section>
+          {/* End About Section */}
 
-          <Section id="team">
+          {/* Meet the Team Section */}
+          <Section id="team" className="align-top mt-20">
             <VerticalColumns>
               <h2 className="text-5xl font-bold text-white mb-6">
                 Meet the Team
@@ -436,7 +432,7 @@ export default function Home() {
                     <h3 className="text-lg font-bold">
                       John Maverick Clemente
                     </h3>
-                    <p className="text-gray-500">Hardware Developer</p>
+                    <p className="text-gray-500">Frontend Developer</p>
                     <div className="flex space-x-4 mt-3">
                       <a
                         href={"https://www.facebook.com/maestromav"}
@@ -490,7 +486,7 @@ export default function Home() {
                       className="w-32 h-32 rounded-full mb-4"
                     />
                     <h3 className="text-lg font-bold">May Pearl Rivera</h3>
-                    <p className="text-gray-500">Documentator/Researcher</p>
+                    <p className="text-gray-500">Frontend Developer</p>
                     <div className="flex space-x-4 mt-3">
                       <a
                         href={"https://www.facebook.com/maypearl.rivera"}
@@ -513,7 +509,7 @@ export default function Home() {
                       className="w-32 h-32 rounded-full mb-4"
                     />
                     <h3 className="text-lg font-bold">Ma. Loelaida Clave</h3>
-                    <p className="text-gray-500">Documentator/Researcher</p>
+                    <p className="text-gray-500">Frontend Developer</p>
                     <div className="flex space-x-4 mt-3">
                       <a
                         href={"https://www.facebook.com/leeelss"}
@@ -535,20 +531,157 @@ export default function Home() {
               </HorizontalColumns>
             </VerticalColumns>
           </Section>
+          {/* End Meet the Team Section */}
 
-          <Section id="faq">
+          {/* FAQ Section */}
+          <Section id="faq" className="align-top mt-20">
             <VerticalColumns>
               <h2 className="text-5xl font-bold text-white mb-6">
                 Frequently Asked Questions
               </h2>
+              <Column>
+                <Box className="text-2xl text-white leading-10 font-outline-2 tracking-3 text-center max-w-[1250px]">
+                  <Accordion className="bg-white">
+                    {/* How to purchase ReVendo Card? */}
+                    <Accordion.Panel>
+                      <Accordion.Title>
+                        How to purchase ReVendo Card?
+                      </Accordion.Title>
+                      <Accordion.Content>
+                        <p className="mb-2 text-gray-500 dark:text-gray-400">
+                          To purchase ReVendo Card, you can go to the nearest
+                          store for buying our ReVendo Card. The card is worth
+                          of 100 pesos and you can use it for 1 year.
+                        </p>
+                        <p className="text-gray-500 dark:text-gray-400">
+                          To purchase you need to present atleast one valid ID
+                          for identification and you need to fill up the form
+                          for the registration of the card.
+                        </p>
+                      </Accordion.Content>
+                    </Accordion.Panel>
+                    {/* How to earn points? */}
+                    <Accordion.Panel>
+                      <Accordion.Title>How to earn points?</Accordion.Title>
+                      <Accordion.Content>
+                        <p className="mb-2 text-gray-500 dark:text-gray-400">
+                          To earn points you need plastic bottles to be inserted
+                          in the machine. The machine will scan the plastic
+                          bottle and will give you points. The points will be in
+                          your ReVendo Card. The points will be converted into a
+                          reward points. The reward points can be used to
+                          charging station to exchange the points in charging
+                          time for your cellphone.
+                        </p>
+                      </Accordion.Content>
+                    </Accordion.Panel>
+                    {/* What kind of plastic bottles accepts in the machine? */}
+                    <Accordion.Panel>
+                      <Accordion.Title>
+                        What kind of plastic bottles accepts in the machine?
+                      </Accordion.Title>
+                      <Accordion.Content>
+                        <p className="mb-2 text-gray-500 dark:text-gray-400">
+                          The machine accept plastic bottles that are
+                          Polyethylene terephthalate(PET) plastic bottles. The
+                          machine will not accept other plastic bottles that are
+                          not PET plastic bottles. The machine will indicate if
+                          the plastic bottle is accepted or not.
+                        </p>
+                      </Accordion.Content>
+                    </Accordion.Panel>
+                    {/* How charge my cellphone in the charging station? */}
+                    <Accordion.Panel>
+                      <Accordion.Title>
+                        How charge my cellphone in the charging station?
+                      </Accordion.Title>
+                      <Accordion.Content>
+                        <p className="mb-2 text-gray-500 dark:text-gray-400">
+                          To charge your cellphone you need to tap your ReVendo
+                          Card in the charging station. The charging station
+                          will scan your card and will deduct the points in your
+                          card. The points will be converted into charging time
+                          for your cellphone. The charging station will indicate
+                          the charging time for your cellphone. The card must
+                          have balance and still valid to use the charging
+                          station.
+                        </p>
+                      </Accordion.Content>
+                    </Accordion.Panel>
+                    {/* What is the pointing system for plastic bottles? */}
+                    <Accordion.Panel>
+                      <Accordion.Title>
+                        What is the pointing system for plastic bottles?
+                      </Accordion.Title>
+                      <Accordion.Content>
+                        <p className="mb-2 text-gray-500 dark:text-gray-400">
+                          There are three classification of plastic bottles in a
+                          points system. The small plastic bottles are worth of
+                          1 point, the medium plastic bottles are worth of 2
+                          points and the large plastic bottles are worth of 3
+                          points. You can view our points system in guide how
+                          size of plastic bottles works. Click here to view the
+                          guide.
+                        </p>
+                      </Accordion.Content>
+                    </Accordion.Panel>
+                    <Accordion.Panel>
+                      <Accordion.Title>
+                        What happen if the plastic bottle is rejected?
+                      </Accordion.Title>
+                      <Accordion.Content>
+                        <p className="mb-2 text-gray-500 dark:text-gray-400">
+                          The main difference is that the core components from
+                          Flowbite are open source under the MIT license,
+                          whereas Tailwind UI is a paid product. Another
+                          difference is that Flowbite relies on smaller and
+                          standalone components, whereas Tailwind UI offers
+                          sections of pages.
+                        </p>
+                        <p className="mb-2 text-gray-500 dark:text-gray-400">
+                          However, we actually recommend using both Flowbite,
+                          Flowbite Pro, and even Tailwind UI as there is no
+                          technical reason stopping you from using the best of
+                          two worlds.
+                        </p>
+                        <p className="mb-2 text-gray-500 dark:text-gray-400">
+                          Learn more about these technologies:
+                        </p>
+                        <ul className="list-disc pl-5 text-gray-500 dark:text-gray-400">
+                          <li>
+                            <a
+                              href="https://flowbite.com/pro/"
+                              className="text-cyan-600 hover:underline dark:text-cyan-500"
+                            >
+                              Flowbite Pro
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              href="https://tailwindui.com/"
+                              rel="nofollow"
+                              className="text-cyan-600 hover:underline dark:text-cyan-500"
+                            >
+                              Tailwind UI
+                            </a>
+                          </li>
+                        </ul>
+                      </Accordion.Content>
+                    </Accordion.Panel>
+                  </Accordion>
+                </Box>
+              </Column>
             </VerticalColumns>
           </Section>
+          {/* End FAQ Section */}
 
+          {/* Contact Us Section */}
           <Section id="contact_us">
             <VerticalColumns>
               <h2 className="text-5xl font-bold text-white mb-6">Contact Us</h2>
             </VerticalColumns>
           </Section>
+          {/* End Contact Us Section */}
 
           <footer className="bg-gray-800 text-white p-5 text-center">
             <p>&copy; 2024 ReVendo. All rights reserved.</p>
@@ -565,7 +698,6 @@ type CommonProps = {
   id?: string;
 };
 
-// FIRST DIV
 const Section = ({ children, className, id }: CommonProps) => (
   <div
     className={
@@ -578,26 +710,22 @@ const Section = ({ children, className, id }: CommonProps) => (
   </div>
 );
 
-//Second Div  CONTROL BELOW
 const VerticalColumns = ({ children, className }: CommonProps) => (
   <div className={"flex flex-col gap-4 items-center " + className}>
     {children}
   </div>
 );
 
-// Third Div  CONTROL ALL COLUMN/BOX DIV
 const HorizontalColumns = ({ children, className }: CommonProps) => (
   <div className={"flex flex-col imgH:flex-row gap-4 " + className}>
     {children}
   </div>
 );
 
-//Fourth Div FOR CONTROL UNDER BOX DIV
 const Column = ({ children, className }: CommonProps) => (
   <div className={" " + className}>{children}</div>
 );
 
-//Fifth Div
 const Box = ({ children, className }: CommonProps) => (
   <div className={" " + className}>{children}</div>
 );
