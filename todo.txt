@@ -8,18 +8,18 @@ ReVendo Machine
 * finalize yung functionality ng nasa admin dashboard (backend stuffs)
 * ultrasonic sensor for capacity of the box
 * make sure sa desktop app is magrun yung nagawa na yolo:
-- incrementing total of plastic bottle detected
+-✅ incrementing total of plastic bottle detected
 - scanning of rfid from desktop app to the database (mysql) to hosting
-- looping process for detecting plastic bottles
+-✅ looping process for detecting plastic bottles
 * finalize all bugs errors and object detections
 * hardware machine model
-- loadcell (check certain weight treshhold to trigger capturing of image)
-- lights (for yolo to see the object)
+-✅ loadcell (check certain weight treshhold to trigger capturing of image)
+-✅ lights (for yolo to see the object)
 - ultrasonic sensor (capacity of bin)
-- yolo (accurate when lights on)
-- rfid place
-- lcd screen place
-- camera place
+-✅ yolo (accurate when lights on)
+-✅ rfid place
+-✅ lcd screen place
+-✅ camera place
 - door mechanism bago ilagay yung bote dapat mag scan muna ng rfid (optional ata)
 
 Desktop App
@@ -40,12 +40,12 @@ Charging Station
 * solar panel for powering up the charging station
 
 Landing Page
-* Hero section
-* About Section
-* Feature Section 
-* Meet the team section
+*✅ Hero section
+*✅ About Section
+*✅ FAQ Section 
+*✅ Meet the team section
 * Download App functionality
-* navbar section
+*✅ navbar section
 * responsiveness of website
 * maangas na animations
 
