@@ -1,3 +1,19 @@
+/*
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# RFID MFRC522 / RC522 Library : https://github.com/miguelbalboa/rfid # 
+#                                                                     # 
+#                 Installation :                                      # 
+# NodeMCU ESP8266/ESP12E    RFID MFRC522 / RC522                      #
+#         D2       <---------->   SDA/SS                              #
+#         D5       <---------->   SCK                                 #
+#         D7       <---------->   MOSI                                #
+#         D6       <---------->   MISO                                #
+#         GND      <---------->   GND                                 #
+#         D1       <---------->   RST                                 #
+#         3V/3V3   <---------->   3.3V                                #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+*/
+
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 #include <MFRC522.h>
