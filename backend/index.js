@@ -251,12 +251,21 @@ app.post("/check_rfid", (req, res) => {
       } else {
         // Check if the result set is not empty
         if (result.length > 0) {
+          // Extract points information from the result (assuming there is a 'points' field in the database)
+          const points = result[0].points || 0;
+
           // Check if an object is detected (you may need to modify this logic based on your requirements)
           const objectDetected = true; // Update this based on your object detection logic
 
           // Respond with "yes" if an object is detected, "no_object" if no object is detected
-          const response = { result: objectDetected ? "yes" : "no_object" };
+          const response = {
+            result: objectDetected ? "yes" : "no_object",
+            points: points,
+          };
           res.json(response);
+
+          // Log points information to console
+          console.log("Points:", points);
         } else {
           // RFID is not registered in the database
           const response = { result: "no" };
