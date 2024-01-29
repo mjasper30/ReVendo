@@ -1,31 +1,41 @@
-import mysql.connector
+import tkinter as tk
+from tkinter import messagebox
 
-# Replace these with your actual database credentials
-db_config = {
-    "host": "localhost",
-    "user": "id21468907_revendo",
-    "password": "ReVendo2023!",
-    "database": "id21468907_revendo"
-}
 
-# Establish a connection to the MySQL server
-connection = mysql.connector.connect(**db_config)
+class NumberCounterApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Number Counter App")
 
-# Create a cursor object to execute SQL queries
-cursor = connection.cursor()
+        self.number = 1
 
-# Define the data you want to insert
-data_to_insert = "John"
+        self.label = tk.Label(root, text="Current Number: {}".format(
+            self.number), font=("Helvetica", 16))
+        self.label.pack(pady=10)
 
-# Form the query
-insert_query = "INSERT INTO `rfid`(`rfid_number`) VALUES (%s)"
+        self.entry = tk.Entry(root, font=("Helvetica", 14))
+        self.entry.pack(pady=10)
 
-# Execute the query
-cursor.execute(insert_query, data_to_insert)
+        self.update_button = tk.Button(
+            root, text="Update Number", command=self.update_number)
+        self.update_button.pack(pady=10)
 
-# Commit the transaction
-connection.commit()
+    def update_number(self):
+        try:
+            new_number = int(self.entry.get())
+            if 1 <= new_number <= 10:
+                self.number = new_number
+                self.label.config(
+                    text="Current Number: {}".format(self.number))
+            else:
+                tk.messagebox.showwarning(
+                    "Invalid Input", "Please enter a number between 1 and 10.")
+        except ValueError:
+            tk.messagebox.showwarning(
+                "Invalid Input", "Please enter a valid number.")
 
-# Close the cursor and connection
-cursor.close()
-connection.close()
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = NumberCounterApp(root)
+    root.mainloop()
