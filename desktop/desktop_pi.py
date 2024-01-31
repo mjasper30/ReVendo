@@ -43,19 +43,15 @@ balance_label = None
 points_entry = None
 
 # Function to update points on the UI
-
-
 def update_points():
     points_var.set(str(global_points))
     global scan_processed
     scan_processed = True  # Set the flag to indicate that the scan has been processed
 
-# Function to handle RFID scanning and points update
-
-
+# Handle RFID scan in check balance
 def handle_rfid_scan():
     global global_points, scan_processed
-
+    
     try:
         # RFID setup
         reader = SimpleMFRC522()
@@ -67,8 +63,7 @@ def handle_rfid_scan():
         # Process scan only if the flag is True
         if scan_processed:
             # API check RFID
-            response_check_rfid = requests.post(
-                url_check_rfid, data={'rfid': rfid_uid})
+            response_check_rfid = requests.post(url_check_rfid, data={'rfid': rfid_uid})
             if response_check_rfid.status_code == 200:
                 print("RFID is registered in the database.")
                 print("RFID Number:", rfid_uid)
@@ -76,17 +71,16 @@ def handle_rfid_scan():
                 points = response_check_rfid.json().get('points', 0)
 
                 print("Points:", points)
-
+                
                 # Update the global points variable
-                global_points = points
+                global_points = points  
 
                 # Update points on the UI
                 update_points()
 
                 # Rest of the code for processing when RFID is registered...
             else:
-                print("RFID is not registered in the database. Attempt",
-                      current_attempt)
+                print("RFID is not registered in the database. Attempt", current_attempt)
                 # Additional actions when RFID is not registered...
 
             # Set the flag to False to prevent further scans until the next update
@@ -103,34 +97,79 @@ def handle_rfid_scan():
         # Cleanup GPIO after RFID operations
         GPIO.cleanup()
 
+# Handle RFID scan in get points
+def handle_rfid_scan_get_points():
+    global global_points, scan_processed
+    
+    try:
+        # RFID setup
+        reader = SimpleMFRC522()
+
+        # RFID read
+        id, text = reader.read()
+        rfid_uid = format(id, 'x')[:-2]
+
+        # Process scan only if the flag is True
+        if scan_processed:
+            # API check RFID
+            response_check_rfid = requests.post(url_check_rfid, data={'rfid': rfid_uid})
+            if response_check_rfid.status_code == 200:
+                print("RFID is registered in the database.")
+                print("RFID Number:", rfid_uid)
+                # Extract points information from the API response
+                points = response_check_rfid.json().get('points', 0)
+
+                print("Points:", points)
+                
+                # Update the global points variable
+                global_points = points  
+
+                # Update points on the UI
+                update_points()
+
+                # Rest of the code for processing when RFID is registered...
+            else:
+                print("RFID is not registered in the database. Attempt", current_attempt)
+                # Additional actions when RFID is not registered...
+
+            # Set the flag to False to prevent further scans until the next update
+            scan_processed = True
+
+    except KeyboardInterrupt:
+        print("KeyboardInterrupt. Exiting...")
+
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        # Additional error handling if needed
+
+    finally:
+        # Cleanup GPIO after RFID operations
+        GPIO.cleanup()
+        app.after(1000, process_plastic_bottles)
+
 # Function to exit the program
-
-
 def exit_program():
     print("Exiting program...")
     app.destroy()
 
 # Function to get the script's directory
-
-
 def get_script_directory():
     return os.path.dirname(os.path.abspath(__file__))
 
 # Function to construct a relative path to an image file
-
-
 def get_image_path(image_filename):
     return os.path.join(get_script_directory(), image_filename)
 
-
+# Testing
 def trigger_script():
     os.system('python hello.py')
 
-
+# Trigger claim points
 def claim_points():
     os.system('python hello.py')
 
 
+# DESTROY ELEMENTS
 def destroy_elements_scan_rfid():
     revendo_logo.place_forget()
     get_points_button.place_forget()
@@ -142,7 +181,6 @@ def destroy_elements_scan_rfid():
 
     menu()
 
-
 def destroy_elements_tutorial():
     revendo_logo.place_forget()
     get_points_button.place_forget()
@@ -152,7 +190,6 @@ def destroy_elements_tutorial():
 
     menu()
 
-
 def destroy_elements_process():
     revendo_logo.place_forget()
     get_points_button.place_forget()
@@ -161,7 +198,7 @@ def destroy_elements_process():
     background_label
     your_balance_header.place_forget()
     image_label_process.place_forget()
-    balance_text.place_forget()
+    points_entry.place_forget()
     largebottle_text.place_forget()
     smallbottle_text.place_forget()
     totalplasticbottle_text.place_forget()
@@ -170,9 +207,10 @@ def destroy_elements_process():
     smallbottle_text.place_forget()
     cancel_button.place_forget()
     claim_button.place_forget()
+    
+    points_var.set(str(""))
 
     menu()
-
 
 def destroy_elements_check_points():
     balance_header.place_forget()
@@ -181,19 +219,18 @@ def destroy_elements_check_points():
 
     menu()
 
-
 def destroy_elements_check_balance():
     tutorial_header.place_forget()
     image_label.place_forget()
     balance_label.place_forget()
     points_entry.place_forget()
     okay_button.place_forget()
-
+    
     points_var.set(str(""))
-
+    
     menu()
 
-
+# Get points scan rfid
 def get_points_scan_rfid_page():
     global revendo_logo, get_points_button, check_balance_button, image_button, image_label, new_button, tutorial_header, tutorial_steps, button
 
@@ -219,10 +256,12 @@ def get_points_scan_rfid_page():
     get_points_button.place_forget()
     check_balance_button.place_forget()
     image_button.place_forget()
+    
+    app.after(1000, handle_rfid_scan_get_points)
 
-
+# Process plastic bottle page
 def process_plastic_bottles():
-    global your_balance_header, image_label_process, largebottle_text, balance_text, smallbottle_text, totalplasticbottle_text, mediumbottle_text, totalpoints_text, smallbottle_text, cancel_button, claim_button
+    global your_balance_header, image_label_process, largebottle_text, balance_text, smallbottle_text, totalplasticbottle_text, mediumbottle_text, totalpoints_text, smallbottle_text, cancel_button, claim_button, points_entry
 
     your_balance_header = tk.Label(
         app, text="Balance", font=("Arial", 24), bg='#8599e0', fg='white')
@@ -236,19 +275,10 @@ def process_plastic_bottles():
     image_label_process.image = photo
     image_label_process.place(relx=0.3, rely=0.55, anchor='center')
 
-    balance_text = tk.Entry(app, state='disabled', font=(
-        "Arial", 16), bg='#f0f0f0', justify='center')
-    balance_text.insert(0, "Your balance")
-    balance_text.place(relx=0.6, rely=0.1, anchor='center',
-                       width=400, height=40)
-
-    # Simulating adding a value to the balance
-    # Assume the balance value is retrieved from a function or variable
-    balance_value = 465464  # Example value
-    balance_text.config(state='normal')
-    balance_text.delete(0, 'end')  # Clear the current value
-    balance_text.insert(0, str(balance_value))  # Insert the new value
-    balance_text.config(state='disabled')
+    # Entry (textbox) to display points
+    points_entry = Entry(app, textvariable=points_var, font=("Helvetica", 16), state='readonly', readonlybackground='white', justify='center')
+    points_entry.place(relx=0.5, rely=0.1, anchor='center',
+                     width=300, height=40)
 
     largebottle_text = tk.Entry(app, state='disabled', font=(
         "Arial", 16), bg='#f0f0f0', justify='center')
@@ -329,17 +359,6 @@ def process_plastic_bottles():
     image_label.place_forget()
     new_button.place_forget()
 
-
-def update_balance_text(balance_value):
-    # Implement this function to update the balance_text widget with the provided balance_value
-    pass
-
-
-def check_balance():
-    # Call check_balance.py using subprocess
-    subprocess.Popen(['python', 'check_balance.py'])
-
-
 def check_points_scan_rfid_page():
     global revendo_logo, get_points_button, check_balance_button, image_button, image_label, new_button, tutorial_header, tutorial_steps, button, balance_label, points_entry, okay_button
 
@@ -354,18 +373,16 @@ def check_points_scan_rfid_page():
     image_label = tk.Label(app, image=photo)
     image_label.image = photo
     image_label.place(relx=0.5, rely=0.4, anchor='center')
-
+    
     # Label to display "Balance"
-    balance_label = Label(app, text="Your Balance", font=(
-        "Helvetica", 14), bg='#8599e0', fg='white')
+    balance_label = Label(app, text="Your Balance", font=("Helvetica", 14), bg='#8599e0', fg='white')
     balance_label.place(relx=0.5, rely=0.6, anchor='center',
-                        width=250, height=40)
+                     width=250, height=40)
 
     # Entry (textbox) to display points
-    points_entry = Entry(app, textvariable=points_var, font=(
-        "Helvetica", 16), state='readonly', readonlybackground='white', justify='center')
+    points_entry = Entry(app, textvariable=points_var, font=("Helvetica", 16), state='readonly', readonlybackground='white', justify='center')
     points_entry.place(relx=0.5, rely=0.7, anchor='center',
-                       width=250, height=40)
+                     width=250, height=40)
 
     # Okay button
     okay_button = tk.Button(app, text="Okay", font=(
@@ -380,31 +397,8 @@ def check_points_scan_rfid_page():
     image_button.place_forget()
 
     # Trigger RFID scan explicitly
-    # handle_rfid_scan()
+    #handle_rfid_scan()
     app.after(1000, handle_rfid_scan)
-
-
-def show_image_modal():
-    # Load the image for the pop-up
-    modal_image_path = get_image_path("rfid-reader1.jpg")
-    modal_img = Image.open(modal_image_path)
-    modal_img = modal_img.resize((300, 200))
-    modal_photo = ImageTk.PhotoImage(modal_img)
-
-    # Create a Toplevel window for the modal
-    modal_window = tk.Toplevel(app)
-    modal_window.title("Scan your ReVendo Card")
-
-    # Set the image in a Label widget
-    modal_image_label = tk.Label(modal_window, image=modal_photo)
-    modal_image_label.image = modal_photo
-    modal_image_label.pack()
-
-    # Add an "OK" button to close the modal
-    ok_button = tk.Button(modal_window, text="OK",
-                          command=modal_window.destroy)
-    ok_button.pack()
-
 
 def check_points_page():
     global balance_header, balance_text, button, global_points, balance_label, points_entry, okay_button
@@ -412,6 +406,11 @@ def check_points_page():
     balance_header = tk.Label(app, text="Your Balance", font=(
         "Arial", 24), bg='#8599e0', fg='white')
     balance_header.place(relx=0.5, rely=0.4, anchor='center')
+    
+    # Entry (textbox) to display points
+    points_entry = Entry(app, textvariable=points_var, font=("Helvetica", 16), state='readonly', readonlybackground='white', bg='#8599e0', justify='center')
+    points_entry.place(relx=0.5, rely=0.5, anchor='center',
+                     width=400, height=40)
 
     balance_text = tk.Entry(app, state='disabled', font=(
         "Arial", 16), bg='#8599e0', justify='center')
@@ -430,13 +429,31 @@ def check_points_page():
     new_button.place_forget()
     image_label.place_forget()
 
+def show_image_modal():
+    # Load the image for the pop-up
+    modal_image_path = get_image_path("rfid-reader1.jpg")
+    modal_img = Image.open(modal_image_path)
+    modal_img = modal_img.resize((300, 200))
+    modal_photo = ImageTk.PhotoImage(modal_img)
+
+    # Create a Toplevel window for the modal
+    modal_window = tk.Toplevel(app)
+    modal_window.title("Scan your ReVendo Card")
+
+    # Set the image in a Label widget
+    modal_image_label = tk.Label(modal_window, image=modal_photo)
+    modal_image_label.image = modal_photo
+    modal_image_label.pack()
+
+    # Add an "OK" button to close the modal
+    ok_button = tk.Button(modal_window, text="OK", command=modal_window.destroy)
+    ok_button.pack()
 
 def update_balance_text(value):
     balance_text.config(state='normal')
     balance_text.delete(0, 'end')  # Clear the current value
     balance_text.insert(0, str(value))  # Insert the new value
     balance_text.config(state='disabled')
-
 
 def tutorial_page():
     global revendo_logo, label, get_points_button, check_balance_button, image_button, image_label, new_button, tutorial_header, tutorial_steps, button, image_tutorial, image_tutorial_path
@@ -495,7 +512,6 @@ def menu():
     image_button.image = photo_button
     image_button.place(relx=0.5, rely=0.75, anchor='center')
 
-
 # Maximum number of attempts allowed
 max_attempts = 3
 current_attempt = 1
@@ -516,8 +532,8 @@ background_label = tk.Label(app, image=background_image)
 background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
 # Set the application to run in full screen - uncomment this if you are in raspberry pi
-# app.attributes('-fullscreen', True)
-# app.wm_attributes('-fullscreen', True)
+#app.attributes('-fullscreen', True)
+#app.wm_attributes('-fullscreen', True)
 
 # Run the application
 menu()
