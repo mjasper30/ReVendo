@@ -9,6 +9,7 @@ import requests
 import time
 import RPi.GPIO as GPIO
 import math
+import cv2
 from ultralytics import YOLO
 from gpiozero import AngularServo, Device
 from gpiozero.pins.pigpio import PiGPIOFactory
@@ -20,13 +21,12 @@ url_update_data = "http://192.168.68.111:3001/addDataHistory"
 url_update_points = "http://192.168.68.111:3001/updatePoints"
 
 global_points = 0
+global_rfid = ""
 scan_processed = True  # Flag to indicate if a scan has been processed
 
 # Set up GPIO
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-buzzer_pin = 18
-GPIO.setup(buzzer_pin, GPIO.OUT)
 
 # Camera and object detection setup
 fov_vertical_degrees = 60
@@ -39,6 +39,11 @@ app.title("ReVendo")
 app.geometry("800x480")
 
 global_points = ""
+weight = 17
+height_cm = 5
+
+rfid_uid = ""
+check_more = True
 
 revendo_logo = None
 label = None
@@ -79,149 +84,164 @@ def calibration_test():
             file.write(str(ratio))
 
 
-def detect_weight():
-    # Weight check
-    # weight = hx.get_weight_mean()
-    # print(abs(int(weight)) - 344)
+def get_points_process():
+    global plastic_bottles_detected, total_small, total_medium, total_large, global_rfid, check_more
+    while check_more:
+        # Weight check
+        # weight = hx.get_weight_mean()
+        # print("Weight: ", abs(int(weight)) - 344)
 
-    # For weight value testing purposes
-    weight = 17  # Replace with actual weight reading
-    print(weight)
+        # For weight value testing purposes
+        weight = 17  # Replace with actual weight reading
+        print("Weight: ", weight)
 
-    # Check if the value of weight if greater than expected weight value
-    if abs(weight) >= 9:
-        GPIO.output(buzzer_pin, True)
-        time.sleep(0.2)
-        GPIO.output(buzzer_pin, False)
-        time.sleep(0.5)
-    else:
-        pass
-
-
-def yolo_process():
-    # Capturing of image script execution
-    subprocess.run(['bash', 'capture_image.sh'], check=True)
-
-    # Image processing
-    IMAGE_DIR = os.path.join('.', 'capture')
-    output_dir = os.path.join('.', 'output')
-    os.makedirs(output_dir, exist_ok=True)
-    model = YOLO(os.path.join('.', 'model', 'best4.pt'))
-    threshold, pixels_to_cm = 0.5, 0.0264583333
-
-    for image_file in [f for f in os.listdir(IMAGE_DIR) if f.endswith(('.jpg', '.png', '.jpeg'))]:
-        image_path = os.path.join(IMAGE_DIR, image_file)
-        frame = cv2.imread(image_path)
-        image_height = frame.shape[0]
-        fov_vertical_radians = math.radians(fov_vertical_degrees)
-        height_cm = int(
-            (image_height / frame.shape[0]) * distance * math.tan(fov_vertical_radians / 2) * 2)
-        results = model(frame)[0]
-
-        for result in results.boxes.data.tolist():
-            x1, y1, x2, y2, score, class_id = result
-            if score > threshold:
-                plastic_bottles_detected += 1
-                height_cm = int((y2 - y1) * pixels_to_cm)
-                cv2.rectangle(frame, (int(x1), int(y1)),
-                              (int(x2), int(y2)), (0, 255, 0), 4)
-                text = f'Height: {height_cm} '
-                cv2.putText(frame, text, (int(x2) + 10, int(y1) + 30),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
-                class_label = results.names[int(class_id)].upper()
-                cv2.putText(frame, class_label, (int(x1), int(
-                    y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
-
-        output_image_path = os.path.join(output_dir, image_file)
-        cv2.imwrite(output_image_path, frame)
-        print("Object detection on images completed.")
-        print(height_cm)
-
-
-def object_classification():
-    # Object classification
-    size_of_object = ""
-    if weight <= 0 or height_cm == 21:
-        size_of_object = "No Object"
-        height_cm = 0
-        GPIO.output(buzzer_pin, True)
-        time.sleep(0.5)
-        GPIO.output(buzzer_pin, False)
-    elif weight >= 57:
-        size_of_object = "Heavy Object"
-        height_cm = 0
-    elif weight <= 8:
-        size_of_object = "Light Object"
-        height_cm = 0
-        GPIO.output(buzzer_pin, True)
-        time.sleep(0.5)
-        GPIO.output(buzzer_pin, False)
-    elif height_cm >= 8:
-        total_large += 1
-        size_of_object = "Large"
-        GPIO.output(buzzer_pin, True)
-        time.sleep(0.2)
-        GPIO.output(buzzer_pin, False)
-        servo.angle = 90
-        time.sleep(2)
-    elif height_cm >= 5:
-        total_medium += 1
-        size_of_object = "Medium"
-        GPIO.output(buzzer_pin, True)
-        time.sleep(0.2)
-        GPIO.output(buzzer_pin, False)
-        servo.angle = 90
-        time.sleep(2)
-    elif height_cm >= 2:
-        total_small += 1
-        size_of_object = "Small"
-        GPIO.output(buzzer_pin, True)
-        time.sleep(0.2)
-        GPIO.output(buzzer_pin, False)
-        servo.angle = 90
-        time.sleep(2)
-
-
-def reset_servo():
-    # Reset servo angle
-    servo.angle = 0
-    time.sleep(2)
-
-
-def insert_data():
-    # API send data
-    data = {'rfid': rfid_uid, 'height': height_cm, 'weight': int(
-        weight), 'size': size_of_object, 'no_object': 'no' if not results.boxes.data.tolist() else 'yes'}
-    files = {'image': open(image_path, 'rb')}
-    response_update_data = requests.post(
-        url_update_data, data=data, files=files)
-    if response_update_data.status_code == 200:
-        print("Data sent to the server successfully.")
-    else:
-        print("Failed to send data to the server.")
-
-
-def do_you_want_to_continue():
-    # User prompt to continue
-    choice = input("Do you want to continue (y/n)? ")
-    if choice.lower() != "y":
-        print("Total Small Plastic Bottle:", total_small)
-        print("Total Medium Plastic Bottle:", total_medium)
-        print("Total Large Plastic Bottle:", total_large)
-        print("Total Plastic Bottles Detected:", plastic_bottles_detected)
-        total_points = (total_large * 3) + (total_medium * 2) + total_small
-        print("Total Points:", total_points)
-
-        # API update points
-        data_to_update_points = {'rfid': rfid_uid,
-                                 'additionalPoints': total_points}
-        response_update_points = requests.post(
-            url_update_points, json=data_to_update_points)
-
-        if response_update_points.status_code == 200:
-            print("Points updated in the database successfully.")
+        # Check if the value of weight if greater than expected weight value
+        if abs(weight) >= 9:
+            print("The object has been place on loadcell")
         else:
-            print("Failed to update points in the database.")
+            continue
+
+        # Capturing of image script execution
+        subprocess.run(['bash', 'capture_image.sh'], check=True)
+
+        # Image processing
+        IMAGE_DIR = os.path.join('.', 'capture')
+        output_dir = os.path.join('.', 'output')
+        os.makedirs(output_dir, exist_ok=True)
+        model = YOLO(os.path.join('.', 'model', 'best4.pt'))
+        threshold, pixels_to_cm = 0.5, 0.0264583333
+
+        for image_file in [f for f in os.listdir(IMAGE_DIR) if f.endswith(('.jpg', '.png', '.jpeg'))]:
+            image_path = os.path.join(IMAGE_DIR, image_file)
+            frame = cv2.imread(image_path)
+            image_height = frame.shape[0]
+            fov_vertical_radians = math.radians(fov_vertical_degrees)
+            height_cm = int(
+                (image_height / frame.shape[0]) * distance * math.tan(fov_vertical_radians / 2) * 2)
+            results = model(frame)[0]
+
+            for result in results.boxes.data.tolist():
+                x1, y1, x2, y2, score, class_id = result
+                if score > threshold:
+                    plastic_bottles_detected += 1
+                    height_cm = int((y2 - y1) * pixels_to_cm)
+                    cv2.rectangle(frame, (int(x1), int(y1)),
+                                  (int(x2), int(y2)), (0, 255, 0), 4)
+                    text = f'Height: {height_cm} '
+                    cv2.putText(frame, text, (int(x2) + 10, int(y1) + 30),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
+                    class_label = results.names[int(class_id)].upper()
+                    cv2.putText(frame, class_label, (int(x1), int(
+                        y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
+
+            output_image_path = os.path.join(output_dir, image_file)
+            cv2.imwrite(output_image_path, frame)
+            print("Object detection on images completed.")
+            print("Height: ", height_cm)
+
+            # Object classification
+            size_of_object = ""
+            weight = 59
+            height_cm = 9
+            if weight <= 0 or height_cm == 21:
+                size_of_object = "No Object"
+                print(size_of_object)
+                height_cm = 0
+            elif weight >= 57:
+                size_of_object = "Heavy Object"
+                print(size_of_object)
+                height_cm = 0
+            elif weight <= 8:
+                size_of_object = "Light Object"
+                print(size_of_object)
+                height_cm = 0
+            elif height_cm >= 8:
+                total_large += 1
+                size_of_object = "Large"
+                # servo.angle = 90
+                time.sleep(2)
+            elif height_cm >= 5:
+                total_medium += 1
+                size_of_object = "Medium"
+                print(size_of_object)
+                # servo.angle = 90
+                time.sleep(2)
+            elif height_cm >= 2:
+                total_small += 1
+                size_of_object = "Small"
+                print(size_of_object)
+                # servo.angle = 90
+                time.sleep(2)
+
+            # Claim Points - API send data
+            data = {'rfid': global_rfid, 'height': height_cm, 'weight': int(
+                weight), 'size': size_of_object, 'no_object': 'no' if not results.boxes.data.tolist() else 'yes'}
+            files = {'image': open(image_path, 'rb')}
+            response_update_data = requests.post(
+                url_update_data, data=data, files=files)
+            if response_update_data.status_code == 200:
+                print("Data sent to the server successfully.")
+            else:
+                print("Failed to send data to the server.")
+
+            # Reset servo angle
+            # servo.angle = 0
+            # time.sleep(2)
+
+            # User prompt to continue
+            choice = input("Do you want to continue (y/n)? ")
+            if choice.lower() != "y":
+                print("Total Small Plastic Bottle:", total_small)
+                print("Total Medium Plastic Bottle:", total_medium)
+                print("Total Large Plastic Bottle:", total_large)
+                print("Total Plastic Bottles Detected:",
+                      plastic_bottles_detected)
+                total_points = (total_large * 3) + \
+                    (total_medium * 2) + total_small
+                print("Total Points:", total_points)
+
+                # API update points
+                data_to_update_points = {
+                    'rfid': global_rfid, 'additionalPoints': total_points}
+                response_update_points = requests.post(
+                    url_update_points, json=data_to_update_points)
+
+                if response_update_points.status_code == 200:
+                    print("Points updated in the database successfully.")
+                    check_more = False
+                    app.after(100, destroy_elements_process)
+                else:
+                    print("Failed to update points in the database.")
+                    check_more = False
+                    app.after(100, destroy_elements_process)
+
+# Trigger claim points
+
+
+def claim_points():
+    global check_more, total_small, total_medium, total_large, plastic_bottles_detected, total_points
+
+    print("Total Small Plastic Bottle:", total_small)
+    print("Total Medium Plastic Bottle:", total_medium)
+    print("Total Large Plastic Bottle:", total_large)
+    print("Total Plastic Bottles Detected:", plastic_bottles_detected)
+    total_points = (total_large * 3) + (total_medium * 2) + total_small
+    print("Total Points:", total_points)
+
+    # API update points
+    data_to_update_points = {'rfid': global_rfid,
+                             'additionalPoints': total_points}
+    response_update_points = requests.post(
+        url_update_points, json=data_to_update_points)
+
+    if response_update_points.status_code == 200:
+        print("Points updated in the database successfully.")
+        check_more = False
+        app.after(100, destroy_elements_process)
+    else:
+        print("Failed to update points in the database.")
+        check_more = False
+        app.after(100, destroy_elements_process)
 
 # Function to update points on the UI
 
@@ -235,7 +255,7 @@ def update_points():
 
 
 def handle_rfid_scan():
-    global global_points, scan_processed
+    global global_points, scan_processed, global_rfid
 
     try:
         # RFID setup
@@ -244,6 +264,9 @@ def handle_rfid_scan():
         # RFID read
         id, text = reader.read()
         rfid_uid = format(id, 'x')[:-2]
+
+        # Update the global rfid variable
+        global_rfid = rfid_uid
 
         # Process scan only if the flag is True
         if scan_processed:
@@ -288,7 +311,7 @@ def handle_rfid_scan():
 
 
 def handle_rfid_scan_get_points():
-    global global_points, scan_processed
+    global global_points, scan_processed, global_rfid
 
     try:
         # RFID setup
@@ -297,6 +320,9 @@ def handle_rfid_scan_get_points():
         # RFID read
         id, text = reader.read()
         rfid_uid = format(id, 'x')[:-2]
+
+        # Update the global rfid variable
+        global_rfid = rfid_uid
 
         # Process scan only if the flag is True
         if scan_processed:
@@ -363,14 +389,9 @@ def get_image_path(image_filename):
 def trigger_script():
     os.system('python hello.py')
 
-# Trigger claim points
-
-
-def claim_points():
-    os.system('python hello.py')
-
-
 # DESTROY ELEMENTS
+
+
 def destroy_elements_scan_rfid():
     revendo_logo.place_forget()
     get_points_button.place_forget()
@@ -394,6 +415,8 @@ def destroy_elements_tutorial():
 
 
 def destroy_elements_process():
+    global check_more
+
     revendo_logo.place_forget()
     get_points_button.place_forget()
     check_balance_button.place_forget()
@@ -412,6 +435,7 @@ def destroy_elements_process():
     claim_button.place_forget()
 
     points_var.set(str(""))
+    check_more = True
 
     menu()
 
@@ -568,6 +592,8 @@ def process_plastic_bottles():
     tutorial_header.place_forget()
     image_label.place_forget()
     new_button.place_forget()
+
+    app.after(1000, get_points_process)
 
 
 def check_points_scan_rfid_page():
@@ -753,7 +779,7 @@ background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
 # Set the application to run in full screen - uncomment this if you are in raspberry pi
 # app.attributes('-fullscreen', True)
-# app.wm_attributes('-fullscreen', True)
+app.wm_attributes('-fullscreen', True)
 
 # Run the application
 menu()
