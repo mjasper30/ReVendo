@@ -59,7 +59,7 @@ void setup() {
   pinMode(buttonDecrementPin, INPUT_PULLUP);
   pinMode(buttonOkayPin, INPUT_PULLUP);
 
-  Serial.print("Scan you RFID Card");
+  Serial.println("Scan you RFID Card");
 }
 
 void loop() {
@@ -101,7 +101,7 @@ void timer() {
 
   if (seconds == 0 && minutes == 0) {
     Serial.println("Charging is now timeout!");
-    Serial.print("Scan you RFID Card");
+    Serial.println("Scan you RFID Card");
     // Additional actions when the timer reaches 0:00 can be added here
     countdownStarted = false;  // Reset the countdown flag
     number = 0;
