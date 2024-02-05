@@ -216,6 +216,27 @@ app.delete("/api/rfid/:id", (req, res) => {
   });
 });
 
+// API endpoint for checking balance
+app.post("/check_balance", (req, res) => {
+  const { rfid } = req.body;
+
+  const query = `SELECT points FROM rfid WHERE rfid_number = '${rfid}'`;
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error("Error executing MySQL query:", err);
+      res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      if (result.length > 0) {
+        const points = result[0].points;
+        res.json(points);
+      } else {
+        res.status(404).json({ error: "RFID not found" });
+      }
+    }
+  });
+});
+
 // Read RFID to check if RFID is exist in the database
 app.post("/check_rfid", (req, res) => {
   const rfidUID = req.body.rfid;
@@ -334,6 +355,35 @@ app.post("/updatePoints", (req, res) => {
         db.query(
           "UPDATE rfid SET points = ? WHERE rfid_number = ?",
           [updatedPoints, rfid],
+          (updateError) => {
+            if (updateError) throw updateError;
+
+            res.status(200).send("Points updated successfully.");
+          }
+        );
+      }
+    }
+  );
+});
+
+app.post("/minusPoints", (req, res) => {
+  const { rfid, updatedBalance } = req.body;
+
+  // Retrieve current points from the database
+  db.query(
+    "SELECT points FROM rfid WHERE rfid_number = ?",
+    [rfid],
+    (error, results) => {
+      if (error) throw error;
+
+      if (results.length === 0) {
+        // RFID not found, handle accordingly
+        res.status(404).send("RFID not found.");
+      } else {
+        // Update points in the database
+        db.query(
+          "UPDATE rfid SET points = ? WHERE rfid_number = ?",
+          [updatedBalance, rfid],
           (updateError) => {
             if (updateError) throw updateError;
 

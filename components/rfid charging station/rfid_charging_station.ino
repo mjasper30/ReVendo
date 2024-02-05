@@ -1,36 +1,255 @@
-#include <SPI.h>
+/*
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# RFID MFRC522 / RC522 Library : https://github.com/miguelbalboa/rfid # 
+#                                                                     # 
+#                 Installation :                                      # 
+# NodeMCU ESP8266/ESP12E    RFID MFRC522 / RC522                      #
+#         D8       <---------->   SDA/SS                              #
+#         D5       <---------->   SCK                                 #
+#         D7       <---------->   MOSI                                #
+#         D6       <---------->   MISO                                #
+#         GND      <---------->   GND                                 #
+#         D4       <---------->   RST                                 #
+#         3V/3V3   <---------->   3.3V                                #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+*/
+
+#include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
 #include <MFRC522.h>
+#include <ArduinoJson.h>
 
-#define SS_PIN 4  // Define the SS (Slave Select) pin
-#define RST_PIN 5 // Define the RST pin
+#define RST_PIN   D4
+#define SS_PIN    D8
 
-MFRC522 mfrc522(SS_PIN, RST_PIN); // Create MFRC522 instance
+const char* ssid = "seedsphere";
+const char* password = "YssabelJane25*";
+
+MFRC522 mfrc522(SS_PIN, RST_PIN);
+
+const int buttonIncrementPin = D1;  // Connect the increment button to GPIO pin D1
+const int buttonDecrementPin = D2;  // Connect the decrement button to GPIO pin D2
+const int buttonOkayPin = D3;
+
+int number = 0;  // The number to be incremented and decremented
+int points = 12;
+String rfidUID = "";
+int process_number = 1;
+String response = "";
+
+const char* serverName = "http://192.168.68.111:3001/check_balance"; // Replace with your server address
+const char* serverName_1 = "http://192.168.68.111:3001/minusPoints";
+
+WiFiClient client;
+HTTPClient http;
+
+unsigned long startTime;
+unsigned long elapsedTime;
 
 void setup() {
   Serial.begin(115200);
-  SPI.begin();      // Initiate SPI bus
-  mfrc522.PCD_Init(); // Initiate MFRC522
-  Serial.println("RFID Read and Display");
+
+  // Connect to Wi-Fi
+  connectToWiFi();
+
+  SPI.begin();
+  mfrc522.PCD_Init();
+
+  pinMode(buttonIncrementPin, INPUT_PULLUP);
+  pinMode(buttonDecrementPin, INPUT_PULLUP);
+  pinMode(buttonOkayPin, INPUT_PULLUP);
 }
 
 void loop() {
-  // Look for new cards
-  if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
-    // Print UID
-    Serial.print("Card UID: ");
-    dump_byte_array(mfrc522.uid.uidByte, mfrc522.uid.size);
-    Serial.println();
-
-    // Halt PICC
-    mfrc522.PICC_HaltA();
-    // Stop encryption on PCD
-    mfrc522.PCD_StopCrypto1();
+  if(process_number == 1){
+    RFID_Scan();
+  }else if(process_number == 2){
+    choosePoints();
+  }else if(process_number == 3){
+    timer();
   }
 }
 
-void dump_byte_array(byte *buffer, byte bufferSize) {
-  for (byte i = 0; i < bufferSize; i++) {
-    Serial.print(buffer[i] < 0x10 ? " 0" : " ");
-    Serial.print(buffer[i], HEX);
+void timer() {
+  const unsigned long countdownDuration = 5 * 60 * 1000;  // 5 minutes in milliseconds
+  static bool countdownStarted = false;  // Variable to track if the countdown has started
+  if (!countdownStarted) {
+    startTime = millis();  // Start the countdown only once
+    countdownStarted = true;
   }
+
+  elapsedTime = millis() - startTime;  // Calculate elapsed time
+
+  // Calculate remaining time
+  unsigned long remainingTime = countdownDuration - elapsedTime;
+  
+
+  // Convert remaining time to minutes and seconds
+  unsigned int minutes = remainingTime * number / 60000;
+  unsigned int seconds = (remainingTime % 60000) / 1000;
+
+  // Print the timer in the format MM:SS
+  Serial.print("Time Remaining: ");
+  Serial.print(minutes);
+  Serial.print(":");
+  if (seconds < 10) {
+    Serial.print("0");  // Add leading zero for single-digit seconds
+  }
+  Serial.println(seconds);
+
+  if (seconds == 0 && minutes == 0) {
+    Serial.println("Finish");
+    // Additional actions when the timer reaches 0:00 can be added here
+    countdownStarted = false;  // Reset the countdown flag
+    number = 0;
+    rfidUID = "";
+    process_number = 1;  // Reset process_number to go back to RFID scanning
+  }
+
+  delay(1000);  // Update the timer every second
+}
+
+
+void RFID_Scan(){
+  if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) {
+    delay(50);
+    return;
+  }
+
+  MFRC522::PICC_Type piccType = mfrc522.PICC_GetType(mfrc522.uid.sak);
+
+  if (piccType != MFRC522::PICC_TYPE_MIFARE_MINI &&
+      piccType != MFRC522::PICC_TYPE_MIFARE_1K &&
+      piccType != MFRC522::PICC_TYPE_MIFARE_4K) {
+    Serial.println("Unsupported card");
+    return;
+  }
+
+  for (byte i = 0; i < mfrc522.uid.size; i++) {
+    rfidUID += String(mfrc522.uid.uidByte[i] < 0x10 ? "0" : "");
+    rfidUID += String(mfrc522.uid.uidByte[i], HEX);
+  }
+
+  Serial.print("RFID UID: ");
+  Serial.println(rfidUID);
+
+  checkBalance();
+
+  //Reset RFID Number
+  process_number = 2;
+
+  mfrc522.PICC_HaltA();
+  mfrc522.PCD_StopCrypto1();
+}
+
+void checkBalance(){
+  if (WiFi.status() == WL_CONNECTED) {
+    http.begin(client, serverName);
+    http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    String httpRequestData = "rfid=" + rfidUID;
+
+    int httpResponseCode = http.POST(httpRequestData);
+    if (httpResponseCode > 0) {
+      response = http.getString();
+      Serial.println(httpResponseCode);
+      Serial.println(response);
+    } else {
+      Serial.print("Error on sending POST: ");
+      Serial.println(httpResponseCode);
+    }
+    http.end();
+  } else {
+    Serial.println("Error in WiFi connection");
+  }
+}
+
+void updateBalance(int updateAmount){
+  int updatedBalance = response.toInt() - updateAmount;
+
+  if (WiFi.status() == WL_CONNECTED) {
+    http.begin(client, serverName_1);
+    http.addHeader("Content-Type", "application/json");  // Update Content-Type to JSON
+
+    // Create a JSON object to hold the data
+    DynamicJsonDocument jsonDocument(200);
+    jsonDocument["rfid"] = rfidUID;
+    jsonDocument["updatedBalance"] = updatedBalance; // Assuming 'additionalPoints' is the field expected on the server
+
+    // Serialize the JSON document to a string
+    String jsonString;
+    serializeJson(jsonDocument, jsonString);
+
+    // Send the POST request with the JSON data
+    int httpResponseCode = http.POST(jsonString);
+
+    if (httpResponseCode > 0) {
+      response = http.getString();
+      Serial.println(httpResponseCode);
+      Serial.println(response);
+    } else {
+      Serial.print("Error on sending POST: ");
+      Serial.println(httpResponseCode);
+    }
+    http.end();
+  } else {
+    Serial.println("Error in WiFi connection");
+  }
+}
+
+void choosePoints(){
+  int balance = response.toInt();
+  if (balance >= number) {
+    if (number == 0) {
+      if (digitalRead(buttonIncrementPin) == LOW) {
+        incrementNumber();
+        delay(200);  // Debounce delay
+      }
+    } else {
+      if (digitalRead(buttonDecrementPin) == LOW) {
+        decrementNumber();
+        delay(200);  // Debounce delay
+      }
+      if (digitalRead(buttonIncrementPin) == LOW) {
+        incrementNumber();
+        delay(200);  // Debounce delay
+      }
+      if (digitalRead(buttonOkayPin) == LOW) {
+        process_number = 3;
+        updateBalance(number);
+        delay(200);  // Debounce delay
+      }
+    }
+    Serial.println("Balance: " + String(response));
+    Serial.println("Charge Points: " + String(number));
+  } else if (balance <= number) {
+    if (digitalRead(buttonDecrementPin) == LOW) {
+      decrementNumber();
+      delay(200);  // Debounce delay
+    }
+  } else {
+    Serial.println("You can't exceed to do that the points you have");
+  }
+}
+
+void incrementNumber() {
+  number++;
+}
+
+void decrementNumber() {
+  number--;
+}
+
+void connectToWiFi() {
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
 }
