@@ -25,7 +25,9 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 
 const char* ssid = "seedsphere";
 const char* password = "YssabelJane25*";
-const char* serverName = "http://192.168.68.113/Revendo/receiveRFID.php"; // replace with your server endpoint
+// const char* serverName = "http://192.168.68.113/Revendo/receiveRFID.php"; // replace with your server endpoint
+const char* serverName = "http://192.168.68.111:3001/rfid"; // Replace with your server address
+
 
 WiFiClient client;
 HTTPClient http;
