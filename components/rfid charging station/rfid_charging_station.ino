@@ -18,18 +18,20 @@
 #include <ESP8266HTTPClient.h>
 #include <MFRC522.h>
 #include <ArduinoJson.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 
-#define RST_PIN   D4
-#define SS_PIN    D8
+#define RST_PIN   D3
+#define SS_PIN    D4
 
 const char* ssid = "seedsphere";
 const char* password = "YssabelJane25*";
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
-const int buttonIncrementPin = D1;  // Connect the increment button to GPIO pin D1
-const int buttonDecrementPin = D2;  // Connect the decrement button to GPIO pin D2
-const int buttonOkayPin = D3;
+const int buttonIncrementPin = D0;  // Connect the increment button to GPIO pin D1
+const int buttonDecrementPin = D8;  // Connect the decrement button to GPIO pin D2
+// const int buttonOkayPin = D3;
 
 int number = 0;  // The number to be incremented and decremented
 int points = 12;
@@ -46,8 +48,13 @@ HTTPClient http;
 unsigned long startTime;
 unsigned long elapsedTime;
 
+LiquidCrystal_I2C lcd(0x27, 16, 2); // Set the LCD address to 0x27 for a 16 chars and 2 line display
+
 void setup() {
   Serial.begin(115200);
+  lcd.init();                       // Initialize the LCD
+  lcd.backlight();                  // Turn on the backlight
+  lcd.clear();                      // Clear the LCD screen
 
   // Connect to Wi-Fi
   connectToWiFi();
@@ -57,9 +64,12 @@ void setup() {
 
   pinMode(buttonIncrementPin, INPUT_PULLUP);
   pinMode(buttonDecrementPin, INPUT_PULLUP);
-  pinMode(buttonOkayPin, INPUT_PULLUP);
+  // pinMode(buttonOkayPin, INPUT_PULLUP);
 
-  Serial.println("Scan you RFID Card");
+  lcd.clear();
+  lcd.setCursor(0, 0);             // Set the cursor to the first column and first row
+  lcd.print("Scan RFID Card");     // Print some text
+  Serial.println("Scan RFID Card");
 }
 
 void loop() {
@@ -85,12 +95,11 @@ void timer() {
   // Calculate remaining time
   unsigned long remainingTime = countdownDuration - elapsedTime;
   
-
   // Convert remaining time to minutes and seconds
   unsigned int minutes = remainingTime * number / 60000;
   unsigned int seconds = (remainingTime % 60000) / 1000;
 
-  // Print the timer in the format MM:SS
+  // Print the timer in the format MM:SS to Serial
   Serial.print("Time Remaining: ");
   Serial.print(minutes);
   Serial.print(":");
@@ -99,9 +108,25 @@ void timer() {
   }
   Serial.println(seconds);
 
+  // Print the timer in the format MM:SS to LCD
+  lcd.clear();
+  lcd.setCursor(0, 0);             // Set the cursor to the first column and first row
+  lcd.print("Time Remaining: ");     // Print some text
+  lcd.setCursor(0, 1);
+  lcd.print(minutes);
+  lcd.print(":");
+  if (seconds < 10) {
+    lcd.print("0");  // Add leading zero for single-digit seconds on LCD
+  }
+  lcd.print(seconds);
+
   if (seconds == 0 && minutes == 0) {
+    lcd.clear();
+    lcd.setCursor(0, 0);             // Set the cursor to the first column and first row
+    lcd.print("Scan RFID Card");     // Print some text
+
     Serial.println("Charging is now timeout!");
-    Serial.println("Scan you RFID Card");
+    Serial.println("Scan RFID Card");
     // Additional actions when the timer reaches 0:00 can be added here
     countdownStarted = false;  // Reset the countdown flag
     number = 0;
@@ -217,7 +242,7 @@ void choosePoints(){
         incrementNumber();
         delay(200);  // Debounce delay
       }
-      if (digitalRead(buttonOkayPin) == LOW) {
+      if (digitalRead(buttonIncrementPin) == HIGH && digitalRead(buttonDecrementPin) == HIGH) {
         process_number = 3;
         updateBalance(number);
         delay(200);  // Debounce delay
@@ -225,6 +250,15 @@ void choosePoints(){
     }
     Serial.println("Balance: " + String(response));
     Serial.println("Charge Points: " + String(number));
+
+    // Print balance and charge points to LCD
+    lcd.clear();
+    lcd.setCursor(0, 0);  // Set the cursor to the first column and first row
+    lcd.print("Balance: ");
+    lcd.print(response);
+    lcd.setCursor(0, 1);  // Set the cursor to the first column and second row
+    lcd.print("Charge Pts: ");
+    lcd.print(number);
   } else if (balance <= number) {
     if (digitalRead(buttonDecrementPin) == LOW) {
       decrementNumber();
