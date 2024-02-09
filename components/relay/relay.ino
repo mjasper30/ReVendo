@@ -1,17 +1,16 @@
-// Include the necessary libraries
 #include <ESP8266WiFi.h>
 
 // Replace with your network credentials
-const char *ssid = "your-ssid";
-const char *password = "your-password";
+const char *ssid = "seedsphere";
+const char *password = "YssabelJane25*";
 
-// Define the GPIO pin connected to the relay
-const int relayPin = D1; // D1 is GPIO 5 on NodeMCU
+// Define the pins connected to the relay module
+const int relay1Pin = D1;  // GPIO pin for Relay 1
+const int relay2Pin = D2;  // GPIO pin for Relay 2
 
 void setup() {
-  // Start serial communication
   Serial.begin(115200);
-
+  
   // Connect to Wi-Fi
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
@@ -20,22 +19,35 @@ void setup() {
   }
   Serial.println("Connected to WiFi");
 
-  // Set the relay pin as an output
-  pinMode(relayPin, OUTPUT);
+  // Set relay pins as OUTPUT
+  pinMode(relay1Pin, OUTPUT);
+  pinMode(relay2Pin, OUTPUT);
+
+  // Initialize relays to OFF state
+  digitalWrite(relay1Pin, HIGH);  // HIGH is OFF for most relay modules
+  digitalWrite(relay2Pin, HIGH);
+
+  Serial.println("Initialization complete");
 }
 
 void loop() {
-  // Turn on the relay
-  digitalWrite(relayPin, HIGH);
-  Serial.println("Relay is ON");
+  // Your main code goes here
 
-  // Wait for 5 seconds
-  delay(5000);
+  // Example: Turn on Relay 1 for 2 seconds, then turn it off
+  digitalWrite(relay1Pin, LOW);  // LOW is ON for most relay modules
+  Serial.println("Relay 1 ON");
+  delay(2000);  // Wait for 2 seconds
+  digitalWrite(relay1Pin, HIGH);
+  Serial.println("Relay 1 OFF");
 
-  // Turn off the relay
-  digitalWrite(relayPin, LOW);
-  Serial.println("Relay is OFF");
+  // Repeat for Relay 2
+  digitalWrite(relay2Pin, LOW);
+  Serial.println("Relay 2 ON");
+  delay(2000);
+  digitalWrite(relay2Pin, HIGH);
+  Serial.println("Relay 2 OFF");
 
-  // Wait for 5 seconds before repeating
-  delay(5000);
+  // Your main code continues...
+
+  delay(5000);  // Delay between operations (5 seconds in this example)
 }
