@@ -4,7 +4,7 @@ ReVendo Machine
 * rfid design
 * rfid sticker print then ilagay sa card atleast (3 cards sample)
 * height measurement should be accurate based on distance
-* centralize all the data from the mysql database ng hosting
+*✅ centralize all the data from the mysql database ng hosting
 * finalize yung functionality ng nasa admin dashboard (backend stuffs)
 * ultrasonic sensor for capacity of the box
 * make sure sa desktop app is magrun yung nagawa na yolo:
@@ -23,9 +23,9 @@ ReVendo Machine
 - door mechanism bago ilagay yung bote dapat mag scan muna ng rfid (optional ata)
 
 Desktop App
-* Make it full screen as the app runs
-* Apply the backend in every page
-* making sure destroy elements is correct
+*✅ Make it full screen as the app runs
+*✅ Apply the backend in every page
+*✅ making sure destroy elements is correct
 
 Mobile App (Optional) 
 * Checking of balance of users
@@ -34,8 +34,8 @@ Mobile App (Optional)
 * Registration of RFID (kung mag kakaroon dapat may login sa web at kayang mag sign in si user.. kung ganon magkakaroon ren ng forgot password and verification of email)
 
 Charging Station
-* timer functionality
-* rfid functionality
+*✅ timer functionality
+*✅ rfid functionality
 * switching power mechanism using relay
 * solar panel for powering up the charging station
 
