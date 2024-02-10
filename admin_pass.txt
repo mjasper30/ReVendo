@@ -1,2 +1,0 @@
-email: revendo@gmail.com
-password: ReVendo2023!
