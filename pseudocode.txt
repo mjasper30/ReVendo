@@ -51,16 +51,22 @@ From the admin dashboard
 
 Charging Station
 
-Scan the card
+✅Scan the card
 
-Check if RFID is registered.
+✅Check if RFID is registered or not
 
-If not registered failed
+If not registered failed or no balance failed show on lcd
 
-If registered proceed to more process
+✅If registered proceed to more process
 
-Check the balance of the card
+✅Check the balance of the card
 
-If there no balance failed
+✅Tell user how many points want to use (Charge Pts)
 
-If there is balance switch the relay to connect the wires and add the timer based on the selected points to be charge
+✅If the user press OKAY BUTTON (Press 2 button at the same time or RFID this is the case because of limit of pins if NodeMCU ESP8266) update the balance to database (Balance - Charge Pts = Updated Balance)
+
+✅Start the timer based on Charge Pts. Charge Pts * 5 = Time Remaining (5 minutes = 1 point)
+
+Once the timer start open the relay to ON (Charging...)
+
+After the timer is over switch relay to OFF (Not Charging...)
