@@ -41,6 +41,11 @@ String response = "";
 
 const char* serverName = "http://192.168.68.111:3001/check_balance"; // Replace with your server address
 const char* serverName_1 = "http://192.168.68.111:3001/minusPoints";
+const char* serverName_2 = "http://192.168.68.111:3001/updateStation";
+
+// const char* serverName = "http://revendo-030702.et.r.appspot.com/check_balance"; // Replace with your server address
+// const char* serverName_1 = "http://revendo-030702.et.r.appspot.com/minusPoints";
+// const char* serverName_2 = "http://revendo-030702.et.r.appspot.com/updateStation";
 
 WiFiClient client;
 HTTPClient http;
@@ -186,7 +191,7 @@ void checkBalance(){
       Serial.print("Error on sending POST: ");
       Serial.println(httpResponseCode);
     }
-    http.end();
+    // http.end();
   } else {
     Serial.println("Error in WiFi connection");
   }
@@ -219,6 +224,37 @@ void updateBalance(int updateAmount){
       Serial.print("Error on sending POST: ");
       Serial.println(httpResponseCode);
     }
+    //http.end();
+  } else {
+    Serial.println("Error in WiFi connection");
+  }
+}
+
+void updateStation(int number) {
+  if (WiFi.status() == WL_CONNECTED) {
+    http.begin(client, serverName_2);
+    http.addHeader("Content-Type", "application/json");
+
+    // Create a JSON object to hold the data
+    DynamicJsonDocument jsonDocument(200);
+    jsonDocument["status"] = "on";
+    jsonDocument["time"] = number;
+
+    // Serialize the JSON document to a string
+    String jsonString;
+    serializeJson(jsonDocument, jsonString);
+
+    // Send the PUT request with the JSON data
+    int httpResponseCode = http.PUT(jsonString);
+
+    if (httpResponseCode > 0) {
+      String response = http.getString();
+      Serial.println(httpResponseCode);
+      Serial.println(response);
+    } else {
+      Serial.print("Error on sending PUT: ");
+      Serial.println(httpResponseCode);
+    }
     http.end();
   } else {
     Serial.println("Error in WiFi connection");
@@ -245,6 +281,7 @@ void choosePoints(){
       if (digitalRead(buttonIncrementPin) == HIGH && digitalRead(buttonDecrementPin) == HIGH) {
         process_number = 3;
         updateBalance(number);
+        updateStation(number);
         delay(200);  // Debounce delay
       }
     }

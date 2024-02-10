@@ -4,12 +4,15 @@
 // Replace with your network credentials
 const char *ssid = "seedsphere";
 const char *password = "YssabelJane25*";
-const char *get_status = "http://192.168.68.111:3001/charging_station"; // Replace with your API endpoint
-const char *update_status_to_off = "http://192.168.68.111:3001/update_charging_station"; // Replace with your API endpoint
+
+const char *get_status = "http://192.168.68.111:3001/charging_station";
+const char *update_status_to_off = "http://192.168.68.111:3001/update_charging_station";
+
+// const char *get_status = "http://revendo-030702.et.r.appspot.com/charging_station";
+// const char *update_status_to_off = "http://revendo-030702.et.r.appspot.com/update_charging_station";
 
 // Define the pins connected to the relay module
 const int relay1Pin = D1;  // GPIO pin for Relay 1
-// const int relay2Pin = D2;  // GPIO pin for Relay 2
 
 void setup() {
   Serial.begin(115200);
@@ -28,7 +31,6 @@ void setup() {
 
   // Initialize relays to OFF state
   digitalWrite(relay1Pin, HIGH);  // HIGH is OFF for most relay modules
-  // digitalWrite(relay2Pin, HIGH);
 
   Serial.println("Initialization complete");
 }
@@ -57,7 +59,7 @@ void loop() {
         int delayTime = timeStr.toInt();
 
         // Wait for the specified time duration
-        delay(delayTime * 1000); // Convert seconds to milliseconds
+        delay(delayTime * 5 * 60 * 1000); // Convert seconds to milliseconds
 
         // Turn off Relay 1 after the specified time
         digitalWrite(relay1Pin, HIGH);

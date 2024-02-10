@@ -416,6 +416,25 @@ app.get("/charging_station", (req, res) => {
   });
 });
 
+// API endpoint to update the station status and time
+app.put("/updateStation", (req, res) => {
+  const { status, time } = req.body;
+
+  // Assuming you have a table named 'charging_station' with columns 'status' and 'time'
+  const query =
+    "UPDATE charging_station SET status = ?, time = ? WHERE station_id = 1"; // Assuming id is 1 for simplicity
+
+  db.query(query, [status, time], (err, results) => {
+    if (err) {
+      console.error("Error executing MySQL query:", err);
+      res.status(500).json({ error: "Internal Server Error" });
+      return;
+    }
+
+    res.json({ message: "Station updated successfully" });
+  });
+});
+
 // API endpoint to update the status and time
 app.put("/update_charging_station", (req, res) => {
   const { status, time } = req.body;
