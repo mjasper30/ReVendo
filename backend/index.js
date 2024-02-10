@@ -395,6 +395,46 @@ app.post("/minusPoints", (req, res) => {
   );
 });
 
+// API endpoint to get the status and time
+app.get("/charging_station", (req, res) => {
+  const query =
+    "SELECT status, time FROM charging_station WHERE station_id = 1"; // Assuming id is 1 for simplicity
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Error executing MySQL query:", err);
+      res.status(500).json({ error: "Internal Server Error" });
+      return;
+    }
+
+    if (results.length === 0) {
+      res.status(404).json({ error: "Data not found" });
+    } else {
+      const { status, time } = results[0];
+      res.json({ status, time });
+    }
+  });
+});
+
+// API endpoint to update the status and time
+app.put("/update_charging_station", (req, res) => {
+  const { status, time } = req.body;
+
+  // Assuming you have a table named 'charging_station' with columns 'status' and 'time'
+  const query =
+    "UPDATE charging_station SET status = ?, time = ? WHERE station_id = 1"; // Assuming id is 1 for simplicity
+
+  db.query(query, [status, time], (err, results) => {
+    if (err) {
+      console.error("Error executing MySQL query:", err);
+      res.status(500).json({ error: "Internal Server Error" });
+      return;
+    }
+
+    res.json({ message: "Database updated successfully" });
+  });
+});
+
 // Start the Express.js server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
