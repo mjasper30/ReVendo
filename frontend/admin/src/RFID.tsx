@@ -36,11 +36,14 @@ export default function RFID() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3001/api/rfid", {
-        rfidNumber: e.currentTarget.rfid.value,
-        points: e.currentTarget.points.value,
-        status: e.currentTarget["rfid-status"].value,
-      });
+      const response = await axios.post(
+        "http://revendo-030702.et.r.appspot.com/api/rfid",
+        {
+          rfidNumber: e.currentTarget.rfid.value,
+          points: e.currentTarget.points.value,
+          status: e.currentTarget["rfid-status"].value,
+        }
+      );
 
       console.log(response.data); // handle success
       setOpenModal(false); // Close the modal after successful submission
@@ -53,7 +56,9 @@ export default function RFID() {
   // Function to fetch RFID data
   const fetchData = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/api/rfid");
+      const response = await axios.get(
+        "http://revendo-030702.et.r.appspot.com/api/rfid"
+      );
       setRfidData(response.data); // Update the state with fetched data
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -72,11 +77,14 @@ export default function RFID() {
 
     try {
       // Assuming that your server endpoint for edit is something like "/api/rfid/:id"
-      await axios.put(`http://localhost:3001/api/rfid/${selectedRfid?.id}`, {
-        rfid_number: e.currentTarget.rfid.value,
-        points: e.currentTarget.points.value,
-        status: e.currentTarget["rfid-status"].value,
-      });
+      await axios.put(
+        `http://revendo-030702.et.r.appspot.com/api/rfid/${selectedRfid?.id}`,
+        {
+          rfid_number: e.currentTarget.rfid.value,
+          points: e.currentTarget.points.value,
+          status: e.currentTarget["rfid-status"].value,
+        }
+      );
 
       // Close the edit modal
       setOpenEditModal(false);
@@ -92,7 +100,9 @@ export default function RFID() {
   const handleDeleteClick = async () => {
     try {
       // Assuming that your server endpoint for delete is something like "/api/rfid/:id"
-      await axios.delete(`http://localhost:3001/api/rfid/${selectedRfid?.id}`);
+      await axios.delete(
+        `http://revendo-030702.et.r.appspot.com/api/rfid/${selectedRfid?.id}`
+      );
 
       // Close the delete modal
       setOpenDeleteModal(false);
@@ -109,7 +119,7 @@ export default function RFID() {
     const fetchCurrentValue = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3001/api/rfid/currentValue"
+          "http://revendo-030702.et.r.appspot.com/api/rfid/currentValue"
         );
         setCurrentRFIDValue(response.data.rfidValue);
       } catch (error) {

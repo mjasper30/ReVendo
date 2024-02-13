@@ -31,7 +31,7 @@ function Login() {
     setErrors(Validation(values));
 
     axios
-      .post("http://localhost:3001/login", values)
+      .post("http://revendo-030702.et.r.appspot.com/login", values)
       .then((res) => {
         if (res.data === "Success") {
           navigate("/dashboard");
