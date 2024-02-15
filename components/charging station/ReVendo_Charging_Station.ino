@@ -251,6 +251,7 @@ void updateStation(int number) {
       String response = http.getString();
       Serial.println(httpResponseCode);
       Serial.println(response);
+      process_number = 3;
     } else {
       Serial.print("Error on sending PUT: ");
       Serial.println(httpResponseCode);
@@ -279,7 +280,6 @@ void choosePoints(){
         delay(200);  // Debounce delay
       }
       if (digitalRead(buttonIncrementPin) == HIGH && digitalRead(buttonDecrementPin) == HIGH) {
-        process_number = 3;
         updateBalance(number);
         updateStation(number);
         delay(200);  // Debounce delay
