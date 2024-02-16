@@ -26,8 +26,14 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 const char* ssid = "seedsphere";
 const char* password = "YssabelJane25*";
 
+// Jasper
 // const char* serverName = "http://192.168.68.111:3001/rfid"; // Replace with your server address
-const char* serverName = "https://revendo-030702.et.r.appspot.com/rfid"; // Replace with your server address
+
+// Sigue
+const char* serverName = "http://192.168.68.111:3001/rfid"; // Replace with your server address
+
+// Hosting
+// const char* serverName = "https://revendo-030702.et.r.appspot.com/rfid"; // Replace with your server address
 
 
 WiFiClient client;

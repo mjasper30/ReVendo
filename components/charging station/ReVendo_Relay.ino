@@ -5,11 +5,17 @@
 const char *ssid = "seedsphere";
 const char *password = "YssabelJane25*";
 
+// Jasper
 // const char *get_status = "http://192.168.68.111:3001/charging_station";
 // const char *update_status_to_off = "http://192.168.68.111:3001/update_charging_station";
 
-const char *get_status = "https://revendo-030702.et.r.appspot.com/charging_station";
-const char *update_status_to_off = "https://revendo-030702.et.r.appspot.com/update_charging_station";
+// Sigue
+const char *get_status = "http://192.168.43.85:3001/charging_station";
+const char *update_status_to_off = "http://192.168.43.85:3001/update_charging_station";
+
+// Hosting
+// const char *get_status = "https://revendo-030702.et.r.appspot.com/charging_station";
+// const char *update_status_to_off = "https://revendo-030702.et.r.appspot.com/update_charging_station";
 
 // Define the pins connected to the relay module
 const int relay1Pin = D1;  // GPIO pin for Relay 1

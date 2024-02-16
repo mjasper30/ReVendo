@@ -46,14 +46,14 @@ servo = AngularServo(26, min_pulse_width=0.0006, max_pulse_width=0.0023)
 
 # API endpoints
 # Sigue
-# url_check_rfid = "http://192.168.43.85:3001/check_rfid"
-# url_update_data = "http://192.168.43.85:3001/addDataHistory"
-# url_update_points = "http://192.168.43.85:3001/updatePoints"
+url_check_rfid = "http://192.168.43.85:3001/check_rfid"
+url_update_data = "http://192.168.43.85:3001/addDataHistory"
+url_update_points = "http://192.168.43.85:3001/updatePoints"
 
 # Jasper
-url_check_rfid = "http://192.168.68.111:3001/check_rfid"
-url_update_data = "http://192.168.68.111:3001/addDataHistory"
-url_update_points = "http://192.168.68.111:3001/updatePoints"
+# url_check_rfid = "http://192.168.68.111:3001/check_rfid"
+# url_update_data = "http://192.168.68.111:3001/addDataHistory"
+# url_update_points = "http://192.168.68.111:3001/updatePoints"
 
 # Hosting
 # url_check_rfid = "http://revendo-030702.et.r.appspot.com/check_rfid"

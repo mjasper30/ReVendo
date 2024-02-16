@@ -39,13 +39,20 @@ String rfidUID = "";
 int process_number = 1;
 String response = "";
 
+//Jasper
 // const char* serverName = "http://192.168.68.111:3001/check_balance"; // Replace with your server address
 // const char* serverName_1 = "http://192.168.68.111:3001/minusPoints";
 // const char* serverName_2 = "http://192.168.68.111:3001/updateStation";
 
-const char* serverName = "https://revendo-030702.et.r.appspot.com/check_balance"; // Replace with your server address
-const char* serverName_1 = "https://revendo-030702.et.r.appspot.com/minusPoints";
-const char* serverName_2 = "https://revendo-030702.et.r.appspot.com/updateStation";
+//Sigue
+const char* serverName = "http://192.168.43.85:3001/check_balance"; // Replace with your server address
+const char* serverName_1 = "http://192.168.43.85:3001/minusPoints";
+const char* serverName_2 = "http://192.168.43.85:3001/updateStation";
+
+//Hosting
+// const char* serverName = "https://revendo-030702.et.r.appspot.com/check_balance"; // Replace with your server address
+// const char* serverName_1 = "https://revendo-030702.et.r.appspot.com/minusPoints";
+// const char* serverName_2 = "https://revendo-030702.et.r.appspot.com/updateStation";
 
 WiFiClient client;
 httpsClient https;
