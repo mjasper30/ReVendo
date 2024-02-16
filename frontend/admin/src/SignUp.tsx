@@ -42,7 +42,7 @@ const SignUp = () => {
       !errors.confirm_password
     ) {
       axios
-        .post("http://revendo-030702.et.r.appspot.com/signup", values)
+        .post("https://revendo-030702.et.r.appspot.com/signup", values)
         .then(() => {
           navigate("/");
         })

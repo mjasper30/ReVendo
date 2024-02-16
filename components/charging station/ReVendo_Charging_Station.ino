@@ -15,7 +15,7 @@
 */
 
 #include <ESP8266WiFi.h>
-#include <ESP8266HTTPClient.h>
+#include <ESP8266httpsClient.h>
 #include <MFRC522.h>
 #include <ArduinoJson.h>
 #include <Wire.h>
@@ -39,16 +39,16 @@ String rfidUID = "";
 int process_number = 1;
 String response = "";
 
-const char* serverName = "http://192.168.68.111:3001/check_balance"; // Replace with your server address
-const char* serverName_1 = "http://192.168.68.111:3001/minusPoints";
-const char* serverName_2 = "http://192.168.68.111:3001/updateStation";
+// const char* serverName = "http://192.168.68.111:3001/check_balance"; // Replace with your server address
+// const char* serverName_1 = "http://192.168.68.111:3001/minusPoints";
+// const char* serverName_2 = "http://192.168.68.111:3001/updateStation";
 
-// const char* serverName = "http://revendo-030702.et.r.appspot.com/check_balance"; // Replace with your server address
-// const char* serverName_1 = "http://revendo-030702.et.r.appspot.com/minusPoints";
-// const char* serverName_2 = "http://revendo-030702.et.r.appspot.com/updateStation";
+const char* serverName = "https://revendo-030702.et.r.appspot.com/check_balance"; // Replace with your server address
+const char* serverName_1 = "https://revendo-030702.et.r.appspot.com/minusPoints";
+const char* serverName_2 = "https://revendo-030702.et.r.appspot.com/updateStation";
 
 WiFiClient client;
-HTTPClient http;
+httpsClient https;
 
 unsigned long startTime;
 unsigned long elapsedTime;
@@ -177,21 +177,21 @@ void RFID_Scan(){
 
 void checkBalance(){
   if (WiFi.status() == WL_CONNECTED) {
-    http.begin(client, serverName);
-    http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+    https.begin(client, serverName);
+    https.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
-    String httpRequestData = "rfid=" + rfidUID;
+    String httpsRequestData = "rfid=" + rfidUID;
 
-    int httpResponseCode = http.POST(httpRequestData);
-    if (httpResponseCode > 0) {
-      response = http.getString();
-      Serial.println(httpResponseCode);
+    int httpsResponseCode = https.POST(httpsRequestData);
+    if (httpsResponseCode > 0) {
+      response = https.getString();
+      Serial.println(httpsResponseCode);
       Serial.println(response);
     } else {
       Serial.print("Error on sending POST: ");
-      Serial.println(httpResponseCode);
+      Serial.println(httpsResponseCode);
     }
-    // http.end();
+    // https.end();
   } else {
     Serial.println("Error in WiFi connection");
   }
@@ -201,8 +201,8 @@ void updateBalance(int updateAmount){
   int updatedBalance = response.toInt() - updateAmount;
 
   if (WiFi.status() == WL_CONNECTED) {
-    http.begin(client, serverName_1);
-    http.addHeader("Content-Type", "application/json");  // Update Content-Type to JSON
+    https.begin(client, serverName_1);
+    https.addHeader("Content-Type", "application/json");  // Update Content-Type to JSON
 
     // Create a JSON object to hold the data
     DynamicJsonDocument jsonDocument(200);
@@ -214,17 +214,17 @@ void updateBalance(int updateAmount){
     serializeJson(jsonDocument, jsonString);
 
     // Send the POST request with the JSON data
-    int httpResponseCode = http.POST(jsonString);
+    int httpsResponseCode = https.POST(jsonString);
 
-    if (httpResponseCode > 0) {
-      response = http.getString();
-      Serial.println(httpResponseCode);
+    if (httpsResponseCode > 0) {
+      response = https.getString();
+      Serial.println(httpsResponseCode);
       Serial.println(response);
     } else {
       Serial.print("Error on sending POST: ");
-      Serial.println(httpResponseCode);
+      Serial.println(httpsResponseCode);
     }
-    //http.end();
+    //https.end();
   } else {
     Serial.println("Error in WiFi connection");
   }
@@ -232,8 +232,8 @@ void updateBalance(int updateAmount){
 
 void updateStation(int number) {
   if (WiFi.status() == WL_CONNECTED) {
-    http.begin(client, serverName_2);
-    http.addHeader("Content-Type", "application/json");
+    https.begin(client, serverName_2);
+    https.addHeader("Content-Type", "application/json");
 
     // Create a JSON object to hold the data
     DynamicJsonDocument jsonDocument(200);
@@ -245,18 +245,18 @@ void updateStation(int number) {
     serializeJson(jsonDocument, jsonString);
 
     // Send the PUT request with the JSON data
-    int httpResponseCode = http.PUT(jsonString);
+    int httpsResponseCode = https.PUT(jsonString);
 
-    if (httpResponseCode > 0) {
-      String response = http.getString();
-      Serial.println(httpResponseCode);
+    if (httpsResponseCode > 0) {
+      String response = https.getString();
+      Serial.println(httpsResponseCode);
       Serial.println(response);
       process_number = 3;
     } else {
       Serial.print("Error on sending PUT: ");
-      Serial.println(httpResponseCode);
+      Serial.println(httpsResponseCode);
     }
-    http.end();
+    https.end();
   } else {
     Serial.println("Error in WiFi connection");
   }

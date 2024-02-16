@@ -17,9 +17,13 @@ from gpiozero.pins.pigpio import PiGPIOFactory
 from hx711 import HX711
 
 # API endpoints
-url_check_rfid = "http://192.168.68.111:3001/check_rfid"
-url_update_data = "http://192.168.68.111:3001/addDataHistory"
-url_update_points = "http://192.168.68.111:3001/updatePoints"
+# url_check_rfid = "https://192.168.68.111:3001/check_rfid"
+# url_update_data = "https://192.168.68.111:3001/addDataHistory"
+# url_update_points = "https://192.168.68.111:3001/updatePoints"
+
+url_check_rfid = "https://revendo-030702.et.r.appspot.com/check_rfid"
+url_update_data = "https://revendo-030702.et.r.appspot.com/addDataHistory"
+url_update_points = "https://revendo-030702.et.r.appspot.com/updatePoints"
 
 global_points = 0
 global_rfid = ""
