@@ -26,9 +26,7 @@ export default function RFID() {
   // Function to fetch RFID data
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        "https://revendo-030702.et.r.appspot.com/api/history"
-      );
+      const response = await axios.get("http://localhost:3001/api/history");
       setHistoryData(response.data); // Update the state with fetched data
     } catch (error) {
       console.error("Error fetching data:", error);

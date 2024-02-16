@@ -4,11 +4,13 @@ from PIL import Image, ImageTk
 import os
 import subprocess
 import keyboard
+import RPi.GPIO as GPIO
 from tkinter import Tk, Label, StringVar, Entry, Button
 from mfrc522 import SimpleMFRC522
+from gpiozero import AngularServo, Device
+from gpiozero.pins.pigpio import PiGPIOFactory
 import requests
 import time
-import RPi.GPIO as GPIO
 import math
 import cv2
 from ultralytics import YOLO
@@ -16,22 +18,33 @@ from gpiozero import AngularServo, Device
 from gpiozero.pins.pigpio import PiGPIOFactory
 from hx711 import HX711
 
-# API endpoints
-# url_check_rfid = "https://192.168.68.111:3001/check_rfid"
-# url_update_data = "https://192.168.68.111:3001/addDataHistory"
-# url_update_points = "https://192.168.68.111:3001/updatePoints"
+# Set up GPIO
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 
-url_check_rfid = "https://revendo-030702.et.r.appspot.com/check_rfid"
-url_update_data = "https://revendo-030702.et.r.appspot.com/addDataHistory"
-url_update_points = "https://revendo-030702.et.r.appspot.com/updatePoints"
+# Servo setup
+Device.pin_factory = PiGPIOFactory(host='localhost', port=8888)
+servo = AngularServo(26, min_pulse_width=0.0006, max_pulse_width=0.0023)
+
+# API endpoints
+# Sigue
+#url_check_rfid = "http://192.168.43.85:3001/check_rfid"
+#url_update_data = "http://192.168.43.85:3001/addDataHistory"
+#url_update_points = "http://192.168.43.85:3001/updatePoints"
+
+# Jasper
+url_check_rfid = "http://192.168.68.111:3001/check_rfid"
+url_update_data = "http://192.168.68.111:3001/addDataHistory"
+url_update_points = "http://192.168.68.111:3001/updatePoints"
+
+# Hosting
+#url_check_rfid = "http://revendo-030702.et.r.appspot.com/check_rfid"
+#url_update_data = "http://revendo-030702.et.r.appspot.com/addDataHistory"
+#url_update_points = "http://revendo-030702.et.r.appspot.com/updatePoints"
 
 global_points = 0
 global_rfid = ""
 scan_processed = True  # Flag to indicate if a scan has been processed
-
-# Set up GPIO
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
 
 # Camera and object detection setup
 fov_vertical_degrees = 60
@@ -121,12 +134,12 @@ def get_points_process():
     global total_points, plastic_bottles_detected, total_small, total_medium, total_large, global_rfid, check_more
     while check_more:
         # Weight check
-        #weight = hx.get_weight_mean()
-        #print("Weight: ", abs(int(weight)) - 344)
+        weight = hx.get_weight_mean() - 117
+        print("Weight: ", abs(int(weight)))
             
         #For weight value testing purposes
-        weight = 17  # Replace with actual weight reading
-        print("Weight: ", weight)
+        #weight = 12  # Replace with actual weight reading
+        #print("Weight: ", weight)
             
         #Check if the value of weight if greater than expected weight value
         if abs(weight) >= 9:
@@ -170,8 +183,8 @@ def get_points_process():
             
             # Object classification
             size_of_object = ""
-            weight = 9
-            height_cm = 9
+            #weight = 12 #for testing purposes
+            #height_cm = 8 #L 8, M 5, S 2 for testing purposes
             if weight <= 0 or height_cm == 21:
                 size_of_object = "No Object"
                 print(size_of_object)
@@ -189,21 +202,21 @@ def get_points_process():
                 plastic_bottles_detected += 1
                 size_of_object = "Large"
                 print(size_of_object)
-                #servo.angle = 90
+                servo.angle = 90
                 time.sleep(2)
             elif height_cm >= 5:
                 total_medium += 1
                 plastic_bottles_detected += 1
                 size_of_object = "Medium"
                 print(size_of_object)
-                #servo.angle = 90
+                servo.angle = 90
                 time.sleep(2)
             elif height_cm >= 2:
                 total_small += 1
                 plastic_bottles_detected += 1
                 size_of_object = "Small"
                 print(size_of_object)
-                #servo.angle = 90
+                servo.angle = 90
                 time.sleep(2)
                 
             # Claim Points - API send data
@@ -219,8 +232,8 @@ def get_points_process():
                 print("Failed to send data to the server.")
             
             # Reset servo angle
-            #servo.angle = 0
-            #time.sleep(2)
+            servo.angle = 0
+            time.sleep(2)
             
             input("Continue... for 3 secs")
             
