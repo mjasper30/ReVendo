@@ -15,7 +15,7 @@
 */
 
 #include <ESP8266WiFi.h>
-#include <ESP8266httpsClient.h>
+#include <ESP8266HTTPClient.h>
 #include <MFRC522.h>
 
 #define RST_PIN   D1
@@ -27,17 +27,17 @@ const char* ssid = "seedsphere";
 const char* password = "YssabelJane25*";
 
 // Jasper
-// const char* serverName = "http://192.168.68.111:3001/rfid"; // Replace with your server address
+const char* serverName = "http://192.168.68.111:3001/rfid"; // Replace with your server address
 
 // Sigue
-const char* serverName = "http://192.168.68.111:3001/rfid"; // Replace with your server address
+// const char* serverName = "http://192.168.68.111:3001/rfid"; // Replace with your server address
 
 // Hosting
 // const char* serverName = "https://revendo-030702.et.r.appspot.com/rfid"; // Replace with your server address
 
 
 WiFiClient client;
-httpsClient https;
+HTTPClient http;
 
 void setup() {
   Serial.begin(9600);
@@ -72,21 +72,22 @@ void loop() {
   Serial.println(rfidUID);
 
   if (WiFi.status() == WL_CONNECTED) {
-    https.begin(client, serverName);
-    https.addHeader("Content-Type", "application/x-www-form-urlencoded");
+    http.begin(client, serverName);
+    http.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
-    String httpsRequestData = "rfid=" + rfidUID;
+    String httpRequestData = "rfid=" + rfidUID;
 
-    int httpsResponseCode = https.POST(httpsRequestData);
-    if (httpsResponseCode > 0) {
-      String response = https.getString();
-      Serial.println(httpsResponseCode);
+    int httpResponseCode = http.POST(httpRequestData);
+    
+    if (httpResponseCode > 0) {
+      String response = http.getString();
+      Serial.println(httpResponseCode);
       Serial.println(response);
     } else {
       Serial.print("Error on sending POST: ");
-      Serial.println(httpsResponseCode);
+      Serial.println(httpResponseCode);
     }
-    https.end();
+    http.end();
   } else {
     Serial.println("Error in WiFi connection");
   }

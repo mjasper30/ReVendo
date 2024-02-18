@@ -1,4 +1,4 @@
-#include <ESP8266httpsClient.h>
+#include <ESP8266HTTPClient.h>
 #include <ESP8266WiFi.h>
 
 // Replace with your network credentials
@@ -6,12 +6,12 @@ const char *ssid = "seedsphere";
 const char *password = "YssabelJane25*";
 
 // Jasper
-// const char *get_status = "http://192.168.68.111:3001/charging_station";
-// const char *update_status_to_off = "http://192.168.68.111:3001/update_charging_station";
+const char *get_status = "http://192.168.68.111:3001/charging_station";
+const char *update_status_to_off = "http://192.168.68.111:3001/update_charging_station";
 
 // Sigue
-const char *get_status = "http://192.168.43.85:3001/charging_station";
-const char *update_status_to_off = "http://192.168.43.85:3001/update_charging_station";
+// const char *get_status = "http://192.168.43.85:3001/charging_station";
+// const char *update_status_to_off = "http://192.168.43.85:3001/update_charging_station";
 
 // Hosting
 // const char *get_status = "https://revendo-030702.et.r.appspot.com/charging_station";
@@ -42,15 +42,15 @@ void setup() {
 }
 
 void loop() {
-  // Make https request to the Express.js API
+  // Make http request to the Express.js API
   WiFiClient client;
-  httpsClient https;
+  HTTPClient http;
 
-  if (https.begin(client, get_status)) {
-    int httpsCode = https.GET();
+  if (http.begin(client, get_status)) {
+    int httpCode = http.GET();
 
-    if (httpsCode == https_CODE_OK) {
-      String payload = https.getString();
+    if (httpCode == HTTP_CODE_OK) {
+      String payload = http.getString();
       Serial.println("API Response: " + payload);
 
       // Parse JSON response
@@ -79,10 +79,10 @@ void loop() {
         Serial.println("Relay 1 OFF");
       }
     } else {
-      Serial.println("https request failed");
+      Serial.println("http request failed");
     }
 
-    https.end(); // Close connection
+    http.end(); // Close connection
   }
 
   // Delay between API requests (e.g., 5 seconds)
@@ -91,23 +91,23 @@ void loop() {
 
 void updateDatabase(String status) {
   WiFiClient client;
-  httpsClient https;
+  HTTPClient http;
 
-  if (https.begin(client, update_status_to_off)) {
-    https.addHeader("Content-Type", "application/json");
+  if (http.begin(client, update_status_to_off)) {
+    http.addHeader("Content-Type", "application/json");
 
     // Prepare the JSON payload
     String payload = "{\"status\":\"" + status + "\",\"time\":0}";
 
-    int httpsCode = https.PUT(payload);
+    int httpCode = http.PUT(payload);
 
-    if (httpsCode == https_CODE_OK) {
-      String response = https.getString();
+    if (httpCode == HTTP_CODE_OK) {
+      String response = http.getString();
       Serial.println("Database Update Response: " + response);
     } else {
       Serial.println("Database update request failed");
     }
 
-    https.end(); // Close connection
+    http.end(); // Close connection
   }
 }
