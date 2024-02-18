@@ -28,8 +28,16 @@ export default function RFID() {
   const [rfidData, setRfidData] = useState<RFIDData[]>([]);
   const [selectedRfid, setSelectedRfid] = useState<RFIDData | null>(null);
   const [currentRFIDValue, setCurrentRFIDValue] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
+  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const itemsPerPage = 10;
   const onPageChange = (page: number) => setCurrentPage(page);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
 
   // Adding RFID data
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -50,11 +58,14 @@ export default function RFID() {
     }
   };
 
-  // Function to fetch RFID data
+  // Modify the fetchData function to filter data based on the search query
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost:3001/api/rfid");
-      setRfidData(response.data); // Update the state with fetched data
+      const filteredData = response.data.filter((rfid: RFIDData) =>
+        rfid.rfid_number.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setRfidData(filteredData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -126,7 +137,7 @@ export default function RFID() {
 
     // Clean up the interval on component unmount
     return () => clearInterval(intervalId);
-  }, []); // Empty dependency array means this effect runs once after the initial render
+  }, [searchQuery]); // Empty dependency array means this effect runs once after the initial render
 
   return (
     <div className="h-full w-screen flex">
@@ -303,8 +314,10 @@ export default function RFID() {
                 <TextInput
                   id="search"
                   type="text"
-                  placeholder="Search"
+                  placeholder="Search RFID Number"
                   className="mb-3"
+                  value={searchQuery}
+                  onChange={onSearchChange}
                 />
               </div>
             </div>
@@ -317,8 +330,9 @@ export default function RFID() {
                 <Table.HeadCell>Status</Table.HeadCell>
                 <Table.HeadCell>Action</Table.HeadCell>
               </Table.Head>
+              
               <Table.Body className="divide-y">
-                {rfidData.map((rfid, index) => (
+                {rfidData.slice(startIndex, endIndex).map((rfid, index) => (
                   <Table.Row
                     key={index}
                     className="bg-white dark:border-gray-700 dark:bg-gray-800"

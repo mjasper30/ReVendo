@@ -19,8 +19,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.19.0",
     "react-scroll": "^1.9.0",
-    "sort-by": "^1.2.0",
-    "sweetalert2": "^11.7.32",
+    "sort-by": "^0.0.2",
+    "sweetalert2": "^11.6.13",
     "sweetalert2-react-content": "^5.0.7",
     "websocket": "^1.0.34"
   },
