@@ -173,6 +173,95 @@ app.get("/api/history", (req, res) => {
     }
   });
 });
+
+// Read all user in database
+app.get("/api/account", (req, res) => {
+  const query = "SELECT * FROM users";
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
+
+// Add new user in database
+app.post("/api/account", (req, res) => {
+  const saltRounds = 10; // Number of salt rounds for hashing
+
+  // Hash the password
+  bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+    if (err) {
+      return res.json({ error: err });
+    }
+
+    const sql =
+      "INSERT INTO `users`(`name`, `email`, `gender`, `password`, `role`) VALUES (?)";
+    const values = [
+      req.body.fname,
+      req.body.email,
+      req.body.gender,
+      hash,
+      req.body.roles,
+    ];
+    db.query(sql, [values], (err, result) => {
+      if (err) {
+        console.error("Error executing query:", err);
+        res.status(500).json({ error: "Internal Server Error" });
+      }
+      return res.status(201).json({ message: "User added successfully" });
+    });
+  });
+});
+
+app.put("/api/account/:id", async (req, res) => {
+  const saltRounds = 10; // Number of salt rounds for hashing
+
+  try {
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+
+    const sql =
+      "UPDATE users SET name = ?, email = ?, gender = ?, password = ?, role = ? WHERE id = ?";
+    const values = [
+      req.body.fname,
+      req.body.email,
+      req.body.gender,
+      hashedPassword,
+      req.body.roles,
+      req.params.id, // Correct the parameter to req.params.id
+    ];
+
+    db.query(sql, values, (err, result) => {
+      if (err) {
+        console.error("Error executing query:", err);
+        res.status(500).json({ error: "Internal Server Error" });
+      } else {
+        res.status(201).json({ message: "User updated successfully" });
+      }
+    });
+  } catch (error) {
+    console.error("Error hashing password:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Delete user
+app.delete("/api/account/:id", (req, res) => {
+  const { id } = req.params;
+  const query = "DELETE FROM users WHERE id = ?";
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.status(200).send("RFID deleted successfully");
+    }
+  });
+});
+
 // Read all rfid in database
 app.get("/api/rfid", (req, res) => {
   const query = "SELECT * FROM rfid";

@@ -30,6 +30,9 @@ export default function RFID() {
   const [currentRFIDValue, setCurrentRFIDValue] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
+  const totalItems = rfidData.length;
+  const totalPages = Math.ceil(totalItems / 10);
+
   const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
@@ -53,6 +56,7 @@ export default function RFID() {
       console.log(response.data); // handle success
       setOpenModal(false); // Close the modal after successful submission
       // You might want to refresh the data or update the state after a successful submission.
+      fetchData();
     } catch (error) {
       console.error("Error"); // handle error
     }
@@ -63,7 +67,12 @@ export default function RFID() {
     try {
       const response = await axios.get("http://localhost:3001/api/rfid");
       const filteredData = response.data.filter((rfid: RFIDData) =>
-        rfid.rfid_number.toLowerCase().includes(searchQuery.toLowerCase())
+        Object.values(rfid)
+          .map((value) =>
+            typeof value === "string" ? value.toLowerCase() : ""
+          )
+          .join(" ")
+          .includes(searchQuery.toLowerCase())
       );
       setRfidData(filteredData);
     } catch (error) {
@@ -314,7 +323,7 @@ export default function RFID() {
                 <TextInput
                   id="search"
                   type="text"
-                  placeholder="Search RFID Number"
+                  placeholder="Search"
                   className="mb-3"
                   value={searchQuery}
                   onChange={onSearchChange}
@@ -330,7 +339,7 @@ export default function RFID() {
                 <Table.HeadCell>Status</Table.HeadCell>
                 <Table.HeadCell>Action</Table.HeadCell>
               </Table.Head>
-              
+
               <Table.Body className="divide-y">
                 {rfidData.slice(startIndex, endIndex).map((rfid, index) => (
                   <Table.Row
@@ -338,7 +347,7 @@ export default function RFID() {
                     className="bg-white dark:border-gray-700 dark:bg-gray-800"
                   >
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                      {index + 1}
+                      {rfid.id}
                     </Table.Cell>
                     <Table.Cell>{rfid.rfid_number}</Table.Cell>
                     <Table.Cell>{rfid.points}</Table.Cell>
@@ -372,7 +381,7 @@ export default function RFID() {
             <div className="flex overflow-x-auto sm:justify-center mt-3">
               <Pagination
                 currentPage={currentPage}
-                totalPages={100}
+                totalPages={totalPages}
                 onPageChange={onPageChange}
               />
             </div>
