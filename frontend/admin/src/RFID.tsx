@@ -333,7 +333,7 @@ export default function RFID() {
               </div>
             </div>
 
-            <Table className="text-center mb-5" striped hoverable>
+            <Table className="text-center mb-20" striped hoverable>
               <Table.Head className="bg-slate-600">
                 <Table.HeadCell>#</Table.HeadCell>
                 <Table.HeadCell>RFID Number</Table.HeadCell>

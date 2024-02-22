@@ -150,13 +150,73 @@ app.get("/api/numberOfPlasticBottleCount", (req, res) => {
   });
 });
 
-app.get("/api/numberOfRejected", (req, res) => {
-  const query = "SELECT COUNT(*) AS count FROM history WHERE is_valid = 'no'";
+app.get("/api/numberOfAccepted", (req, res) => {
+  const query =
+    "SELECT COUNT(*) AS count FROM history WHERE is_valid = 'yes' AND DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')";
   db.query(query, (err, result) => {
     if (err) {
       res.status(500).send(err.message);
     } else {
       res.json({ count: result[0].count });
+    }
+  });
+});
+
+app.get("/api/numberOfRejected", (req, res) => {
+  const query =
+    "SELECT COUNT(*) AS count FROM history WHERE is_valid = 'no' AND DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')";
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(500).send(err.message);
+    } else {
+      res.json({ count: result[0].count });
+    }
+  });
+});
+
+app.get("/api/numberOfSmall", (req, res) => {
+  const query =
+    "SELECT COUNT(*) AS count FROM history WHERE size = 'small' AND DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')";
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(500).send(err.message);
+    } else {
+      res.json({ count: result[0].count });
+    }
+  });
+});
+
+app.get("/api/numberOfMedium", (req, res) => {
+  const query =
+    "SELECT COUNT(*) AS count FROM history WHERE size = 'medium' AND DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')";
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(500).send(err.message);
+    } else {
+      res.json({ count: result[0].count });
+    }
+  });
+});
+
+app.get("/api/numberOfLarge", (req, res) => {
+  const query =
+    "SELECT COUNT(*) AS count FROM history WHERE size = 'large' AND DATE_FORMAT(date, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d')";
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(500).send(err.message);
+    } else {
+      res.json({ count: result[0].count });
+    }
+  });
+});
+
+app.get("/api/batteryStatus", (req, res) => {
+  const query = "SELECT percentage FROM battery WHERE id = 1";
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(500).send(err.message);
+    } else {
+      res.json({ percentage: result[0].percentage });
     }
   });
 });

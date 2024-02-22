@@ -365,17 +365,19 @@ export default function Accounts() {
                             edit
                           </span>
                         </i>
-                        <i>
-                          <span
-                            className="material-symbols-rounded cursor-pointer text-red-600 p-2"
-                            onClick={() => {
-                              setSelectedAccount(account);
-                              setOpenDeleteModal(true);
-                            }}
-                          >
-                            delete
-                          </span>
-                        </i>
+                        {index !== 0 && ( // Check if it's not the first row
+                          <i>
+                            <span
+                              className="material-symbols-rounded cursor-pointer text-red-600 p-2"
+                              onClick={() => {
+                                setSelectedAccount(account);
+                                setOpenDeleteModal(true);
+                              }}
+                            >
+                              delete
+                            </span>
+                          </i>
+                        )}
                       </Table.Cell>
                     </Table.Row>
                   ))}

@@ -11,43 +11,73 @@ export default function Dashboard() {
   const [numberOfPlasticBottleCount, setNumberOfPlasticBottleCount] =
     useState(null);
   const [storageStatus, setStorageStatus] = useState(null);
+  const [numberOfAccepted, setNumberOfAccepted] = useState(null);
   const [numberOfRejected, setNumberOfRejected] = useState(null);
+  const [numberOfSmall, setNumberOfSmall] = useState(null);
+  const [numberOfMedium, setNumberOfMedium] = useState(null);
+  const [numberOfLarge, setNumberOfLarge] = useState(null);
+  const [batteryStatus, setBatteryStatus] = useState(null);
+  const [chartsInitialized, setChartsInitialized] = useState(false);
 
   useEffect(() => {
-    // Fetch data initially
     fetchData();
-
-    // Fetch data every 3 seconds
     const intervalId = setInterval(fetchData, 3000);
-
-    // Clean up the interval on component unmount
     return () => clearInterval(intervalId);
-  }, []); // Empty dependency array ensures that the effect runs only once on mount
+  }, []);
+
+  useEffect(() => {
+    if (chartsInitialized) {
+      updateCharts();
+    } else {
+      setChartsInitialized(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    registeredRFIDCount,
+    numberOfPlasticBottleCount,
+    storageStatus,
+    numberOfAccepted,
+    numberOfRejected,
+    numberOfSmall,
+    numberOfMedium,
+    numberOfLarge,
+    batteryStatus,
+  ]);
 
   const fetchData = () => {
-    // Use Promise.all to wait for all Axios requests to complete
     Promise.all([
       axios.get("http://localhost:3001/api/registeredRFIDCount"),
       axios.get("http://localhost:3001/api/numberOfPlasticBottleCount"),
       axios.get("http://localhost:3001/api/getStorageStatus"),
+      axios.get("http://localhost:3001/api/numberOfAccepted"),
       axios.get("http://localhost:3001/api/numberOfRejected"),
+      axios.get("http://localhost:3001/api/numberOfSmall"),
+      axios.get("http://localhost:3001/api/numberOfMedium"),
+      axios.get("http://localhost:3001/api/numberOfLarge"),
+      axios.get("http://localhost:3001/api/batteryStatus"),
     ])
       .then((responses) => {
-        // Destructure responses to get data from each request
         const [
           registeredRFIDResponse,
           plasticBottleResponse,
           storageStatusResponse,
+          acceptedResponse,
           rejectedResponse,
+          smallResponse,
+          mediumResponse,
+          largeResponse,
+          batteryStatusResponse,
         ] = responses;
 
         setRegisteredRFIDCount(registeredRFIDResponse.data.count);
         setNumberOfPlasticBottleCount(plasticBottleResponse.data.count);
         setStorageStatus(storageStatusResponse.data.status);
+        setNumberOfAccepted(acceptedResponse.data.count);
         setNumberOfRejected(rejectedResponse.data.count);
-
-        // Update the charts after setting the state
-        updateCharts();
+        setNumberOfSmall(smallResponse.data.count);
+        setNumberOfMedium(mediumResponse.data.count);
+        setNumberOfLarge(largeResponse.data.count);
+        setBatteryStatus(batteryStatusResponse.data.percentage);
       })
       .catch((error) => console.error("Error fetching data:", error));
   };
@@ -97,9 +127,9 @@ export default function Dashboard() {
           type: "pie",
           radius: "50%",
           data: [
-            { value: 1048, name: "Small" },
-            { value: 735, name: "Medium" },
-            { value: 580, name: "Large" },
+            { value: numberOfSmall, name: "Small" },
+            { value: numberOfMedium, name: "Medium" },
+            { value: numberOfLarge, name: "Large" },
           ],
           emphasis: {
             itemStyle: {
@@ -136,8 +166,8 @@ export default function Dashboard() {
           type: "pie",
           radius: "50%",
           data: [
-            { value: 42, name: "Accepted" },
-            { value: 10, name: "Rejected" },
+            { value: numberOfAccepted, name: "Accepted" },
+            { value: numberOfRejected, name: "Rejected" },
           ],
           emphasis: {
             itemStyle: {
@@ -221,7 +251,9 @@ export default function Dashboard() {
               bgColor="bg-violet-500"
               icon="battery_charging_full"
               title="Battery Status"
-              value="56%"
+              value={
+                batteryStatus !== null ? batteryStatus + "%" : "Loading..."
+              }
             />
           </div>
           <div className="flex w-full items-center justify-between ml-10 my-3">

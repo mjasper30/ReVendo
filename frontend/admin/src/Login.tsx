@@ -58,8 +58,8 @@ function Login() {
     <>
       <section className="sign-in">
         <article className="sign-in__details">
-          <h1>Login</h1>
-          <p>Login to your account</p>
+          <h1>ReVendo System</h1>
+          <p>Login your account</p>
           <form action="" className="sign-in__form" onSubmit={handleSubmit}>
             <div className="form__control">
               <label htmlFor="email">Email</label>
