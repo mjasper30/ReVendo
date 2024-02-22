@@ -12,6 +12,7 @@
   "dependencies": {
     "animate.css": "^4.1.1",
     "axios": "^1.5.1",
+    "echarts": "^5.5.0",
     "flowbite-react": "^0.6.4",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",

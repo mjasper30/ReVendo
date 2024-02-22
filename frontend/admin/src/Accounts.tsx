@@ -128,6 +128,8 @@ export default function Accounts() {
       // Close the delete modal
       setOpenDeleteModal(false);
 
+      setCurrentPage(1);
+
       // Refresh the data after deletion
       fetchData();
     } catch (error) {
@@ -330,7 +332,7 @@ export default function Accounts() {
                 />
               </div>
             </div>
-            <Table striped hoverable>
+            <Table className="text-center mb-5" striped hoverable>
               <Table.Head className="bg-slate-600">
                 <Table.HeadCell>#</Table.HeadCell>
                 <Table.HeadCell>Name</Table.HeadCell>
@@ -379,13 +381,16 @@ export default function Accounts() {
                   ))}
               </Table.Body>
             </Table>
-            <div className="flex overflow-x-auto sm:justify-center mt-3">
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={onPageChange}
-              />
-            </div>
+
+            {totalItems > itemsPerPage && (
+              <div className="flex overflow-x-auto sm:justify-center mt-3">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={onPageChange}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

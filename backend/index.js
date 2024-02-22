@@ -128,6 +128,50 @@ app.post("/login", (req, res) => {
   });
 });
 
+app.get("/api/registeredRFIDCount", (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM rfid";
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(500).send(err.message);
+    } else {
+      res.json({ count: result[0].count });
+    }
+  });
+});
+
+app.get("/api/numberOfPlasticBottleCount", (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM history WHERE is_valid = 'yes'";
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(500).send(err.message);
+    } else {
+      res.json({ count: result[0].count });
+    }
+  });
+});
+
+app.get("/api/numberOfRejected", (req, res) => {
+  const query = "SELECT COUNT(*) AS count FROM history WHERE is_valid = 'no'";
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(500).send(err.message);
+    } else {
+      res.json({ count: result[0].count });
+    }
+  });
+});
+
+app.get("/api/getStorageStatus", (req, res) => {
+  const query = "SELECT status FROM storage WHERE id = 1";
+  db.query(query, (err, result) => {
+    if (err) {
+      res.status(500).send(err.message);
+    } else {
+      res.json({ status: result[0].status });
+    }
+  });
+});
+
 // CRUD operations
 
 // Create new rfid

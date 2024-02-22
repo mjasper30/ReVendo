@@ -15,19 +15,47 @@ interface HistoryData {
   captured_image: string;
   is_valid: string;
   date: string;
+  [key: string]: number | string; // Index signature to allow indexing with a string
 }
 
 export default function RFID() {
   const [currentPage, setCurrentPage] = useState(1);
   const [historyData, setHistoryData] = useState<HistoryData[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
+  const totalItems = historyData.length;
+  const totalPages = Math.ceil(totalItems / 10);
+
+  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const itemsPerPage = 10;
   const onPageChange = (page: number) => setCurrentPage(page);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
 
-  // Function to fetch RFID data
+  // Function to fetch History data
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost:3001/api/history");
-      setHistoryData(response.data); // Update the state with fetched data
+      const filteredData = response.data.filter((history: HistoryData) => {
+        const valuesToSearch = [
+          "rfid_number",
+          "height",
+          "weight",
+          "size",
+          "is_valid",
+          "date",
+        ];
+        return valuesToSearch.some((field) =>
+          String(history[field])
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
+        );
+      });
+
+      setHistoryData(filteredData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -36,7 +64,7 @@ export default function RFID() {
   // Fetch current RFID value when the component mounts
   useEffect(() => {
     fetchData(); // Initial fetch
-  }, []); // Empty dependency array means this effect runs once after the initial render
+  }, [searchQuery]); // Empty dependency array means this effect runs once after the initial render
 
   // Function to convert base64 string to image URL
   const convertBase64ToImageUrl = (base64Data: string) => {
@@ -62,15 +90,17 @@ export default function RFID() {
                   type="text"
                   placeholder="Search"
                   className="mb-3"
+                  value={searchQuery}
+                  onChange={onSearchChange}
                 />
               </div>
             </div>
 
-            <Table className="text-center" striped hoverable>
+            <Table className="text-center mb-5" striped hoverable>
               <Table.Head className="bg-slate-600">
                 <Table.HeadCell>#</Table.HeadCell>
                 <Table.HeadCell>RFID Number</Table.HeadCell>
-                <Table.HeadCell>Height (cm)</Table.HeadCell>
+                <Table.HeadCell>Height</Table.HeadCell>
                 <Table.HeadCell>Weight (g)</Table.HeadCell>
                 <Table.HeadCell>Size (S,M,L)</Table.HeadCell>
                 <Table.HeadCell>Captured Image</Table.HeadCell>
@@ -78,48 +108,52 @@ export default function RFID() {
                 <Table.HeadCell>Date</Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
-                {historyData.map((history, index) => (
-                  <Table.Row
-                    key={index}
-                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
-                  >
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                      {index + 1}
-                    </Table.Cell>
-                    <Table.Cell>{history.rfid_number}</Table.Cell>
-                    <Table.Cell>{history.height}</Table.Cell>
-                    <Table.Cell>{history.weight}</Table.Cell>
-                    <Table.Cell>{history.size}</Table.Cell>
-                    <Table.Cell>
-                      <img
-                        src={convertBase64ToImageUrl(history.captured_image)}
-                        alt="Captured Image"
-                        style={{ maxWidth: "100%", maxHeight: "100px" }}
-                      />
-                    </Table.Cell>
-                    <Table.Cell>{history.is_valid}</Table.Cell>
-                    <Table.Cell>
-                      {new Date(history.date).toLocaleDateString(undefined, {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                        hour: "numeric",
-                        minute: "numeric",
-                        second: "numeric",
-                      })}
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
+                {historyData
+                  .slice(startIndex, endIndex)
+                  .map((history, index) => (
+                    <Table.Row
+                      key={index}
+                      className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    >
+                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                        {history.id}
+                      </Table.Cell>
+                      <Table.Cell>{history.rfid_number}</Table.Cell>
+                      <Table.Cell>{history.height}</Table.Cell>
+                      <Table.Cell>{history.weight}</Table.Cell>
+                      <Table.Cell>{history.size}</Table.Cell>
+                      <Table.Cell>
+                        <img
+                          src={convertBase64ToImageUrl(history.captured_image)}
+                          alt="Captured Image"
+                          style={{ maxWidth: "100%", maxHeight: "100px" }}
+                        />
+                      </Table.Cell>
+                      <Table.Cell>{history.is_valid}</Table.Cell>
+                      <Table.Cell>
+                        {new Date(history.date).toLocaleDateString(undefined, {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                          hour: "numeric",
+                          minute: "numeric",
+                          second: "numeric",
+                        })}
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
               </Table.Body>
             </Table>
 
-            <div className="flex overflow-x-auto sm:justify-center mt-3">
-              <Pagination
-                currentPage={currentPage}
-                totalPages={100}
-                onPageChange={onPageChange}
-              />
-            </div>
+            {totalItems > itemsPerPage && (
+              <div className="flex overflow-x-auto sm:justify-center mt-3">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={onPageChange}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
