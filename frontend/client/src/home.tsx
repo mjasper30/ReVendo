@@ -88,7 +88,7 @@ export default function Home() {
             } w-full burger:block burger:w-auto`}
             id="navbar-dropdown"
           >
-            <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-50 burger:flex-row burger:space-x-8  burger:mt-0 burger:border-0 burger:bg-transparent dark:bg-gray-800 burger:dark:bg-transparent dark:border-gray-700">
+            <ul className="flex flex-col font-medium mt-4 rounded-lg bg-gray-500 burger:flex-row burger:space-x-8  burger:mt-0 burger:border-0 burger:bg-transparent dark:bg-gray-800 burger:dark:bg-transparent dark:border-gray-700">
               <li>
                 <a
                   href="#home"
