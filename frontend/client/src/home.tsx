@@ -157,40 +157,42 @@ export default function Home() {
       <div className="flex flex-col justify-start items-center">
         <div className="tabletH:pt-[50px] pt-[10px] laptop::pt-0">
           {/* Home Section */}
-          <Section id="home" className="items-center sm:mt-10">
+          <Section id="home" className="items-center">
             <VerticalColumns>
               <HorizontalColumns>
                 <Column className="text-center flex flex-col justify-center">
-                  <Box className="animate__animated animate__fadeInLeft text-2xl text-white NotoSansJP font-semibold pb-5 text-center laptop:text-left sm:text-5xl sm:mt-10 md:text-5xl lg:text-6xl xl:text-7xl">
+                  <Box className="animate__animated animate__fadeInLeft text-xl text-white NotoSansJP font-semibold pb-5 text-center laptop:text-left sm:text-4xl sm:mt-14 md:text-5xl lg:text-6xl xl:text-7xl">
                     ReVendo
                   </Box>
-                  <Box className="animate__animated animate__fadeInLeft text-sm sm:text-xl md:text-sm lg:text-sm xl:text-4xl text-white text-justify font-bold leading-10 font-outline-2 tracking-3 py-5 sm:pr-4 laptop:pr-40 laptop:text-left">
+                  <Box className="animate__animated animate__fadeInLeft text-sm sm:text-sm sm:mx-1 md:text-sm lg:text-sm xl:text-4xl text-white text-center font-bold leading-10 font-outline-2 tracking-3 py-5 sm:pr-4 laptop:pr-40 laptop:text-left">
                     Introducing the EcoRewards Reverse Vending Machine:
                     Revolutionizing the fight against plastic bottle pollution!
                   </Box>
                   <VerticalColumns>
                     <HorizontalColumns className="md:flex-row items-center py-2 text-center">
-                      <Column>
-                        <a href="#get_started">
-                          <Box className="animate__animated animate__zoomIn rounded-3xl bg-discord border-discord border-3 py-5 w-64 text-center text-white font-black sm:w-[200px] sm:text-sm hover:bg-white hover:text-discord hover:border-none transition-all duration-300">
-                            GET STARTED
-                          </Box>
-                        </a>
-                      </Column>
-                      <Column>
-                        <a href="#check_balance">
-                          <Box className="animate__animated animate__zoomIn rounded-3xl bg-discord border-discord border-3 py-5 w-64 text-center text-white font-black sm:w-[200px] sm:text-sm hover:bg-white hover:text-discord hover:border-none transition-all duration-300">
-                            CHECK BALANCE
-                          </Box>
-                        </a>
-                      </Column>
+                      <div className="flex gap-4">
+                        <Column>
+                          <a href="#get_started">
+                            <Box className="animate__animated animate__zoomIn rounded-3xl bg-discord border-discord border-3 py-5 w-64 text-center text-white font-black sm:w-[120px] sm:text-[9px] sm:border-1 hover:bg-white hover:text-discord hover:border-none transition-all duration-300">
+                              GET STARTED
+                            </Box>
+                          </a>
+                        </Column>
+                        <Column>
+                          <a href="#check_balance">
+                            <Box className="animate__animated animate__zoomIn rounded-3xl bg-discord border-discord border-3 py-5 w-64 text-center text-white font-black sm:w-[120px] sm:text-[9px] sm:border-1 hover:bg-white hover:text-discord hover:border-none transition-all duration-300">
+                              CHECK BALANCE
+                            </Box>
+                          </a>
+                        </Column>
+                      </div>
                     </HorizontalColumns>
                   </VerticalColumns>
                 </Column>
                 <Column className="flex items-center justify-center">
                   <Box>
                     <img
-                      className="animate__animated animate__zoomInDown border-[13px] rounded-[100px] border-discord max-w-full max-h-[1200px]  imgH:max-w-[500px] imgH:max-h-[600px] sm:rounded-[50px]"
+                      className="animate__animated animate__zoomInDown border-[13px] rounded-[100px] border-discord max-w-full max-h-[1200px]  imgH:max-w-[500px] imgH:max-h-[600px] sm:max-h-[200px] sm:border-[10px] sm:rounded-[20px]"
                       src={image_revendo}
                     />
                   </Box>
@@ -201,7 +203,7 @@ export default function Home() {
           {/* End of Home Section */}
 
           {/* About Section */}
-          <Section id="about" className="align-top mt-20">
+          <Section id="about" className="align-top mt-20 sm:mt-2">
             <VerticalColumns>
               <HorizontalColumns>
                 <Column className="imgH:bg-white imgH:border-[9px] imgH:h-[450px]  imgH:rounded-[30px] imgH:border-discord imgH:flex imgH:mx-5 hidden ">
@@ -233,19 +235,19 @@ export default function Home() {
               </HorizontalColumns>
               <h2
                 id="get_started"
-                className="text-5xl font-bold text-white my-11"
+                className="text-5xl font-bold text-white my-11 sm:text-2xl"
               >
                 How does it work?
               </h2>
               <Column>
-                <Box className="text-2xl text-white leading-10 font-outline-2 tracking-3  text-center max-w-[1250px] mb-11">
+                <Box className="text-2xl text-white leading-10 font-outline-2 tracking-3  text-center max-w-[1250px] mb-11 sm:text-sm sm:mx-7">
                   This guide provides a detailed, step-by-step process for
                   converting plastic bottles into points that are then stored in
                   an RFID system.
                 </Box>
               </Column>
               <HorizontalColumns>
-                <Column className="bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[90%] w-[50%] transition-all duration-200 hover:border-blue-600">
+                <Column className="bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[85%] sm:mx-auto w-[50%] transition-all duration-200 hover:border-blue-600">
                   <img className="w-[70px] h-[70px]" src={rfid} alt="" />
                   <Box className="NotoSansJP font-black text-discord text-[20px] py-3">
                     Step One
@@ -255,7 +257,7 @@ export default function Home() {
                     plastic bottle inside the machine
                   </Box>
                 </Column>
-                <Column className="bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[90%] w-[50%] transition-all duration-200 hover:border-blue-600">
+                <Column className="bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[85%] sm:mx-auto w-[50%] transition-all duration-200 hover:border-blue-600">
                   <img className="w-[70px] h-[70px]" src={insert} alt="" />
                   <Box className="NotoSansJP font-black text-discord text-[20px] py-3">
                     Step Two
@@ -266,7 +268,7 @@ export default function Home() {
                   </Box>
                 </Column>
 
-                <Column className="bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[90%] w-[50%] transition-all duration-200 hover:border-blue-600">
+                <Column className="bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[85%] sm:mx-auto w-[50%] transition-all duration-200 hover:border-blue-600">
                   <img className="w-[70px] h-[70px]" src={observe} alt="" />
                   <Box className="NotoSansJP font-black text-discord text-[20px] py-3">
                     Step Three
@@ -276,7 +278,7 @@ export default function Home() {
                     as you deposit your plastic bottles.
                   </Box>
                 </Column>
-                <Column className="bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[90%] w-[50%] transition-all duration-200 hover:border-blue-600">
+                <Column className="bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[85%] sm:mx-auto w-[50%] transition-all duration-200 hover:border-blue-600">
                   <img className="w-[70px] h-[70px]" src={claim} alt="" />
                   <Box className="NotoSansJP font-black text-discord text-[20px] py-3">
                     Step Four
@@ -288,7 +290,7 @@ export default function Home() {
                 </Column>
               </HorizontalColumns>
               <HorizontalColumns>
-                <Box className="text-2xl text-white leading-10 font-outline-2 mt-10 tracking-3 text-center max-w-[1250px]">
+                <Box className="text-2xl text-white leading-10 font-outline-2 mt-10 tracking-3 text-center max-w-[1250px] sm:text-sm sm:mx-7">
                   Exchange your plastic bottles for a cleaner planet and earn
                   valuable reward points with our state-of-the-art Reverse
                   Vending Machine. Take a step towards sustainability and
@@ -313,41 +315,44 @@ export default function Home() {
           <Section className="align-top flex flex-col items-center">
             <h2
               id="check_balance"
-              className="text-5xl font-bold text-center text-white my-11"
+              className="text-5xl font-bold text-center text-white my-11 sm:text-2xl"
             >
               How to check my balance?
             </h2>
 
-            <Box className="text-2xl text-white leading-10 font-outline-2 mt-10 tracking-3 text-center max-w-[1250px]">
+            <Box className="text-2xl text-white leading-10 font-outline-2 mt-10 tracking-3 text-center max-w-[1250px] sm:text-sm sm:mx-12">
               Option 1: You can download our ReVendo app to check your balance.
             </Box>
             <img
               src={qr}
-              className="h-auto w-auto max-h-[250px] max-w-[250px] sm:max-h-[20px] mt-4 pr-2"
+              className="h-auto w-auto max-h-[250px] max-w-[250px] sm:max-h-[150px] sm:max-w-[150px] mt-4 pr-2"
             />
-            <div className="flex flex-col sm:flex-row items-center justify-center max-w-[1250px] mt-4">
-              <Box className="text-2xl text-white leading-10 font-outline-2 mt-10 tracking-3 text-center sm:mr-4 sm:mt-0">
-                Option 2: You can also check your balance by typing your RFID
-                number below.
-              </Box>
-              <div className="flex max-w-md gap-4 mt-10 sm:mt-0">
-                <div className="mb-2 block">
-                  <Label htmlFor="large" />
-                </div>
-                <TextInput
-                  id="large"
-                  type="text"
-                  sizing="lg"
-                  placeholder="Enter RFID Number"
-                />
-                <Button color="blue">Check Balance</Button>
+
+            <Box className="text-2xl text-white leading-10 font-outline-2 mt-10 tracking-3 text-center max-w-[1250px] sm:text-sm sm:mx-12">
+              Option 2: You can also check your balance by typing your RFID
+              number below.
+            </Box>
+            <div className="flex flex-col sm:flex-row max-w-md gap-4 mt-10 sm:mt-10 sm:h-[50px]">
+              <div className="mb-2 block">
+                <Label htmlFor="base" />
               </div>
-              <Box className="text-2xl text-white leading-10 font-outline-2 mt-10 tracking-3 text-center sm:mr-4 sm:mt-0">
-                Option 3: You can also check your balance by tapping your
-                ReVendo Card in the machine. The machine will display your
-                balance on the screen.
-              </Box>
+              <TextInput
+                id="base"
+                type="text"
+                sizing="base"
+                placeholder="RFID Number"
+                className="w-full sm:w-auto text-sm sm:text-base"
+              />
+              <Button color="blue" className="w-full sm:w-auto">
+                Check Balance
+              </Button>
             </div>
+
+            <Box className="text-2xl text-white leading-10 font-outline-2 mt-10 tracking-3 text-center max-w-[1250px] sm:text-sm sm:mx-12">
+              Option 3: You can also check your balance by tapping your ReVendo
+              Card in the machine. The machine will display your balance on the
+              screen.
+            </Box>
           </Section>
 
           {/* End About Section */}
@@ -355,7 +360,7 @@ export default function Home() {
           {/* Meet the Team Section */}
           <Section id="team" className="align-top mt-20">
             <VerticalColumns>
-              <h2 className="text-5xl font-bold text-center text-white mb-6">
+              <h2 className="text-5xl font-bold text-center text-white mb-6 sm:text-2xl">
                 Meet the Team
               </h2>
               <HorizontalColumns className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-8">
@@ -583,11 +588,11 @@ export default function Home() {
           {/* FAQ Section */}
           <Section id="faq" className="align-top mt-20">
             <VerticalColumns>
-              <h2 className="text-5xl font-bold text-white mb-6">
+              <h2 className="text-center text-5xl font-bold text-white mb-6 sm:text-2xl">
                 Frequently Asked Questions
               </h2>
               <Column>
-                <Box className="text-2xl text-white leading-10 font-outline-2 tracking-3 text-center max-w-[1250px]">
+                <Box className="text-2xl text-white leading-10 font-outline-2 tracking-3 text-center max-w-[1250px] sm:text-sm">
                   <Accordion className="bg-white">
                     {/* How to purchase ReVendo Card? */}
                     <Accordion.Panel>
@@ -696,7 +701,9 @@ export default function Home() {
           {/* Contact Us Section */}
           <Section id="contact_us">
             <VerticalColumns>
-              <h2 className="text-5xl font-bold text-white mb-6">Contact Us</h2>
+              <h2 className="text-center text-5xl font-bold text-white mb-6 sm:text-2xl">
+                Contact Us
+              </h2>
             </VerticalColumns>
           </Section>
           {/* End Contact Us Section */}
