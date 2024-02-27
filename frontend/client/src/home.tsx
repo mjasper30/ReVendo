@@ -27,9 +27,43 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [showNavbar, setShowNavbar] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [points, setPoints] = useState<number | null>(null);
+  const [rfidNumber, setRfidNumber] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
+
+  // Assuming you have a function to handle button click
+  const handleCheckBalance = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/check_balance", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ rfid: rfidNumber }),
+      });
+
+      if (response.ok) {
+        const fetchedPoints = await response.json();
+        setPoints(fetchedPoints);
+        setErrorMessage(null); // Reset error message if it was previously set
+      } else if (response.status === 404) {
+        setPoints(null);
+        setErrorMessage("RFID not found");
+      } else {
+        const error = await response.json();
+        console.error("Error checking balance:", error);
+        setErrorMessage("Error checking balance");
+      }
+    } catch (error) {
+      console.error("Error checking balance:", error);
+      setErrorMessage("Error checking balance");
+    }
+  };
+
   useEffect(() => {
     const fakeDataFetch = () => {
       setTimeout(() => {
@@ -206,13 +240,13 @@ export default function Home() {
           <Section id="about" className="align-top mt-20 sm:mt-2">
             <VerticalColumns>
               <HorizontalColumns>
-                <Column className="imgH:bg-white imgH:border-[9px] imgH:h-[450px]  imgH:rounded-[30px] imgH:border-discord imgH:flex imgH:mx-5 hidden ">
-                  <div className="flex">
-                    <Column className="text-center w-2/3 mx-16 my-5 overflow-hidden">
-                      <Box className="mt-2 NotoSansJP font-black text-black text-[48px] py-3 text-left bigH:py-5 bigH:mt-5 ">
+                <Column className="imgH:bg-white imgH:border-[9px] imgH:h-[450px]  imgH:rounded-[30px] imgH:border-discord imgH:flex imgH:mx-5 sm:mx-auto sm:w-[90%] sm:h-[640px] sm:bg-white sm:border-[9px] sm:rounded-[30px] sm:text-center sm:border-discord">
+                  <div className="flex sm:flex-col">
+                    <Column className="text-center w-2/3 mx-16 my-5 overflow-hidden sm:mx-auto">
+                      <Box className="mt-2 NotoSansJP font-black text-black text-[48px] py-3 text-left bigH:py-5 bigH:mt-5 sm:text-center sm:text-[30px]">
                         What is ReVendo?
                       </Box>
-                      <Box className="NotoSansJP font-black text-discord text-[20px] leading-[30px] text-left pt-3 bigH:pt-5">
+                      <Box className="NotoSansJP font-black text-discord text-[20px] leading-[30px] text-left pt-3 bigH:pt-5 sm:text-center sm:text-[10px] sm:leading-[20px]">
                         A Reverse Vending Machine that solves problem for
                         plastic bottle pollution that exchange plastic bottles
                         into reward points that will help community to reduce
@@ -223,9 +257,9 @@ export default function Home() {
                       </Box>
                     </Column>
 
-                    <Column className="w-1/2 flex justify-end overflow-hidden">
+                    <Column className="w-1/2 flex justify-end overflow-hidden sm:w-full">
                       <img
-                        className="rounded-r-[20px] bigH:w-[500px]"
+                        className="rounded-r-[20px] bigH:w-[500px] sm:rounded-[20px]"
                         src={image_revendo_1}
                         alt=""
                       />
@@ -233,12 +267,14 @@ export default function Home() {
                   </div>
                 </Column>
               </HorizontalColumns>
-              <h2
-                id="get_started"
-                className="text-5xl font-bold text-white my-11 sm:text-2xl"
-              >
-                How does it work?
-              </h2>
+              <HorizontalColumns>
+                <h2
+                  id="get_started"
+                  className="text-5xl font-bold text-white my-11 sm:text-2xl sm:mt-16"
+                >
+                  How does it work?
+                </h2>
+              </HorizontalColumns>
               <Column>
                 <Box className="text-2xl text-white leading-10 font-outline-2 tracking-3  text-center max-w-[1250px] mb-11 sm:text-sm sm:mx-7">
                   This guide provides a detailed, step-by-step process for
@@ -340,14 +376,40 @@ export default function Home() {
                 id="base"
                 type="text"
                 sizing="base"
+                value={rfidNumber}
+                onChange={(e) => setRfidNumber(e.target.value)}
                 placeholder="RFID Number"
                 className="w-full sm:w-auto text-sm sm:text-base"
               />
-              <Button color="blue" className="w-full sm:w-auto">
+
+              <Button
+                onClick={handleCheckBalance}
+                color="blue"
+                className="w-full sm:w-auto"
+              >
                 Check Balance
               </Button>
             </div>
-
+            <div
+              id="pointsDisplay"
+              className={`mt-4 text-xl text-white ${
+                errorMessage ? "bg-red-600" : "bg-green-600"
+              } px-5 py-2 rounded-full leading-10 font-outline-2 tracking-3 text-center sm:text-base`}
+            >
+              {errorMessage ? (
+                <span
+                  style={{
+                    color: "white",
+                    borderRadius: "0.5rem",
+                    lineHeight: "2.5rem",
+                  }}
+                >
+                  {errorMessage}
+                </span>
+              ) : (
+                points !== null && `Your balance: ${points} pts`
+              )}
+            </div>
             <Box className="text-2xl text-white leading-10 font-outline-2 mt-10 tracking-3 text-center max-w-[1250px] sm:text-sm sm:mx-12">
               Option 3: You can also check your balance by tapping your ReVendo
               Card in the machine. The machine will display your balance on the
