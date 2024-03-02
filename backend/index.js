@@ -647,6 +647,62 @@ app.put("/update_charging_station", (req, res) => {
   });
 });
 
+app.put("/api/update-bottle/:id", (req, res) => {
+  const { id } = req.params;
+  const { bottle_size, height_size, point } = req.body;
+
+  const query = `
+    UPDATE plastic_bottle_size_point
+    SET bottle_size = ?, height_size = ?, point = ?
+    WHERE id = ?;
+  `;
+
+  db.query(query, [bottle_size, height_size, point, id], (error, results) => {
+    if (error) throw error;
+    res.json(results);
+  });
+});
+
+app.put("/api/charge_time/", (req, res) => {
+  const { charge_time } = req.body;
+
+  const query = `
+    UPDATE charge_time
+    SET minute = ? WHERE id = 1;
+  `;
+
+  db.query(query, [charge_time], (error, results) => {
+    if (error) throw error;
+    res.json(results);
+  });
+});
+
+app.get("/api/get-bottle-data", (req, res) => {
+  const query = "SELECT * FROM plastic_bottle_size_point;";
+
+  db.query(query, (error, results) => {
+    if (error) {
+      console.error("Error fetching bottle data", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+app.get("/api/charge_time", (req, res) => {
+  const query = "SELECT minute FROM charge_time WHERE id = 1;";
+
+  db.query(query, (error, results) => {
+    if (error) {
+      console.error("Error fetching bottle data", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
 // Start the Express.js server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
