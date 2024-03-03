@@ -1,3 +1,4 @@
+require("dotenv").config(); // Load environment variables from .env file
 const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
@@ -5,6 +6,7 @@ const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
 const fs = require("fs/promises");
 const multer = require("multer");
+const sgMail = require("@sendgrid/mail");
 const port = 3001;
 
 const app = express();
@@ -12,6 +14,9 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// Set your SendGrid API key
+sgMail.setApiKey(process.env.TWILIO_EMAIL_API_KEY);
 
 // Multer storage configuration
 const storage = multer.memoryStorage();
@@ -43,6 +48,69 @@ db.on("error", (err) => {
   } else {
     throw err;
   }
+});
+
+app.post("/api/sendSMS", (req, res) => {
+  const accountSid = process.env.TWILIO_ACCOUNT_SID;
+  const authToken = process.env.TWILIO_AUTH_TOKEN;
+  const client = require("twilio")(accountSid, authToken);
+
+  // Set the timezone to Asia/Manila
+  const timeZone = "Asia/Manila";
+  const options = {
+    timeZone,
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  };
+
+  // Get the current date and time in the specified timezone
+  const currentDate = new Date();
+  const formattedDateTime = currentDate.toLocaleString("en-US", options);
+
+  // Create the SMS body with date and time
+  const smsBody = `Warning: Your bin capacity is now full. Please go to ReVendo Machine.\nDate and Time: ${formattedDateTime}`;
+
+  client.messages
+    .create({
+      body: smsBody,
+      from: "+18016580534",
+      to: "+639213279723",
+    })
+    .then((message) => {
+      console.log(message.sid);
+      res.status(200).json({ message: "SMS sent successfully" });
+    })
+    .catch((error) => {
+      console.error("Error sending SMS:", error);
+      res.status(500).json({ error: "Failed to send SMS" });
+    });
+});
+
+app.post("/api/sendEmail", (req, res) => {
+  const { htmlContent } = req.body;
+
+  const msg = {
+    to: "jasper.macaraeg42@gmail.com",
+    from: "20200102m.macaraeg.jasper.bscs@gmail.com", // Use the email associated with your SendGrid account
+    subject: "ReVendo Email Test",
+    html: htmlContent,
+  };
+
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log("Email sent successfully!");
+      res.status(200).json({ message: "Email sent successfully" });
+    })
+    .catch((error) => {
+      console.error("Error sending email:", error);
+      res.status(500).json({ error: "Failed to send email" });
+    });
 });
 
 app.post("/rfid", (req, res) => {
