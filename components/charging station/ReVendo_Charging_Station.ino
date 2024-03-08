@@ -33,7 +33,7 @@ const int buttonIncrementPin = D0;  // Connect the increment button to GPIO pin 
 const int buttonDecrementPin = D8;  // Connect the decrement button to GPIO pin D2
 // const int buttonOkayPin = D3;
 
-int number = 0;  // The number to be incremented and decremented
+int number = 1;  // The number to be incremented and decremented
 int points = 12;
 String rfidUID = "";
 int process_number = 1;
@@ -269,49 +269,63 @@ void updateStation(int number) {
   }
 }
 
-void choosePoints(){
+void choosePoints() {
   int balance = response.toInt();
-  if (balance >= number) {
-    if (number == 0) {
-      if (digitalRead(buttonIncrementPin) == LOW) {
-        incrementNumber();
-        delay(200);  // Debounce delay
-      }
-    } else {
-      if (digitalRead(buttonDecrementPin) == LOW) {
-        decrementNumber();
-        delay(200);  // Debounce delay
-      }
-      if (digitalRead(buttonIncrementPin) == LOW) {
-        incrementNumber();
-        delay(200);  // Debounce delay
-      }
-      if (digitalRead(buttonIncrementPin) == HIGH && digitalRead(buttonDecrementPin) == HIGH) {
-        updateBalance(number);
-        updateStation(number);
-        delay(200);  // Debounce delay
-      }
+  
+  if (balance < 1) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("No Balance!");
+    delay(2000);  // Display the message for 2 seconds
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Scan RFID Card");
+    number = 1;
+    rfidUID = "";
+    process_number = 1;  // Go back to RFID scanning
+  }else{
+    // Check if a new RFID card is present
+    if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+      // Update balance and station
+      updateBalance(number);
+      updateStation(number);
     }
-    Serial.println("Balance: " + String(response));
-    Serial.println("Charge Points: " + String(number));
+
+    if (number == 1){
+      number = 1;
+      delay(200);  // Debounce delay
+    }
+
+    if (number == balance){
+      number = balance;
+      delay(200);  // Debounce delay
+    }
+
+    // Increment charge points if buttonIncrementPin is pressed and number is not equal to balance
+    if (digitalRead(buttonIncrementPin) == LOW && balance > number) {
+      Serial.println(number);
+      incrementNumber();
+      delay(200);  // Debounce delay
+    }
+
+    // Decrement charge points if buttonDecrementPin is pressed and number is not equal to 1
+    if (digitalRead(buttonDecrementPin) == LOW && number > 1) {
+      decrementNumber();
+      delay(200);  // Debounce delay
+    }
 
     // Print balance and charge points to LCD
     lcd.clear();
     lcd.setCursor(0, 0);  // Set the cursor to the first column and first row
     lcd.print("Balance: ");
     lcd.print(response);
+
     lcd.setCursor(0, 1);  // Set the cursor to the first column and second row
     lcd.print("Charge Pts: ");
     lcd.print(number);
-  } else if (balance <= number) {
-    if (digitalRead(buttonDecrementPin) == LOW) {
-      decrementNumber();
-      delay(200);  // Debounce delay
-    }
-  } else {
-    Serial.println("You can't exceed to do that the points you have");
   }
 }
+
 
 void incrementNumber() {
   number++;
