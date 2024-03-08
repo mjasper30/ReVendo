@@ -289,6 +289,18 @@ void choosePoints() {
       // Update balance and station
       updateBalance(number);
       updateStation(number);
+
+      mfrc522.PICC_HaltA();
+      mfrc522.PCD_StopCrypto1();
+    }
+
+    MFRC522::PICC_Type piccType = mfrc522.PICC_GetType(mfrc522.uid.sak);
+
+    if (piccType != MFRC522::PICC_TYPE_MIFARE_MINI &&
+        piccType != MFRC522::PICC_TYPE_MIFARE_1K &&
+        piccType != MFRC522::PICC_TYPE_MIFARE_4K) {
+      Serial.println("Unsupported card");
+      return;
     }
 
     if (number == 1){
