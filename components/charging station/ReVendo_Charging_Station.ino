@@ -183,9 +183,6 @@ void RFID_Scan(){
 
   //Reset RFID Number
   process_number = 2;
-
-  mfrc522.PICC_HaltA();
-  mfrc522.PCD_StopCrypto1();
 }
 
 void checkBalance() {
@@ -204,10 +201,10 @@ void checkBalance() {
       Serial.print("Error on sending POST: ");
       Serial.println(httpResponseCode);
     }
-    // http.end();
   } else {
     Serial.println("Error in WiFi connection");
   }
+  http.end();
 }
 
 void updateBalance(int updateAmount){
@@ -237,10 +234,10 @@ void updateBalance(int updateAmount){
       Serial.print("Error on sending POST: ");
       Serial.println(httpResponseCode);
     }
-    //http.end();
   } else {
     Serial.println("Error in WiFi connection");
   }
+  http.end();
 }
 
 void updateStation(int number) {
@@ -269,10 +266,10 @@ void updateStation(int number) {
       Serial.print("Error on sending PUT: ");
       Serial.println(httpResponseCode);
     }
-    http.end();
   } else {
     Serial.println("Error in WiFi connection");
   }
+  http.end();
 }
 
 void choosePoints() {
@@ -295,7 +292,6 @@ void choosePoints() {
       // Update balance and station
       updateBalance(number);
       updateStation(number);
-
       mfrc522.PICC_HaltA();
       mfrc522.PCD_StopCrypto1();
     }
