@@ -34,7 +34,6 @@ export default function Home() {
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
-
   // Assuming you have a function to handle button click
   const handleCheckBalance = async () => {
     try {
@@ -63,6 +62,30 @@ export default function Home() {
       setErrorMessage("Error checking balance");
     }
   };
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) =>{
+      console.log(entry)
+      if (entry.isIntersecting){
+        entry.target.classList.add('showY');
+      }
+    });
+  });
+
+  const hiddenElements = document.querySelectorAll('.hideY');
+  hiddenElements.forEach((el) => observer.observe(el));
+
+  const observer2 = new IntersectionObserver((entries) => {
+    entries.forEach((entry) =>{
+      console.log(entry)
+      if (entry.isIntersecting){
+        entry.target.classList.add('showX');
+      }
+    });
+  });
+
+  const hiddenElements2 = document.querySelectorAll('.hideX');
+  hiddenElements2.forEach((el) => observer2.observe(el));
 
   useEffect(() => {
     const fakeDataFetch = () => {
@@ -83,7 +106,7 @@ export default function Home() {
     <div className="bg-[#1E1F22] fixed inset-0 bg-cover bg-center scrollable-container">
       {/* Navigation Bar */}
       <nav
-        className={`bg-[#5865F2] fixed top-0 w-full h-[85px] sm:h-[60px] shadow-lg rounded-b-3xl z-10 ${
+        className={`bg-[#5865F2] fixed top-0 w-full h-[85px] sm:h-[60px] shadow-lg b-3xl z-10 ${
           showNavbar ? "slideDown" : "hidden-nav"
         }`}
       >
@@ -226,7 +249,7 @@ export default function Home() {
                 <Column className="flex items-center justify-center">
                   <Box>
                     <img
-                      className="animate__animated animate__zoomInDown border-[13px] rounded-[100px] border-discord max-w-full max-h-[1200px]  imgH:max-w-[500px] imgH:max-h-[600px] sm:max-h-[200px] sm:border-[10px] sm:rounded-[20px]"
+                      className="animate__animated animate__fadeInRight border-[13px] rounded-[100px] border-discord max-w-full max-h-[1200px]  imgH:max-w-[500px] imgH:max-h-[600px] sm:max-h-[200px] sm:border-[10px] sm:rounded-[20px]"
                       src={image_revendo}
                     />
                   </Box>
@@ -239,6 +262,7 @@ export default function Home() {
           {/* About Section */}
           <Section id="about" className="align-top mt-20 sm:mt-2">
             <VerticalColumns>
+            <div className="hideY">
               <HorizontalColumns>
                 <Column className="imgH:bg-white imgH:border-[9px] imgH:h-[450px]  imgH:rounded-[30px] imgH:border-discord imgH:flex imgH:mx-5 sm:mx-auto sm:w-[90%] sm:h-[640px] sm:bg-white sm:border-[9px] sm:rounded-[30px] sm:text-center sm:border-discord">
                   <div className="flex sm:flex-col">
@@ -267,6 +291,9 @@ export default function Home() {
                   </div>
                 </Column>
               </HorizontalColumns>
+            </div>
+            
+            <div className="hideY">
               <HorizontalColumns>
                 <h2
                   id="get_started"
@@ -274,7 +301,7 @@ export default function Home() {
                 >
                   How does it work?
                 </h2>
-              </HorizontalColumns>
+              </HorizontalColumns>          
               <Column>
                 <Box className="text-2xl text-white leading-10 font-outline-2 tracking-3  text-center max-w-[1250px] mb-11 sm:text-sm sm:mx-7">
                   This guide provides a detailed, step-by-step process for
@@ -282,39 +309,44 @@ export default function Home() {
                   an RFID system.
                 </Box>
               </Column>
-              <HorizontalColumns>
-                <Column className="bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[85%] sm:mx-auto w-[50%] transition-all duration-200 hover:border-blue-600">
-                  <img className="w-[70px] h-[70px]" src={rfid} alt="" />
-                  <Box className="NotoSansJP font-black text-discord text-[20px] py-3">
-                    Step One
-                  </Box>
-                  <Box className=" NotoSansJP text-discord text-[15px] leading-[30px]">
-                    Tap your RFID card on the scanner to begin. Place your
-                    plastic bottle inside the machine
-                  </Box>
-                </Column>
-                <Column className="bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[85%] sm:mx-auto w-[50%] transition-all duration-200 hover:border-blue-600">
-                  <img className="w-[70px] h-[70px]" src={insert} alt="" />
-                  <Box className="NotoSansJP font-black text-discord text-[20px] py-3">
-                    Step Two
-                  </Box>
-                  <Box className="NotoSansJP text-discord text-[15px] leading-[30px]">
-                    Insert your plastic bottle into the designated slot on the
-                    machine.
-                  </Box>
-                </Column>
+            </div>
 
-                <Column className="bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[85%] sm:mx-auto w-[50%] transition-all duration-200 hover:border-blue-600">
-                  <img className="w-[70px] h-[70px]" src={observe} alt="" />
-                  <Box className="NotoSansJP font-black text-discord text-[20px] py-3">
-                    Step Three
-                  </Box>
-                  <Box className=" NotoSansJP text-discord text-[15px] leading-[30px]">
-                    Observe your point status on the display screen in real-time
-                    as you deposit your plastic bottles.
-                  </Box>
-                </Column>
-                <Column className="bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[85%] sm:mx-auto w-[50%] transition-all duration-200 hover:border-blue-600">
+            <div className="steps">
+              <HorizontalColumns>
+                  <Column className="steps hideY bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[85%] sm:mx-auto w-[50%] transition-all duration-200 hover:border-blue-600">
+                    <img className="w-[70px] h-[70px]" src={rfid} alt="" />
+                    <Box className="NotoSansJP font-black text-discord text-[20px] py-3">
+                      Step One
+                    </Box>
+                    <Box className=" NotoSansJP text-discord text-[15px] leading-[30px]">
+                      Tap your RFID card on the scanner to begin. Place your
+                      plastic bottle inside the machine
+                    </Box>
+                  </Column>
+
+                  <Column className="steps hideY bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[85%] sm:mx-auto w-[50%] transition-all duration-200 hover:border-blue-600">
+                    <img className="w-[70px] h-[70px]" src={insert} alt="" />
+                    <Box className="NotoSansJP font-black text-discord text-[20px] py-3">
+                      Step Two
+                    </Box>
+                    <Box className="NotoSansJP text-discord text-[15px] leading-[30px]">
+                      Insert your plastic bottle into the designated slot on the
+                      machine.
+                    </Box>
+                  </Column>
+
+                  <Column className="steps hideY bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[85%] sm:mx-auto w-[50%] transition-all duration-200 hover:border-blue-600">
+                    <img className="w-[70px] h-[70px]" src={observe} alt="" />
+                    <Box className="NotoSansJP font-black text-discord text-[20px] py-3">
+                      Step Three
+                    </Box>
+                    <Box className=" NotoSansJP text-discord text-[15px] leading-[30px]">
+                      Observe your point status on the display screen in real-time
+                      as you deposit your plastic bottles.
+                    </Box>
+                  </Column>
+
+                <Column className="steps hideY bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[85%] sm:mx-auto w-[50%] transition-all duration-200 hover:border-blue-600">
                   <img className="w-[70px] h-[70px]" src={claim} alt="" />
                   <Box className="NotoSansJP font-black text-discord text-[20px] py-3">
                     Step Four
@@ -324,9 +356,11 @@ export default function Home() {
                     your reward points.
                   </Box>
                 </Column>
-              </HorizontalColumns>
+            </HorizontalColumns>
+          </div>
+
               <HorizontalColumns>
-                <Box className="text-2xl text-white leading-10 font-outline-2 mt-10 tracking-3 text-center max-w-[1250px] sm:text-sm sm:mx-7">
+                <Box className="hideY text-2xl text-white leading-10 font-outline-2 mt-10 tracking-3 text-center max-w-[1250px] sm:text-sm sm:mx-7">
                   Exchange your plastic bottles for a cleaner planet and earn
                   valuable reward points with our state-of-the-art Reverse
                   Vending Machine. Take a step towards sustainability and
@@ -348,7 +382,7 @@ export default function Home() {
           </Section>
 
           {/*  */}
-          <Section className="align-top flex flex-col items-center">
+          <Section className="hideY align-top flex flex-col items-center">
             <h2
               id="check_balance"
               className="text-5xl font-bold text-center text-white my-11 sm:text-2xl"
@@ -420,13 +454,15 @@ export default function Home() {
           {/* End About Section */}
 
           {/* Meet the Team Section */}
+          <div className="teamcard">
           <Section id="team" className="align-top mt-20">
             <VerticalColumns>
               <h2 className="text-5xl font-bold text-center text-white mb-6 sm:text-2xl">
                 Meet the Team
               </h2>
               <HorizontalColumns className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-8">
-                <Column className="flex flex-col items-center">
+
+                <Column className="teamcard hideX flex flex-col items-center">
                   <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
                     <img
                       src={gabriel}
@@ -455,7 +491,8 @@ export default function Home() {
                     </div>
                   </Box>
                 </Column>
-                <Column className="flex flex-col items-center">
+
+                <Column className="tramcard hideX flex flex-col items-center">
                   <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
                     <img
                       src={macaraeg}
@@ -482,7 +519,8 @@ export default function Home() {
                     </div>
                   </Box>
                 </Column>
-                <Column className="flex flex-col items-center">
+
+                <Column className="teamcard hideX flex flex-col items-center">
                   <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
                     <img
                       src={sigue}
@@ -509,7 +547,8 @@ export default function Home() {
                     </div>
                   </Box>
                 </Column>
-                <Column className="flex flex-col items-center">
+
+                <Column className="teamcard hideX flex flex-col items-center">
                   <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
                     <img
                       src={custodio}
@@ -532,7 +571,8 @@ export default function Home() {
                     </div>
                   </Box>
                 </Column>
-                <Column className="flex flex-col items-center">
+
+                <Column className="teamcard hideX flex flex-col items-center">
                   <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
                     <img
                       src={clemente}
@@ -561,7 +601,8 @@ export default function Home() {
                     </div>
                   </Box>
                 </Column>
-                <Column className="flex flex-col items-center">
+
+                <Column className="teamcard hideX flex flex-col items-center">
                   <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
                     <img
                       src={adriano}
@@ -588,7 +629,8 @@ export default function Home() {
                     </div>
                   </Box>
                 </Column>
-                <Column className="flex flex-col items-center">
+
+                <Column className="teamcard hideX flex flex-col items-center">
                   <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
                     <img
                       src={rivera}
@@ -615,7 +657,8 @@ export default function Home() {
                     </div>
                   </Box>
                 </Column>
-                <Column className="flex flex-col items-center">
+
+                <Column className=" teamcard hideX flex flex-col items-center">
                   <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
                     <img
                       src={clave}
@@ -645,6 +688,7 @@ export default function Home() {
               </HorizontalColumns>
             </VerticalColumns>
           </Section>
+        </div>
           {/* End Meet the Team Section */}
 
           {/* FAQ Section */}
