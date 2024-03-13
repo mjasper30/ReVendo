@@ -37,13 +37,16 @@ export default function Home() {
   // Assuming you have a function to handle button click
   const handleCheckBalance = async () => {
     try {
-      const response = await fetch("http://localhost:3001/check_balance", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ rfid: rfidNumber }),
-      });
+      const response = await fetch(
+        "https://revendo-backend-main.onrender.com/check_balance",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ rfid: rfidNumber }),
+        }
+      );
 
       if (response.ok) {
         const fetchedPoints = await response.json();
@@ -62,29 +65,29 @@ export default function Home() {
       setErrorMessage("Error checking balance");
     }
   };
-  
+
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) =>{
-      console.log(entry)
-      if (entry.isIntersecting){
-        entry.target.classList.add('showY');
+    entries.forEach((entry) => {
+      console.log(entry);
+      if (entry.isIntersecting) {
+        entry.target.classList.add("showY");
       }
     });
   });
 
-  const hiddenElements = document.querySelectorAll('.hideY');
+  const hiddenElements = document.querySelectorAll(".hideY");
   hiddenElements.forEach((el) => observer.observe(el));
 
   const observer2 = new IntersectionObserver((entries) => {
-    entries.forEach((entry) =>{
-      console.log(entry)
-      if (entry.isIntersecting){
-        entry.target.classList.add('showX');
+    entries.forEach((entry) => {
+      console.log(entry);
+      if (entry.isIntersecting) {
+        entry.target.classList.add("showX");
       }
     });
   });
 
-  const hiddenElements2 = document.querySelectorAll('.hideX');
+  const hiddenElements2 = document.querySelectorAll(".hideX");
   hiddenElements2.forEach((el) => observer2.observe(el));
 
   useEffect(() => {
@@ -192,8 +195,9 @@ export default function Home() {
                 </a>
               </li>
               <li className="hidden burger:block">
-                <button
-                  type="button"
+                <a
+                  href="/RevendoApp.APK"
+                  download="RevendoApp.apk"
                   className="text-black bg-white hover:bg-blue-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm pl-2.5 py-2 text-center mr-3 burger:mr-1 flex items-center w-40 transition-all duration-300"
                 >
                   <img
@@ -202,7 +206,7 @@ export default function Home() {
                     className="mr-2 w-6 h-6"
                   />
                   <span className="flex-shrink-0">Download App</span>
-                </button>
+                </a>
               </li>
             </ul>
           </div>
@@ -262,57 +266,58 @@ export default function Home() {
           {/* About Section */}
           <Section id="about" className="align-top mt-20 sm:mt-2">
             <VerticalColumns>
-            <div className="hideY">
-              <HorizontalColumns>
-                <Column className="imgH:bg-white imgH:border-[9px] imgH:h-[450px]  imgH:rounded-[30px] imgH:border-discord imgH:flex imgH:mx-5 sm:mx-auto sm:w-[90%] sm:h-[640px] sm:bg-white sm:border-[9px] sm:rounded-[30px] sm:text-center sm:border-discord">
-                  <div className="flex sm:flex-col">
-                    <Column className="text-center w-2/3 mx-16 my-5 overflow-hidden sm:mx-auto">
-                      <Box className="mt-2 NotoSansJP font-black text-black text-[48px] py-3 text-left bigH:py-5 bigH:mt-5 sm:text-center sm:text-[30px]">
-                        What is ReVendo?
-                      </Box>
-                      <Box className="NotoSansJP font-black text-discord text-[20px] leading-[30px] text-left pt-3 bigH:pt-5 sm:text-center sm:text-[10px] sm:leading-[20px]">
-                        A Reverse Vending Machine that solves problem for
-                        plastic bottle pollution that exchange plastic bottles
-                        into reward points that will help community to reduce
-                        plastic bottle waste and promote eco-friendly machine
-                        that can exchange into RFID reward points into charging
-                        station to accumulate time charging for smart phones
-                        empowered by solar panel in the charging station.
-                      </Box>
-                    </Column>
+              <div className="hideY">
+                <HorizontalColumns>
+                  <Column className="imgH:bg-white imgH:border-[9px] imgH:h-[450px]  imgH:rounded-[30px] imgH:border-discord imgH:flex imgH:mx-5 sm:mx-auto sm:w-[90%] sm:h-[640px] sm:bg-white sm:border-[9px] sm:rounded-[30px] sm:text-center sm:border-discord">
+                    <div className="flex sm:flex-col">
+                      <Column className="text-center w-2/3 mx-16 my-5 overflow-hidden sm:mx-auto">
+                        <Box className="mt-2 NotoSansJP font-black text-black text-[48px] py-3 text-left bigH:py-5 bigH:mt-5 sm:text-center sm:text-[30px]">
+                          What is ReVendo?
+                        </Box>
+                        <Box className="NotoSansJP font-black text-discord text-[20px] leading-[30px] text-left pt-3 bigH:pt-5 sm:text-center sm:text-[10px] sm:leading-[20px]">
+                          A Reverse Vending Machine that solves problem for
+                          plastic bottle pollution that exchange plastic bottles
+                          into reward points that will help community to reduce
+                          plastic bottle waste and promote eco-friendly machine
+                          that can exchange into RFID reward points into
+                          charging station to accumulate time charging for smart
+                          phones empowered by solar panel in the charging
+                          station.
+                        </Box>
+                      </Column>
 
-                    <Column className="w-1/2 flex justify-end overflow-hidden sm:w-full">
-                      <img
-                        className="rounded-r-[20px] bigH:w-[500px] sm:rounded-[20px]"
-                        src={image_revendo_1}
-                        alt=""
-                      />
-                    </Column>
-                  </div>
+                      <Column className="w-1/2 flex justify-end overflow-hidden sm:w-full">
+                        <img
+                          className="rounded-r-[20px] bigH:w-[500px] sm:rounded-[20px]"
+                          src={image_revendo_1}
+                          alt=""
+                        />
+                      </Column>
+                    </div>
+                  </Column>
+                </HorizontalColumns>
+              </div>
+
+              <div className="hideY">
+                <HorizontalColumns>
+                  <h2
+                    id="get_started"
+                    className="text-center text-5xl font-bold text-white my-11 sm:text-2xl sm:mt-16"
+                  >
+                    How does it work?
+                  </h2>
+                </HorizontalColumns>
+                <Column>
+                  <Box className="text-2xl text-white leading-10 font-outline-2 tracking-3  text-center max-w-[1250px] mb-11 sm:text-sm sm:mx-7">
+                    This guide provides a detailed, step-by-step process for
+                    converting plastic bottles into points that are then stored
+                    in an RFID system.
+                  </Box>
                 </Column>
-              </HorizontalColumns>
-            </div>
-            
-            <div className="hideY">
-              <HorizontalColumns>
-                <h2
-                  id="get_started"
-                  className="text-5xl font-bold text-white my-11 sm:text-2xl sm:mt-16"
-                >
-                  How does it work?
-                </h2>
-              </HorizontalColumns>          
-              <Column>
-                <Box className="text-2xl text-white leading-10 font-outline-2 tracking-3  text-center max-w-[1250px] mb-11 sm:text-sm sm:mx-7">
-                  This guide provides a detailed, step-by-step process for
-                  converting plastic bottles into points that are then stored in
-                  an RFID system.
-                </Box>
-              </Column>
-            </div>
+              </div>
 
-            <div className="steps">
-              <HorizontalColumns>
+              <div className="steps">
+                <HorizontalColumns>
                   <Column className="steps hideY bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[85%] sm:mx-auto w-[50%] transition-all duration-200 hover:border-blue-600">
                     <img className="w-[70px] h-[70px]" src={rfid} alt="" />
                     <Box className="NotoSansJP font-black text-discord text-[20px] py-3">
@@ -341,23 +346,23 @@ export default function Home() {
                       Step Three
                     </Box>
                     <Box className=" NotoSansJP text-discord text-[15px] leading-[30px]">
-                      Observe your point status on the display screen in real-time
-                      as you deposit your plastic bottles.
+                      Observe your point status on the display screen in
+                      real-time as you deposit your plastic bottles.
                     </Box>
                   </Column>
 
-                <Column className="steps hideY bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[85%] sm:mx-auto w-[50%] transition-all duration-200 hover:border-blue-600">
-                  <img className="w-[70px] h-[70px]" src={claim} alt="" />
-                  <Box className="NotoSansJP font-black text-discord text-[20px] py-3">
-                    Step Four
-                  </Box>
-                  <Box className=" NotoSansJP text-discord text-[15px] leading-[30px]">
-                    Upon completion, tap the "Claim Points" button to redeem
-                    your reward points.
-                  </Box>
-                </Column>
-            </HorizontalColumns>
-          </div>
+                  <Column className="steps hideY bg-white border-[9px] h-[350px] rounded-[30px] border-discord text-center flex flex-col p-6 mx-2 px-5 items-center m:w-1/2 sm:w-[85%] sm:mx-auto w-[50%] transition-all duration-200 hover:border-blue-600">
+                    <img className="w-[70px] h-[70px]" src={claim} alt="" />
+                    <Box className="NotoSansJP font-black text-discord text-[20px] py-3">
+                      Step Four
+                    </Box>
+                    <Box className=" NotoSansJP text-discord text-[15px] leading-[30px]">
+                      Upon completion, tap the "Claim Points" button to redeem
+                      your reward points.
+                    </Box>
+                  </Column>
+                </HorizontalColumns>
+              </div>
 
               <HorizontalColumns>
                 <Box className="hideY text-2xl text-white leading-10 font-outline-2 mt-10 tracking-3 text-center max-w-[1250px] sm:text-sm sm:mx-7">
@@ -455,240 +460,247 @@ export default function Home() {
 
           {/* Meet the Team Section */}
           <div className="teamcard">
-          <Section id="team" className="align-top mt-20">
-            <VerticalColumns>
-              <h2 className="text-5xl font-bold text-center text-white mb-6 sm:text-2xl">
-                Meet the Team
-              </h2>
-              <HorizontalColumns className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-8">
+            <Section id="team" className="align-top mt-20">
+              <VerticalColumns>
+                <h2 className="text-5xl font-bold text-center text-white mb-6 sm:text-2xl">
+                  Meet the Team
+                </h2>
+                <HorizontalColumns className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 gap-8">
+                  <Column className="teamcard hideX flex flex-col items-center">
+                    <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
+                      <img
+                        src={gabriel}
+                        alt="Team Member 1"
+                        className="w-32 h-32 rounded-full mb-4"
+                      />
+                      <h3 className="text-lg font-bold">
+                        Andriel Geomer Gabriel
+                      </h3>
+                      <p className="text-gray-500">
+                        Frontend/Backend Developer
+                      </p>
+                      <div className="flex space-x-4 mt-3">
+                        <a
+                          href={"https://www.facebook.com/Gravitationall.pull"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i className="text-3xl fa-brands fa-facebook"></i>
+                        </a>
+                        <a
+                          href={"https://github.com/J-i-w-o-o"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i className="text-3xl fa-brands fa-github"></i>
+                        </a>
+                      </div>
+                    </Box>
+                  </Column>
 
-                <Column className="teamcard hideX flex flex-col items-center">
-                  <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
-                    <img
-                      src={gabriel}
-                      alt="Team Member 1"
-                      className="w-32 h-32 rounded-full mb-4"
-                    />
-                    <h3 className="text-lg font-bold">
-                      Andriel Geomer Gabriel
-                    </h3>
-                    <p className="text-gray-500">Frontend/Backend Developer</p>
-                    <div className="flex space-x-4 mt-3">
-                      <a
-                        href={"https://www.facebook.com/Gravitationall.pull"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="text-3xl fa-brands fa-facebook"></i>
-                      </a>
-                      <a
-                        href={"https://github.com/J-i-w-o-o"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="text-3xl fa-brands fa-github"></i>
-                      </a>
-                    </div>
-                  </Box>
-                </Column>
+                  <Column className="tramcard hideX flex flex-col items-center">
+                    <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
+                      <img
+                        src={macaraeg}
+                        alt="Team Member 1"
+                        className="w-32 h-32 rounded-full mb-4"
+                      />
+                      <h3 className="text-lg font-bold">Jasper Macaraeg</h3>
+                      <p className="text-gray-500">
+                        Frontend/Backend Developer
+                      </p>
+                      <div className="flex space-x-4 mt-3">
+                        <a
+                          href={"https://www.facebook.com/mjasper30"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i className="text-3xl fa-brands fa-facebook"></i>
+                        </a>
+                        <a
+                          href={"https://github.com/mjasper30"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i className="text-3xl fa-brands fa-github"></i>
+                        </a>
+                      </div>
+                    </Box>
+                  </Column>
 
-                <Column className="tramcard hideX flex flex-col items-center">
-                  <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
-                    <img
-                      src={macaraeg}
-                      alt="Team Member 1"
-                      className="w-32 h-32 rounded-full mb-4"
-                    />
-                    <h3 className="text-lg font-bold">Jasper Macaraeg</h3>
-                    <p className="text-gray-500">Frontend/Backend Developer</p>
-                    <div className="flex space-x-4 mt-3">
-                      <a
-                        href={"https://www.facebook.com/mjasper30"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="text-3xl fa-brands fa-facebook"></i>
-                      </a>
-                      <a
-                        href={"https://github.com/mjasper30"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="text-3xl fa-brands fa-github"></i>
-                      </a>
-                    </div>
-                  </Box>
-                </Column>
+                  <Column className="teamcard hideX flex flex-col items-center">
+                    <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
+                      <img
+                        src={sigue}
+                        alt="Team Member 1"
+                        className="w-32 h-32 rounded-full mb-4"
+                      />
+                      <h3 className="text-lg font-bold">Daniel Sigue</h3>
+                      <p className="text-gray-500">
+                        Backend/Hardware Developer
+                      </p>
+                      <div className="flex space-x-4 mt-3">
+                        <a
+                          href={"https://www.facebook.com/daniel.sigue"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i className="text-3xl fa-brands fa-facebook"></i>
+                        </a>
+                        <a
+                          href={"https://github.com/dnlsigue"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i className="text-3xl fa-brands fa-github"></i>
+                        </a>
+                      </div>
+                    </Box>
+                  </Column>
 
-                <Column className="teamcard hideX flex flex-col items-center">
-                  <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
-                    <img
-                      src={sigue}
-                      alt="Team Member 1"
-                      className="w-32 h-32 rounded-full mb-4"
-                    />
-                    <h3 className="text-lg font-bold">Daniel Sigue</h3>
-                    <p className="text-gray-500">Backend/Hardware Developer</p>
-                    <div className="flex space-x-4 mt-3">
-                      <a
-                        href={"https://www.facebook.com/daniel.sigue"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="text-3xl fa-brands fa-facebook"></i>
-                      </a>
-                      <a
-                        href={"https://github.com/dnlsigue"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="text-3xl fa-brands fa-github"></i>
-                      </a>
-                    </div>
-                  </Box>
-                </Column>
+                  <Column className="teamcard hideX flex flex-col items-center">
+                    <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
+                      <img
+                        src={custodio}
+                        alt="Team Member 1"
+                        className="w-32 h-32 rounded-full mb-4"
+                      />
+                      <h3 className="text-lg font-bold">Daniel Custodio</h3>
+                      <p className="text-gray-500">Hardware Developer</p>
+                      <div className="flex space-x-4 mt-3">
+                        <a
+                          href={"https://www.facebook.com/dnlcstd"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i className="text-3xl fa-brands fa-facebook"></i>
+                        </a>
+                        <a href={""} target="_blank" rel="noopener noreferrer">
+                          <i className="text-3xl fa-brands fa-github"></i>
+                        </a>
+                      </div>
+                    </Box>
+                  </Column>
 
-                <Column className="teamcard hideX flex flex-col items-center">
-                  <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
-                    <img
-                      src={custodio}
-                      alt="Team Member 1"
-                      className="w-32 h-32 rounded-full mb-4"
-                    />
-                    <h3 className="text-lg font-bold">Daniel Custodio</h3>
-                    <p className="text-gray-500">Hardware Developer</p>
-                    <div className="flex space-x-4 mt-3">
-                      <a
-                        href={"https://www.facebook.com/dnlcstd"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="text-3xl fa-brands fa-facebook"></i>
-                      </a>
-                      <a href={""} target="_blank" rel="noopener noreferrer">
-                        <i className="text-3xl fa-brands fa-github"></i>
-                      </a>
-                    </div>
-                  </Box>
-                </Column>
+                  <Column className="teamcard hideX flex flex-col items-center">
+                    <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
+                      <img
+                        src={clemente}
+                        alt="Team Member 1"
+                        className="w-32 h-32 rounded-full mb-4"
+                      />
+                      <h3 className="text-lg font-bold">
+                        John Maverick Clemente
+                      </h3>
+                      <p className="text-gray-500">Frontend Developer</p>
+                      <div className="flex space-x-4 mt-3">
+                        <a
+                          href={"https://www.facebook.com/maestromav"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i className="text-3xl fa-brands fa-facebook"></i>
+                        </a>
+                        <a
+                          href={"https://github.com/MaestroMavs"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i className="text-3xl fa-brands fa-github"></i>
+                        </a>
+                      </div>
+                    </Box>
+                  </Column>
 
-                <Column className="teamcard hideX flex flex-col items-center">
-                  <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
-                    <img
-                      src={clemente}
-                      alt="Team Member 1"
-                      className="w-32 h-32 rounded-full mb-4"
-                    />
-                    <h3 className="text-lg font-bold">
-                      John Maverick Clemente
-                    </h3>
-                    <p className="text-gray-500">Frontend Developer</p>
-                    <div className="flex space-x-4 mt-3">
-                      <a
-                        href={"https://www.facebook.com/maestromav"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="text-3xl fa-brands fa-facebook"></i>
-                      </a>
-                      <a
-                        href={"https://github.com/MaestroMavs"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="text-3xl fa-brands fa-github"></i>
-                      </a>
-                    </div>
-                  </Box>
-                </Column>
+                  <Column className="teamcard hideX flex flex-col items-center">
+                    <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
+                      <img
+                        src={adriano}
+                        alt="Team Member 1"
+                        className="w-32 h-32 rounded-full mb-4"
+                      />
+                      <h3 className="text-lg font-bold">
+                        John Kenneth Adriano
+                      </h3>
+                      <p className="text-gray-500">Frontend Developer</p>
+                      <div className="flex space-x-4 mt-3">
+                        <a
+                          href={"https://www.facebook.com/adrianojkenneth"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i className="text-3xl fa-brands fa-facebook"></i>
+                        </a>
+                        <a
+                          href={"https://github.com/jkamogus"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i className="text-3xl fa-brands fa-github"></i>
+                        </a>
+                      </div>
+                    </Box>
+                  </Column>
 
-                <Column className="teamcard hideX flex flex-col items-center">
-                  <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
-                    <img
-                      src={adriano}
-                      alt="Team Member 1"
-                      className="w-32 h-32 rounded-full mb-4"
-                    />
-                    <h3 className="text-lg font-bold">John Kenneth Adriano</h3>
-                    <p className="text-gray-500">Frontend Developer</p>
-                    <div className="flex space-x-4 mt-3">
-                      <a
-                        href={"https://www.facebook.com/adrianojkenneth"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="text-3xl fa-brands fa-facebook"></i>
-                      </a>
-                      <a
-                        href={"https://github.com/jkamogus"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="text-3xl fa-brands fa-github"></i>
-                      </a>
-                    </div>
-                  </Box>
-                </Column>
+                  <Column className="teamcard hideX flex flex-col items-center">
+                    <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
+                      <img
+                        src={rivera}
+                        alt="Team Member 1"
+                        className="w-32 h-32 rounded-full mb-4"
+                      />
+                      <h3 className="text-lg font-bold">May Pearl Rivera</h3>
+                      <p className="text-gray-500">Frontend Developer</p>
+                      <div className="flex space-x-4 mt-3">
+                        <a
+                          href={"https://www.facebook.com/maypearl.rivera"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i className="text-3xl fa-brands fa-facebook"></i>
+                        </a>
+                        <a
+                          href={"https://github.com/Nepheleee"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i className="text-3xl fa-brands fa-github"></i>
+                        </a>
+                      </div>
+                    </Box>
+                  </Column>
 
-                <Column className="teamcard hideX flex flex-col items-center">
-                  <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
-                    <img
-                      src={rivera}
-                      alt="Team Member 1"
-                      className="w-32 h-32 rounded-full mb-4"
-                    />
-                    <h3 className="text-lg font-bold">May Pearl Rivera</h3>
-                    <p className="text-gray-500">Frontend Developer</p>
-                    <div className="flex space-x-4 mt-3">
-                      <a
-                        href={"https://www.facebook.com/maypearl.rivera"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="text-3xl fa-brands fa-facebook"></i>
-                      </a>
-                      <a
-                        href={"https://github.com/Nepheleee"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="text-3xl fa-brands fa-github"></i>
-                      </a>
-                    </div>
-                  </Box>
-                </Column>
-
-                <Column className=" teamcard hideX flex flex-col items-center">
-                  <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
-                    <img
-                      src={clave}
-                      alt="Team Member 1"
-                      className="w-32 h-32 rounded-full mb-4"
-                    />
-                    <h3 className="text-lg font-bold">Ma. Loelaida Clave</h3>
-                    <p className="text-gray-500">Frontend Developer</p>
-                    <div className="flex space-x-4 mt-3">
-                      <a
-                        href={"https://www.facebook.com/leeelss"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="text-3xl fa-brands fa-facebook"></i>
-                      </a>
-                      <a
-                        href={"https://github.com/leee01"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <i className="text-3xl fa-brands fa-github"></i>
-                      </a>
-                    </div>
-                  </Box>
-                </Column>
-              </HorizontalColumns>
-            </VerticalColumns>
-          </Section>
-        </div>
+                  <Column className=" teamcard hideX flex flex-col items-center">
+                    <Box className="bg-white p-6 rounded-lg shadow-md text-center h-full w-64 flex flex-col items-center justify-center">
+                      <img
+                        src={clave}
+                        alt="Team Member 1"
+                        className="w-32 h-32 rounded-full mb-4"
+                      />
+                      <h3 className="text-lg font-bold">Ma. Loelaida Clave</h3>
+                      <p className="text-gray-500">Frontend Developer</p>
+                      <div className="flex space-x-4 mt-3">
+                        <a
+                          href={"https://www.facebook.com/leeelss"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i className="text-3xl fa-brands fa-facebook"></i>
+                        </a>
+                        <a
+                          href={"https://github.com/leee01"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i className="text-3xl fa-brands fa-github"></i>
+                        </a>
+                      </div>
+                    </Box>
+                  </Column>
+                </HorizontalColumns>
+              </VerticalColumns>
+            </Section>
+          </div>
           {/* End Meet the Team Section */}
 
           {/* FAQ Section */}

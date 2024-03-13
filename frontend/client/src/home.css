@@ -2,7 +2,7 @@
   transform: translateY(-100%);
   opacity: 0;
 }
-  
+
 .slideDown {
   transform: translateY(0);
   opacity: 1;
@@ -11,85 +11,84 @@
 
 body {
   overflow-x: hidden; /* Disable horizontal scrolling */
-  overflow-y: auto;  /* Enable vertical scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .scrollable-container {
   overflow-x: hidden; /* Disable horizontal scrolling */
-  overflow-y: auto;  /* Enable vertical scrolling */ 
+  overflow-y: auto; /* Enable vertical scrolling */
   /* Other styles 
   for your container */
-} 
-
-.NotoSansJP{
-  font-family: 'Noto Sans JP', sans-serif;
 }
 
-.hideY{
+.NotoSansJP {
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.hideY {
   opacity: 0;
   transition: all 1s;
 }
- 
-.showY{
+
+.showY {
   transform: translateY(-1%);
   opacity: 1;
 }
 
-.hideX{
+.hideX {
   opacity: 0;
   transition: all 1s;
 }
 
-.showX{
+.showX {
   transform: translateX(1%);
   opacity: 1;
 }
 
-
-.steps:nth-child(2){
+.steps:nth-child(2) {
   transition-delay: 200ms;
 }
 
-.steps:nth-child(3){
+.steps:nth-child(3) {
   transition-delay: 400ms;
 }
 
-.steps:nth-child(4){
+.steps:nth-child(4) {
   transition-delay: 600ms;
 }
 
-.steps:nth-child(5){
+.steps:nth-child(5) {
   transition-delay: 800ms;
 }
 
-.teamcard:nth-child(2){
+.teamcard:nth-child(2) {
   transition-delay: 200ms;
 }
 
-.teamcard:nth-child(3){
+.teamcard:nth-child(3) {
   transition-delay: 400ms;
 }
 
-.teamcard:nth-child(4){
+.teamcard:nth-child(4) {
   transition-delay: 600ms;
 }
 
-.teamcard:nth-child(5){
+.teamcard:nth-child(5) {
   transition-delay: 800ms;
 }
 
-.teamcard:nth-child(6){
+.teamcard:nth-child(6) {
   transition-delay: 800ms;
 }
 
-.teamcard:nth-child(7){
+.teamcard:nth-child(7) {
   transition-delay: 600ms;
 }
 
-.teamcard:nth-child(8){
+.teamcard:nth-child(8) {
   transition-delay: 400ms;
 }
 
-.teamcard:nth-child(9){
+.teamcard:nth-child(9) {
   transition-delay: 200ms;
 }
