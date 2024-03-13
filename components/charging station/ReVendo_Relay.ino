@@ -2,33 +2,37 @@
 #include <ESP8266WiFi.h>
 
 // Replace with your network credentials
-const char *ssid = "seedsphere";
-const char *password = "YssabelJane25*";
+const char *ssid1 = "seedsphere";
+const char *password1 = "YssabelJane25*";
+const char *ssid2 = "Tangerine";
+const char *password2 = "dhengrosalie29";
 
-// Jasper
-const char *get_status = "http://192.168.68.111:3001/charging_station";
-const char *update_status_to_off = "http://192.168.68.111:3001/update_charging_station";
+const char *ssidList[] = {ssid1, ssid2};
+const char *passwordList[] = {password1, password2};
 
-// Sigue
-// const char *get_status = "http://192.168.43.85:3001/charging_station";
-// const char *update_status_to_off = "http://192.168.43.85:3001/update_charging_station";
+const int numWiFiNetworks = 2;  // Adjust this based on the number of WiFi networks you have
 
-// Hosting
-// const char *get_status = "https://revendo-030702.et.r.appspot.com/charging_station";
-// const char *update_status_to_off = "https://revendo-030702.et.r.appspot.com/update_charging_station";
+//Local
+// const char *get_status = "http://192.168.68.111:3001/charging_station";
+// const char *update_status_to_off = "http://192.168.68.111:3001/update_charging_station";
+
+//Hosting
+const char *get_status = "https://revendo-backend-main.onrender.com/charging_station";
+const char *update_status_to_off = "https://revendo-backend-main.onrender.com/update_charging_station";
 
 // Define the pins connected to the relay module
 const int relay1Pin = D1;  // GPIO pin for Relay 1
 
+// Make http request to the Express.js API
+WiFiClientSecure client;
+HTTPClient http;
+
 void setup() {
   Serial.begin(115200);
 
-  // Connect to Wi-Fi
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Connecting to WiFi...");
-  }
+  connectToWiFi();
+  // Use setInsecure() to bypass certificate verification
+  client.setInsecure();
   Serial.println("Connected to WiFi");
 
   // Set relay pins as OUTPUT
@@ -42,10 +46,6 @@ void setup() {
 }
 
 void loop() {
-  // Make http request to the Express.js API
-  WiFiClient client;
-  HTTPClient http;
-
   if (http.begin(client, get_status)) {
     int httpCode = http.GET();
 
@@ -71,6 +71,8 @@ void loop() {
         digitalWrite(relay1Pin, HIGH);
         Serial.println("Relay 1 OFF");
 
+        http.end(); // Close connection
+
         // Update the database
         updateDatabase("off");
       } else {
@@ -81,8 +83,6 @@ void loop() {
     } else {
       Serial.println("http request failed");
     }
-
-    http.end(); // Close connection
   }
 
   // Delay between API requests (e.g., 5 seconds)
@@ -90,24 +90,50 @@ void loop() {
 }
 
 void updateDatabase(String status) {
-  WiFiClient client;
-  HTTPClient http;
+  http.begin(client, update_status_to_off);
+  http.addHeader("Content-Type", "application/json");
 
-  if (http.begin(client, update_status_to_off)) {
-    http.addHeader("Content-Type", "application/json");
+  // Prepare the JSON payload
+  String payload = "{\"status\":\"" + status + "\",\"time\":0}";
 
-    // Prepare the JSON payload
-    String payload = "{\"status\":\"" + status + "\",\"time\":0}";
+  int httpCode = http.PUT(payload);
 
-    int httpCode = http.PUT(payload);
+  if (httpCode == HTTP_CODE_OK) {
+    String response = http.getString();
+    Serial.println("Database Update Response: " + response);
+  } else {
+    Serial.println("Database update request failed");
+  }
+}
 
-    if (httpCode == HTTP_CODE_OK) {
-      String response = http.getString();
-      Serial.println("Database Update Response: " + response);
-    } else {
-      Serial.println("Database update request failed");
+void connectToWiFi() {
+  int attempts = 0;
+
+  while (attempts < numWiFiNetworks) {
+    WiFi.begin(ssidList[attempts], passwordList[attempts]);
+    
+    Serial.print("Connecting to WiFi Network: ");
+    Serial.println(ssidList[attempts]);
+
+    int attemptTimeout = 0;
+    while (WiFi.status() != WL_CONNECTED && attemptTimeout < 20) {
+      delay(500);
+      Serial.print(".");
+      attemptTimeout++;
     }
 
-    http.end(); // Close connection
+    if (WiFi.status() == WL_CONNECTED) {
+      Serial.println("\nConnected to WiFi");
+      break;  // Exit the loop if connected successfully
+    } else {
+      Serial.println("\nConnection failed, trying next network...");
+      WiFi.disconnect();
+      attempts++;
+    }
+  }
+
+  if (attempts == numWiFiNetworks) {
+    Serial.println("Failed to connect to any WiFi network. Please check your credentials.");
+    // You can add additional error handling or fallback mechanisms here
   }
 }

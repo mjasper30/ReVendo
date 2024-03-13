@@ -24,8 +24,16 @@
 #define RST_PIN   D3
 #define SS_PIN    D4
 
-const char* ssid = "seedsphere";
-const char* password = "YssabelJane25*";
+// Replace with your network credentials
+const char *ssid1 = "seedsphere";
+const char *password1 = "YssabelJane25*";
+const char *ssid2 = "Tangerine";
+const char *password2 = "dhengrosalie29";
+
+const char *ssidList[] = {ssid1, ssid2};
+const char *passwordList[] = {password1, password2};
+
+const int numWiFiNetworks = 2;  // Adjust this based on the number of WiFi networks you have
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
@@ -39,22 +47,17 @@ String rfidUID = "";
 int process_number = 1;
 String response = "";
 
-//Jasper
-const char* serverName = "http://192.168.68.111:3001/check_balance"; // Replace with your server address
-const char* serverName_1 = "http://192.168.68.111:3001/minusPoints";
-const char* serverName_2 = "http://192.168.68.111:3001/updateStation";
-
-//Sigue
-// const char* serverName = "http://192.168.43.85:3001/check_balance"; // Replace with your server address
-// const char* serverName_1 = "http://192.168.43.85:3001/minusPoints";
-// const char* serverName_2 = "http://192.168.43.85:3001/updateStation";
+//Local
+// const char* serverName = "http://192.168.68.111:3001/check_balance"; // Replace with your server address
+// const char* serverName_1 = "http://192.168.68.111:3001/minusPoints";
+// const char* serverName_2 = "http://192.168.68.111:3001/updateStation";
 
 //Hosting
-// const char* serverName = "https://revendo-030702.et.r.appspot.com/check_balance"; // Replace with your server address
-// const char* serverName_1 = "https://revendo-030702.et.r.appspot.com/minusPoints";
-// const char* serverName_2 = "https://revendo-030702.et.r.appspot.com/updateStation";
+const char* serverName = "https://revendo-backend-main.onrender.com/check_balance"; // Replace with your server address
+const char* serverName_1 = "https://revendo-backend-main.onrender.com/minusPoints";
+const char* serverName_2 = "https://revendo-backend-main.onrender.com/updateStation";
 
-WiFiClient client;
+WiFiClientSecure client;
 HTTPClient http;
 
 unsigned long startTime;
@@ -70,6 +73,9 @@ void setup() {
 
   // Connect to Wi-Fi
   connectToWiFi();
+
+  // Use setInsecure() to bypass certificate verification
+  client.setInsecure();
 
   SPI.begin();
   mfrc522.PCD_Init();
@@ -177,12 +183,9 @@ void RFID_Scan(){
 
   //Reset RFID Number
   process_number = 2;
-
-  mfrc522.PICC_HaltA();
-  mfrc522.PCD_StopCrypto1();
 }
 
-void checkBalance(){
+void checkBalance() {
   if (WiFi.status() == WL_CONNECTED) {
     http.begin(client, serverName);
     http.addHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -198,10 +201,10 @@ void checkBalance(){
       Serial.print("Error on sending POST: ");
       Serial.println(httpResponseCode);
     }
-    // http.end();
   } else {
     Serial.println("Error in WiFi connection");
   }
+  http.end();
 }
 
 void updateBalance(int updateAmount){
@@ -231,10 +234,10 @@ void updateBalance(int updateAmount){
       Serial.print("Error on sending POST: ");
       Serial.println(httpResponseCode);
     }
-    //http.end();
   } else {
     Serial.println("Error in WiFi connection");
   }
+  http.end();
 }
 
 void updateStation(int number) {
@@ -263,10 +266,10 @@ void updateStation(int number) {
       Serial.print("Error on sending PUT: ");
       Serial.println(httpResponseCode);
     }
-    http.end();
   } else {
     Serial.println("Error in WiFi connection");
   }
+  http.end();
 }
 
 void choosePoints() {
@@ -289,7 +292,6 @@ void choosePoints() {
       // Update balance and station
       updateBalance(number);
       updateStation(number);
-
       mfrc522.PICC_HaltA();
       mfrc522.PCD_StopCrypto1();
     }
@@ -348,15 +350,33 @@ void decrementNumber() {
 }
 
 void connectToWiFi() {
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.print(".");
+  int attempts = 0;
+
+  while (attempts < numWiFiNetworks) {
+    WiFi.begin(ssidList[attempts], passwordList[attempts]);
+    
+    Serial.print("Connecting to WiFi Network: ");
+    Serial.println(ssidList[attempts]);
+
+    int attemptTimeout = 0;
+    while (WiFi.status() != WL_CONNECTED && attemptTimeout < 20) {
+      delay(500);
+      Serial.print(".");
+      attemptTimeout++;
+    }
+
+    if (WiFi.status() == WL_CONNECTED) {
+      Serial.println("\nConnected to WiFi");
+      break;  // Exit the loop if connected successfully
+    } else {
+      Serial.println("\nConnection failed, trying next network...");
+      WiFi.disconnect();
+      attempts++;
+    }
   }
-  Serial.println("");
-  Serial.println("WiFi connected");
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
+
+  if (attempts == numWiFiNetworks) {
+    Serial.println("Failed to connect to any WiFi network. Please check your credentials.");
+    // You can add additional error handling or fallback mechanisms here
+  }
 }
