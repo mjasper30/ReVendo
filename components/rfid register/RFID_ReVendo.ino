@@ -24,15 +24,17 @@
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
 // Replace with your network credentials
-const char *ssid1 = "seedsphere";
-const char *password1 = "YssabelJane25*";
+const char *ssid1 = "forfreewifi";
+const char *password1 = "forfreefy";
 const char *ssid2 = "Tangerine";
-const char *password2 = "dhengrosalie29";
+const char *password2 = "dhengrosalie29"; 
+const char *ssid3 = "seedsphere";
+const char *password3 = "YssabelJane25*";
 
-const char *ssidList[] = {ssid1, ssid2};
-const char *passwordList[] = {password1, password2};
+const char *ssidList[] = {ssid1, ssid2, ssid3};
+const char *passwordList[] = {password1, password2, password3};
 
-const int numWiFiNetworks = 2;  // Adjust this based on the number of WiFi networks you have
+const int numWiFiNetworks = 3;  // Adjust this based on the number of WiFi networks you have
 
 // Local
 // const char* serverName = "http://192.168.68.111:3001/rfid"; // Replace with your server address
