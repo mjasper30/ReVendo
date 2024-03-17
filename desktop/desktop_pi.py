@@ -58,7 +58,6 @@ height_cm = 0
 
 rfid_uid = ""
 check_more = True
-check_yolo = True
 sleep_me = 0
 
 revendo_logo = None
@@ -72,6 +71,9 @@ okay_button = None
 image_tutorial = None
 balance_label = None
 points_entry = None
+
+# Global flag to control the loop in the long-running task
+stop_long_task = False
 
 # Variable to hold points
 points_var = StringVar()
@@ -129,10 +131,15 @@ def update_real_time_values():
 
 
 def get_points_process():
-    global sleep_me, total_points, plastic_bottles_detected, total_small, total_medium, total_large, global_rfid, check_more, check_yolo
+    global sleep_me, total_points, plastic_bottles_detected, total_small, total_medium, total_large, global_rfid, check_more, stop_long_task
     # weight = 6 #test
 
     while check_more:
+        if stop_long_task:
+            print("Task stopped.")
+            stop_long_task = False
+            return
+
         # Weight check
         weight = hx.get_weight_mean() - 130
         print("Weight: " + str(abs(int(weight))) + " grams")
@@ -142,10 +149,8 @@ def get_points_process():
         # weight = 15  # test
 
         if (sleep_me == 30):
-            check_more = False
-            check_yolo = False
-            sleep_me = 0
-            destroy_elements_process()
+            print("Task stopped.")
+            stop_long_task = False
             break
 
         # Check if the value of weight if greater than expected weight value
@@ -159,7 +164,6 @@ def get_points_process():
             sleep_me += 1
             continue
 
-    if (check_yolo == True):
         # Capturing of image script execution
         subprocess.run(['bash', 'capture_image.sh'], check=True)
 
@@ -256,13 +260,13 @@ def get_points_process():
 
             check_more = True
 
-        app.after(3000, get_points_process)
-
 # Trigger claim points
 
 
 def claim_points():
-    global total_points, check_more, check_yolo, total_small, total_medium, total_large, plastic_bottles_detected, total_points
+    global total_points, check_more, total_small, total_medium, total_large, plastic_bottles_detected, total_points, stop_long_task
+
+    stop_long_task = True
 
     print("Total Small Plastic Bottle:", total_small)
     print("Total Medium Plastic Bottle:", total_medium)
@@ -280,12 +284,11 @@ def claim_points():
     if response_update_points.status_code == 200:
         print("Points updated in the database successfully.")
         check_more = False
-        check_yolo = False
-        app.after(100, destroy_elements_process)
+        destroy_elements_process()
     else:
         print("Failed to update points in the database.")
         check_more = False
-        app.after(100, destroy_elements_process)
+        destroy_elements_process()
 
 # Function to update points on the UI
 
@@ -299,7 +302,7 @@ def update_points():
 
 
 def handle_rfid_scan():
-    global global_balance, scan_processed, global_rfid
+    global global_balance, scan_processed, global_rfid, stop_long_task
 
     try:
         # RFID setup
@@ -331,6 +334,8 @@ def handle_rfid_scan():
                 # Update points on the UI
                 update_points()
 
+                stop_long_task = True
+
                 # Rest of the code for processing when RFID is registered...
             else:
                 print("RFID is not registered in the database. Attempt")
@@ -354,7 +359,7 @@ def handle_rfid_scan():
 
 
 def handle_rfid_scan_get_points():
-    global global_balance, scan_processed, global_rfid, check_more, check_yolo
+    global global_balance, scan_processed, global_rfid, check_more
 
     try:
         # RFID setup
@@ -368,7 +373,6 @@ def handle_rfid_scan_get_points():
         global_rfid = rfid_uid
 
         check_more = True
-        check_yolo = True
 
         # Process scan only if the flag is True
         if scan_processed:
@@ -432,6 +436,8 @@ def get_image_path(image_filename):
 
 
 def destroy_elements_scan_rfid():
+    global revendo_logo, get_points_button, check_balance_button, tutorial_button, rfid_reader_image, scan_rfid_header, cancel_button
+
     revendo_logo.destroy()
     get_points_button.destroy()
     check_balance_button.destroy()
@@ -444,6 +450,8 @@ def destroy_elements_scan_rfid():
 
 
 def destroy_elements_tutorial():
+    global revendo_logo, get_points_button, check_balance_button, image_tutorial, okay_button
+
     revendo_logo.destroy()
     get_points_button.destroy()
     check_balance_button.destroy()
@@ -454,6 +462,13 @@ def destroy_elements_tutorial():
 
 
 def destroy_elements_process():
+    global revendo_logo, get_points_button, check_balance_button, tutorial_button, your_balance_header, image_label_process, points_entry, largebottle_text, smallbottle_text, totalplasticbottle_text, mediumbottle_text, totalpoints_text, smallbottle_text, cancel_button, claim_button, stop_long_task
+
+    if stop_long_task:
+        print("Task stopped.")
+        stop_long_task = False
+        return
+
     revendo_logo.destroy()
     get_points_button.destroy()
     check_balance_button.destroy()
@@ -503,7 +518,11 @@ def destroy_elements_check_balance():
 
 
 def get_points_scan_rfid_page():
-    global rfid_reader_image, cancel_button, scan_rfid_header
+    global rfid_reader_image, cancel_button, scan_rfid_header, stop_long_task
+
+    stop_long_task = False
+    thread = threading.Thread(target=handle_rfid_scan)
+    thread.start()
 
     scan_rfid_header = tk.Label(
         app, text="Scan your ReVendo Card", font=("Arial", 24), bg='#8599e0', fg="white")
@@ -518,7 +537,7 @@ def get_points_scan_rfid_page():
     rfid_reader_image.place(relx=0.5, rely=0.5, anchor='center')
 
     cancel_button = tk.Button(app, text="Cancel", font=(
-        "Arial", 16), command=process_plastic_bottles, bg='#8599e0', padx=20, fg='white')
+        "Arial", 16), command=destroy_elements_scan_rfid, bg='#8599e0', padx=20, fg='white')
     cancel_button.place(relx=0.5, rely=0.8, anchor='center',
                         width=150, height=40)
 
@@ -528,11 +547,13 @@ def get_points_scan_rfid_page():
     check_balance_button.destroy()
     tutorial_button.destroy()
 
-    app.after(1000, handle_rfid_scan_get_points)
-
 
 def process_plastic_bottles():
-    global your_balance_header, image_label_process, largebottle_text, balance_text, total_points, smallbottle_text, totalplasticbottle_text, mediumbottle_text, totalpoints_text, smallbottle_text, cancel_button, claim_button, points_entry
+    global your_balance_header, image_label_process, largebottle_text, balance_text, total_points, smallbottle_text, totalplasticbottle_text, mediumbottle_text, totalpoints_text, smallbottle_text, cancel_button, claim_button, points_entry, stop_long_task
+
+    stop_long_task = False
+    thread = threading.Thread(target=get_points_process)
+    thread.start()
 
     your_balance_header = tk.Label(
         app, text="Balance", font=("Arial", 24), bg='#8599e0', fg='white')
@@ -635,7 +656,11 @@ def process_plastic_bottles():
 
 
 def check_points_scan_rfid_page():
-    global rfid_reader_image, scan_rfid_header, okay_button, balance_label, points_entry, okay_button
+    global rfid_reader_image, scan_rfid_header, okay_button, balance_label, points_entry, okay_button, balance_header, balance_text, global_balance, stop_long_task
+
+    stop_long_task = False
+    thread = threading.Thread(target=handle_rfid_scan)
+    thread.start()
 
     scan_rfid_header = tk.Label(
         app, text="Scan your ReVendo Card", font=("Arial", 20), bg='#8599e0', fg='white')
@@ -667,17 +692,6 @@ def check_points_scan_rfid_page():
     okay_button.place(relx=0.5, rely=0.8, anchor='center',
                       width=150, height=40)
 
-    # Hiding specific elements
-    revendo_logo.destroy()
-    get_points_button.destroy()
-    check_balance_button.destroy()
-    tutorial_button.destroy()
-
-    # Trigger RFID scan explicitly
-    # handle_rfid_scan()
-    app.after(1000, handle_rfid_scan)
-    global balance_header, balance_text, global_balance
-
     balance_header = tk.Label(app, text="Your Balance", font=(
         "Arial", 24), bg='#8599e0', fg='white')
     balance_header.place(relx=0.5, rely=0.4, anchor='center')
@@ -702,6 +716,7 @@ def check_points_scan_rfid_page():
     okay_button.place(relx=0.5, rely=0.6, anchor='center',
                       width=150, height=40)
 
+    # Hiding specific elements
     scan_rfid_header.destroy()
     cancel_button.destroy()
     rfid_reader_image.destroy()
