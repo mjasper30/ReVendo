@@ -3,5 +3,6 @@
     "editor.defaultFormatter": "ms-python.autopep8"
   },
   "python.formatting.provider": "none",
-  "livePreview.defaultPreviewPath": "/website/index.html"
+  "livePreview.defaultPreviewPath": "/website/index.html",
+  "python.analysis.typeCheckingMode": "basic"
 }
