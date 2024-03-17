@@ -696,12 +696,6 @@ def check_points_scan_rfid_page():
     points_entry.place(relx=0.5, rely=0.7, anchor='center',
                        width=250, height=40)
 
-    # Okay button
-    okay_button = tk.Button(app, text="Okay", font=(
-        "Arial", 16), command=destroy_elements_check_balance, bg='#8599e0', padx=20, fg='white')
-    okay_button.place(relx=0.5, rely=0.8, anchor='center',
-                      width=150, height=40)
-
     balance_header = tk.Label(app, text="Your Balance", font=(
         "Arial", 24), bg='#8599e0', fg='white')
     balance_header.place(relx=0.5, rely=0.4, anchor='center')
