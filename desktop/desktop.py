@@ -85,7 +85,7 @@ def get_points_scan_rfid_page():
         app, text="Scan your ReVendo Card", font=("Arial", 24), bg='#8599e0', fg="white")
     tutorial_header.place(relx=0.5, rely=0.2, anchor='center')
 
-    image_path = "desktop/rfid-reader1.jpg"
+    image_path = "desktop/rfid-reader.jpg"
     img = Image.open(image_path)
     img = img.resize((200, 150))
     photo = ImageTk.PhotoImage(img)
@@ -113,7 +113,7 @@ def process_plastic_bottles():
         app, text="Balance", font=("Arial", 24), bg='#8599e0', fg='white')
     your_balance_header.place(relx=0.2, rely=0.1, anchor='center')
 
-    image_path = "desktop/process_plastic_bottle1.png"
+    image_path = "desktop/process-plastic-bottle-image.png"
     img = Image.open(image_path)
     img = img.resize((380, 350))
     photo = ImageTk.PhotoImage(img)
@@ -228,7 +228,7 @@ def check_points_scan_rfid_page():
     new_button.place(relx=0.5, rely=0.8, anchor='center',
                      width=150, height=40)
 
-    image_path = "desktop/rfid-reader1.jpg"
+    image_path = "desktop/rfid-reader.jpg"
     img = Image.open(image_path)
     img = img.resize((200, 150))
     photo = ImageTk.PhotoImage(img)
@@ -297,7 +297,7 @@ def tutorial_page():
 def menu():
     global revendo_logo, get_points_button, check_balance_button, image_button, image_label, new_button, tutorial_header, tutorial_steps, button, image_tutorial, image_tutorial_path
 
-    revendo_logo_path = "desktop/RevendoLOGO.png"
+    revendo_logo_path = "desktop/Revendo-logo.png"
     center_revendo_logo = Image.open(revendo_logo_path)
     center_revendo_logo = center_revendo_logo.resize((200, 200))
 
@@ -319,7 +319,7 @@ def menu():
     check_balance_button.place(
         relx=0.7, rely=0.7, anchor='center', width=160, height=40)
 
-    tutorial_button_path = "desktop/question1.png"
+    tutorial_button_path = "desktop/question.png"
     tutorial_button = Image.open(tutorial_button_path)
     tutorial_button = tutorial_button.resize((30, 30))
     photo_button = ImageTk.PhotoImage(tutorial_button)
@@ -335,7 +335,7 @@ def menu():
 screen_width = app.winfo_screenwidth()
 screen_height = app.winfo_screenheight()
 
-image_path = "desktop/ReVendo-newBG.jpg"
+image_path = "desktop/ReVendo-background.jpg"
 img = Image.open(image_path)
 img = img.resize((800, 480))  # Set the size to 800x480
 background_image = ImageTk.PhotoImage(img)
@@ -343,7 +343,7 @@ background_label = tk.Label(app, image=background_image)
 background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
 # Set the application to run in full screen - uncomment this if you are in raspberry pi
-# app.attributes('-fullscreen', True)
+app.attributes('-fullscreen', True)
 
 # Run the application
 menu()

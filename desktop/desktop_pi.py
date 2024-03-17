@@ -742,7 +742,7 @@ def menu():
     global revendo_logo, get_points_button, check_balance_button, tutorial_button, rfid_reader_image, cancel_button, scan_rfid_header, okay_button, image_tutorial
 
     # Revendo Logo
-    revendo_logo_path = get_image_path("ReVendo-logo.png")
+    revendo_logo_path = get_image_path("revendo-logo.png")
     center_revendo_logo = Image.open(revendo_logo_path)
     center_revendo_logo = center_revendo_logo.resize((200, 200))
     center_revendo_logo = center_revendo_logo.convert("RGBA")
@@ -782,7 +782,7 @@ app.geometry("800x480")
 screen_width = app.winfo_screenwidth()
 screen_height = app.winfo_screenheight()
 
-image_path = get_image_path("ReVendo-background.jpg")
+image_path = get_image_path("revendo-background.jpg")
 img = Image.open(image_path)
 img = img.resize((800, 480))  # Set the size to 800x480
 background_image = ImageTk.PhotoImage(img)
