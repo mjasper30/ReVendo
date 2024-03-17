@@ -15,8 +15,6 @@ import math
 import cv2
 import threading
 from ultralytics import YOLO
-from gpiozero import AngularServo, Device
-from gpiozero.pins.pigpio import PiGPIOFactory
 from hx711 import HX711
 from functools import partial
 
