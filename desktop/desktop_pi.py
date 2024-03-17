@@ -503,7 +503,7 @@ def destroy_elements_check_balance():
 
 
 def get_points_scan_rfid_page():
-    global revendo_logo, get_points_button, check_balance_button, tutorial_button, rfid_reader_image, cancel_button, scan_rfid_header, okay_button
+    global rfid_reader_image, cancel_button, scan_rfid_header
 
     scan_rfid_header = tk.Label(
         app, text="Scan your ReVendo Card", font=("Arial", 24), bg='#8599e0', fg="white")
@@ -635,7 +635,7 @@ def process_plastic_bottles():
 
 
 def check_points_scan_rfid_page():
-    global revendo_logo, get_points_button, check_balance_button, tutorial_button, rfid_reader_image, cancel_button, scan_rfid_header, okay_button, balance_label, points_entry, okay_button
+    global rfid_reader_image, scan_rfid_header, okay_button, balance_label, points_entry, okay_button
 
     scan_rfid_header = tk.Label(
         app, text="Scan your ReVendo Card", font=("Arial", 20), bg='#8599e0', fg='white')
@@ -715,7 +715,7 @@ def update_balance_text(value):
 
 
 def tutorial_page():
-    global revendo_logo, get_points_button, check_balance_button, tutorial_button, rfid_reader_image, cancel_button, scan_rfid_header, okay_button, image_tutorial
+    global okay_button, image_tutorial
 
     # Tutorial Picture
     image_tutorial_path = get_image_path("tutorial.png")
@@ -739,7 +739,7 @@ def tutorial_page():
 
 
 def menu():
-    global revendo_logo, get_points_button, check_balance_button, tutorial_button, rfid_reader_image, cancel_button, scan_rfid_header, okay_button, image_tutorial
+    global revendo_logo, get_points_button, check_balance_button, tutorial_button
 
     # Revendo Logo
     revendo_logo_path = get_image_path("revendo-logo.png")

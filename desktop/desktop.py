@@ -28,58 +28,58 @@ def claim_points():
 
 
 def destroy_elements_scan_rfid():
-    revendo_logo.place_forget()
-    get_points_button.place_forget()
-    check_balance_button.place_forget()
-    image_button.place_forget()
-    new_button.place_forget()
-    image_label.place_forget()
-    tutorial_header.place_forget()
+    revendo_logo.destroy()
+    get_points_button.destroy()
+    check_balance_button.destroy()
+    image_button.destroy()
+    new_button.destroy()
+    image_label.destroy()
+    tutorial_header.destroy()
 
     menu()
 
 
 def destroy_elements_tutorial():
-    revendo_logo.place_forget()
-    get_points_button.place_forget()
-    check_balance_button.place_forget()
-    button.place_forget()
-    image_tutorial.place_forget()
+    revendo_logo.destroy()
+    get_points_button.destroy()
+    check_balance_button.destroy()
+    button.destroy()
+    image_tutorial.destroy()
 
     menu()
 
 
 def destroy_elements_process():
-    revendo_logo.place_forget()
-    get_points_button.place_forget()
-    check_balance_button.place_forget()
-    image_button.place_forget()
+    revendo_logo.destroy()
+    get_points_button.destroy()
+    check_balance_button.destroy()
+    image_button.destroy()
     background_label
-    your_balance_header.place_forget()
-    image_label_process.place_forget()
-    balance_text.place_forget()
-    largebottle_text.place_forget()
-    smallbottle_text.place_forget()
-    totalplasticbottle_text.place_forget()
-    mediumbottle_text.place_forget()
-    totalpoints_text.place_forget()
-    smallbottle_text.place_forget()
-    cancel_button.place_forget()
-    claim_button.place_forget()
+    your_balance_header.destroy()
+    image_label_process.destroy()
+    balance_text.destroy()
+    largebottle_text.destroy()
+    smallbottle_text.destroy()
+    totalplasticbottle_text.destroy()
+    mediumbottle_text.destroy()
+    totalpoints_text.destroy()
+    smallbottle_text.destroy()
+    cancel_button.destroy()
+    claim_button.destroy()
 
     menu()
 
 
 def destroy_elements_check_points():
-    balance_header.place_forget()
-    balance_text.place_forget()
-    button.place_forget()
+    balance_header.destroy()
+    balance_text.destroy()
+    button.destroy()
 
     menu()
 
 
 def get_points_scan_rfid_page():
-    global revendo_logo, get_points_button, check_balance_button, image_button, image_label, new_button, tutorial_header, tutorial_steps, button
+    global image_label, new_button, tutorial_header
 
     tutorial_header = tk.Label(
         app, text="Scan your ReVendo Card", font=("Arial", 24), bg='#8599e0', fg="white")
@@ -100,14 +100,14 @@ def get_points_scan_rfid_page():
                      width=150, height=40)
 
     # Hiding specific elements
-    revendo_logo.place_forget()
-    get_points_button.place_forget()
-    check_balance_button.place_forget()
-    image_button.place_forget()
+    revendo_logo.destroy()
+    get_points_button.destroy()
+    check_balance_button.destroy()
+    image_button.destroy()
 
 
 def process_plastic_bottles():
-    global your_balance_header, image_label_process, largebottle_text, balance_text, smallbottle_text, totalplasticbottle_text, mediumbottle_text, totalpoints_text, smallbottle_text, cancel_button, claim_button
+    global your_balance_header, image_label_process, balance_text, largebottle_text, smallbottle_text, totalplasticbottle_text, mediumbottle_text, totalpoints_text, smallbottle_text, cancel_button, claim_button
 
     your_balance_header = tk.Label(
         app, text="Balance", font=("Arial", 24), bg='#8599e0', fg='white')
@@ -210,13 +210,13 @@ def process_plastic_bottles():
                        width=150, height=40)
 
     # Hiding specific elements
-    tutorial_header.place_forget()
-    image_label.place_forget()
-    new_button.place_forget()
+    tutorial_header.destroy()
+    image_label.destroy()
+    new_button.destroy()
 
 
 def check_points_scan_rfid_page():
-    global revendo_logo, get_points_button, check_balance_button, image_button, image_label, new_button, tutorial_header, tutorial_steps, button
+    global image_label, new_button, tutorial_header
 
     tutorial_header = tk.Label(
         app, text="Scan your ReVendo Card", font=("Arial", 24), bg='#8599e0', fg='white')
@@ -237,14 +237,14 @@ def check_points_scan_rfid_page():
     image_label.place(relx=0.5, rely=0.5, anchor='center')
 
     # Hiding specific elements
-    revendo_logo.place_forget()
-    get_points_button.place_forget()
-    check_balance_button.place_forget()
-    image_button.place_forget()
+    revendo_logo.destroy()
+    get_points_button.destroy()
+    check_balance_button.destroy()
+    image_button.destroy()
 
 
 def check_points_page():
-    global revendo_logo, get_points_button, check_balance_button, image_button, image_label, new_button, balance_header, tutorial_steps, button, balance_text, largebottle_text, smallbottle_text, totalplasticbottle_text, mediumbottle_text, totalpoints_text, cancel_button, claim_button
+    global button, balance_header, balance_text
 
     balance_header = tk.Label(
         app, text="Your Balance", font=("Arial", 24), bg='#8599e0', fg='white')
@@ -268,13 +268,13 @@ def check_points_page():
                        command=destroy_elements_check_points, bg='#8599e0', padx=20)
     button.place(relx=0.5, rely=0.6, anchor='center', width=150, height=40)
 
-    tutorial_header.place_forget()
-    new_button.place_forget()
-    image_label.place_forget()
+    tutorial_header.destroy()
+    new_button.destroy()
+    image_label.destroy()
 
 
 def tutorial_page():
-    global revendo_logo, label, get_points_button, check_balance_button, image_button, image_label, new_button, tutorial_header, tutorial_steps, button, image_tutorial, image_tutorial_path
+    global button, image_tutorial
 
     image_tutorial_path = "desktop/tutorial.png"
     img = Image.open(image_tutorial_path)
@@ -288,14 +288,14 @@ def tutorial_page():
     button.place(relx=0.5, rely=0.9, anchor='center', width=150, height=40)
 
    # Hiding specific elements
-    revendo_logo.place_forget()
-    get_points_button.place_forget()
-    check_balance_button.place_forget()
-    image_button.place_forget()
+    revendo_logo.destroy()
+    get_points_button.destroy()
+    check_balance_button.destroy()
+    image_button.destroy()
 
 
 def menu():
-    global revendo_logo, get_points_button, check_balance_button, image_button, image_label, new_button, tutorial_header, tutorial_steps, button, image_tutorial, image_tutorial_path
+    global revendo_logo, get_points_button, check_balance_button, image_button
 
     revendo_logo_path = "desktop/Revendo-logo.png"
     center_revendo_logo = Image.open(revendo_logo_path)
@@ -343,7 +343,7 @@ background_label = tk.Label(app, image=background_image)
 background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
 # Set the application to run in full screen - uncomment this if you are in raspberry pi
-app.attributes('-fullscreen', True)
+# app.attributes('-fullscreen', True)
 
 # Run the application
 menu()
