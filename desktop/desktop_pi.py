@@ -79,6 +79,8 @@ stop_long_task = False
 points_var = StringVar()
 points_var.set(str(global_balance))  # Initialize with global points
 
+# Function for weight calibration
+
 
 def calibration_test():
     # Reading if there is existing calibration file
@@ -97,6 +99,8 @@ def calibration_test():
         hx.set_scale_ratio(ratio)
         with open(calibration_file, "w") as file:
             file.write(str(ratio))
+
+# Process page for updating values in real time
 
 
 def update_real_time_values():
@@ -128,6 +132,8 @@ def update_real_time_values():
 
     # Schedule the update again after 1000 milliseconds (1 second)
     app.after(1000, update_real_time_values)
+
+# Get weight and object detection process
 
 
 def get_points_process():
@@ -516,6 +522,8 @@ def destroy_elements_check_balance():
 
     menu()
 
+# RFID Scan Page - Get Points
+
 
 def get_points_scan_rfid_page():
     global rfid_reader_image, cancel_button, scan_rfid_header, stop_long_task
@@ -547,6 +555,8 @@ def get_points_scan_rfid_page():
     check_balance_button.destroy()
     tutorial_button.destroy()
 
+
+# Process Plastic Bottles Page
 
 def process_plastic_bottles():
     global your_balance_header, image_label_process, largebottle_text, balance_text, total_points, smallbottle_text, totalplasticbottle_text, mediumbottle_text, totalpoints_text, smallbottle_text, cancel_button, claim_button, points_entry, stop_long_task
@@ -654,6 +664,8 @@ def process_plastic_bottles():
 
     app.after(1000, get_points_process)
 
+# Check Balance Page
+
 
 def check_points_scan_rfid_page():
     global rfid_reader_image, scan_rfid_header, okay_button, balance_label, points_entry, okay_button, balance_header, balance_text, global_balance, stop_long_task
@@ -721,12 +733,16 @@ def check_points_scan_rfid_page():
     cancel_button.destroy()
     rfid_reader_image.destroy()
 
+# Update balance value once scanned
+
 
 def update_balance_text(value):
     balance_text.config(state='normal')
     balance_text.delete(0, 'end')  # Clear the current value
     balance_text.insert(0, str(value))  # Insert the new value
     balance_text.config(state='disabled')
+
+# Tutorial Page
 
 
 def tutorial_page():
@@ -751,6 +767,8 @@ def tutorial_page():
     get_points_button.destroy()
     check_balance_button.destroy()
     tutorial_button.destroy()
+
+# Menu Page
 
 
 def menu():
