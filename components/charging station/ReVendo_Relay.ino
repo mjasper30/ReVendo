@@ -2,12 +2,12 @@
 #include <ESP8266WiFi.h>
 
 // Replace with your network credentials
-const char *ssid1 = "forfreewifi";
-const char *password1 = "forfreefy";
-const char *ssid2 = "Tangerine";
-const char *password2 = "dhengrosalie29"; 
-const char *ssid3 = "seedsphere";
-const char *password3 = "YssabelJane25*";
+const char *ssid1 = "seedsphere";
+const char *password1 = "YssabelJane25*";
+const char *ssid2 = "forfreewifi";
+const char *password2 = "forfreefy";
+const char *ssid3 = "Tangerine";
+const char *password3 = "dhengrosalie29";
 
 const char *ssidList[] = {ssid1, ssid2, ssid3};
 const char *passwordList[] = {password1, password2, password3};
@@ -66,17 +66,16 @@ void loop() {
         String timeStr = payload.substring(timeIndex, payload.indexOf("\"", timeIndex));
         int delayTime = timeStr.toInt();
 
-        // Wait for the specified time duration
+        http.end(); // Close connection
+
+        updateDatabase();                     
+
+        // Wait for the specified time duration delayTime * 5 * 60 * 1000
         delay(delayTime * 5 * 60 * 1000); // Convert seconds to milliseconds
 
         // Turn off Relay 1 after the specified time
         digitalWrite(relay1Pin, HIGH);
         Serial.println("Relay 1 OFF");
-
-        http.end(); // Close connection
-
-        // Update the database
-        updateDatabase("off");
       } else {
         // If status is not "on", turn off Relay 1
         digitalWrite(relay1Pin, HIGH);
@@ -88,17 +87,18 @@ void loop() {
   }
 
   // Delay between API requests (e.g., 5 seconds)
-  delay(5000);
+  delay(3000);
 }
 
-void updateDatabase(String status) {
+void updateDatabase() {
   http.begin(client, update_status_to_off);
   http.addHeader("Content-Type", "application/json");
 
   // Prepare the JSON payload
-  String payload = "{\"status\":\"" + status + "\",\"time\":0}";
+  String payload = "{\"status\":\"off\",\"time\":0}";
 
   int httpCode = http.PUT(payload);
+  Serial.println(httpCode);
 
   if (httpCode == HTTP_CODE_OK) {
     String response = http.getString();
@@ -106,6 +106,8 @@ void updateDatabase(String status) {
   } else {
     Serial.println("Database update request failed");
   }
+
+  http.end(); // Close connection
 }
 
 void connectToWiFi() {

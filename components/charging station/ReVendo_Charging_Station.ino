@@ -25,12 +25,12 @@
 #define SS_PIN    D4
 
 // Replace with your network credentials
-const char *ssid1 = "forfreewifi";
-const char *password1 = "forfreefy";
-const char *ssid2 = "Tangerine";
-const char *password2 = "dhengrosalie29"; 
-const char *ssid3 = "seedsphere";
-const char *password3 = "YssabelJane25*";
+const char *ssid1 = "seedsphere";
+const char *password1 = "YssabelJane25*";
+const char *ssid2 = "-forfreewifi";
+const char *password2 = "forfreefy";
+const char *ssid3 = "Tangerine";
+const char *password3 = "dhengrosalie29";
 
 const char *ssidList[] = {ssid1, ssid2, ssid3};
 const char *passwordList[] = {password1, password2, password3};
@@ -41,7 +41,6 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);
 
 const int buttonIncrementPin = D0;  // Connect the increment button to GPIO pin D1
 const int buttonDecrementPin = D8;  // Connect the decrement button to GPIO pin D2
-// const int buttonOkayPin = D3;
 
 int number = 1;  // The number to be incremented and decremented
 int points = 12;
@@ -84,7 +83,6 @@ void setup() {
 
   pinMode(buttonIncrementPin, INPUT_PULLUP);
   pinMode(buttonDecrementPin, INPUT_PULLUP);
-  // pinMode(buttonOkayPin, INPUT_PULLUP);
 
   lcd.clear();
   lcd.setCursor(0, 0);             // Set the cursor to the first column and first row
@@ -360,6 +358,12 @@ void connectToWiFi() {
     Serial.print("Connecting to WiFi Network: ");
     Serial.println(ssidList[attempts]);
 
+    lcd.clear();
+    lcd.setCursor(0, 0);             // Set the cursor to the first column and first row
+    lcd.print("WiFi Connecting..");     // Print some text
+    lcd.setCursor(0, 1);             // Set the cursor to the first column and first row
+    lcd.print(ssidList[attempts]);     // Print some text
+
     int attemptTimeout = 0;
     while (WiFi.status() != WL_CONNECTED && attemptTimeout < 20) {
       delay(500);
@@ -369,9 +373,11 @@ void connectToWiFi() {
 
     if (WiFi.status() == WL_CONNECTED) {
       Serial.println("\nConnected to WiFi");
+      lcd.clear();
       break;  // Exit the loop if connected successfully
     } else {
       Serial.println("\nConnection failed, trying next network...");
+      lcd.clear();
       WiFi.disconnect();
       attempts++;
     }
