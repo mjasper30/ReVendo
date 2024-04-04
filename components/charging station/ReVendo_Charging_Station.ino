@@ -178,6 +178,7 @@ void RFID_Scan(){
 
   //Reset RFID Number
   process_number = 2;
+  delay(800);
 }
 
 void checkBalance() {
