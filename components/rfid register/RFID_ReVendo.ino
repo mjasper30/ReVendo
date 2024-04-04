@@ -17,6 +17,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 #include <MFRC522.h>
+#include <ArduinoJson.h>
 
 #define RST_PIN   D1
 #define SS_PIN    D2
@@ -24,12 +25,12 @@
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
 // Replace with your network credentials
-const char *ssid1 = "forfreewifi";
-const char *password1 = "forfreefy";
-const char *ssid2 = "Tangerine";
-const char *password2 = "dhengrosalie29"; 
-const char *ssid3 = "seedsphere";
-const char *password3 = "YssabelJane25*";
+const char *ssid1 = "seedsphere";
+const char *password1 = "YssabelJane25*";
+const char *ssid2 = "-forfreewifi";
+const char *password2 = "forfreefy";
+const char *ssid3 = "Tangerine";
+const char *password3 = "dhengrosalie29";
 
 const char *ssidList[] = {ssid1, ssid2, ssid3};
 const char *passwordList[] = {password1, password2, password3};
@@ -42,20 +43,21 @@ const int numWiFiNetworks = 3;  // Adjust this based on the number of WiFi netwo
 // Hosting
 const char* serverName = "https://revendo-backend-main.onrender.com/rfid"; // Replace with your server address
 
-WiFiClientSecure client;
-HTTPClient http;
-
 void setup() {
   Serial.begin(9600);
   SPI.begin();
   mfrc522.PCD_Init();
   connectToWiFi();
-  // Use setInsecure() to bypass certificate verification
-  client.setInsecure();
   Serial.println("Scan your RFID tag to get its number...");
 }
 
 void loop() {
+  WiFiClientSecure client;
+  HTTPClient http;
+
+  // Use setInsecure() to bypass certificate verification
+  client.setInsecure();
+
   if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) {
     delay(50);
     return;
@@ -81,11 +83,17 @@ void loop() {
 
   if (WiFi.status() == WL_CONNECTED) {
     http.begin(client, serverName);
-    http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+    http.addHeader("Content-Type", "application/json");
 
-    String httpRequestData = "rfid=" + rfidUID;
+    // Create a JSON object to hold the data
+    DynamicJsonDocument jsonDocument(200);
+    jsonDocument["rfid"] = rfidUID;
 
-    int httpResponseCode = http.POST(httpRequestData);
+    // Serialize the JSON document to a string
+    String jsonString;
+    serializeJson(jsonDocument, jsonString);
+
+    int httpResponseCode = http.POST(jsonString);
     
     if (httpResponseCode > 0) {
       String response = http.getString();
