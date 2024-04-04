@@ -11,6 +11,7 @@
 #         GND      <---------->   GND                                 #
 #         D1       <---------->   RST                                 #
 #         3V/3V3   <---------->   3.3V                                #
+#         D8       <---------->   BUZZER                              #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 */
 
@@ -21,6 +22,7 @@
 
 #define RST_PIN   D1
 #define SS_PIN    D2
+#define BUZZER_PIN D8 // Added buzzer pin definition
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);
 
@@ -45,6 +47,7 @@ const char* serverName = "https://revendo-backend-main.onrender.com/rfid"; // Re
 
 void setup() {
   Serial.begin(9600);
+  pinMode(BUZZER_PIN, OUTPUT); // Set buzzer pin as output
   SPI.begin();
   mfrc522.PCD_Init();
   connectToWiFi();
@@ -80,6 +83,8 @@ void loop() {
 
   Serial.print("RFID UID: ");
   Serial.println(rfidUID);
+  // Turn on the buzzer for a short duration to indicate successful RFID scan
+  tone(BUZZER_PIN, 3000, 100);
 
   if (WiFi.status() == WL_CONNECTED) {
     http.begin(client, serverName);
