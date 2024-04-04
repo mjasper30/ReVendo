@@ -58,9 +58,6 @@ const char* serverName = "https://revendo-backend-main.onrender.com/check_balanc
 const char* serverName_1 = "https://revendo-backend-main.onrender.com/minusPoints";
 const char* serverName_2 = "https://revendo-backend-main.onrender.com/updateStation";
 
-WiFiClientSecure client;
-HTTPClient http;
-
 unsigned long startTime;
 unsigned long elapsedTime;
 
@@ -74,9 +71,6 @@ void setup() {
 
   // Connect to Wi-Fi
   connectToWiFi();
-
-  // Use setInsecure() to bypass certificate verification
-  client.setInsecure();
 
   SPI.begin();
   mfrc522.PCD_Init();
@@ -145,9 +139,10 @@ void timer() {
 
     Serial.println("Charging is now timeout!");
     Serial.println("Scan RFID Card");
+    
     // Additional actions when the timer reaches 0:00 can be added here
     countdownStarted = false;  // Reset the countdown flag
-    number = 0;
+    number = 1;
     rfidUID = "";
     process_number = 1;  // Reset process_number to go back to RFID scanning
   }
@@ -186,13 +181,25 @@ void RFID_Scan(){
 }
 
 void checkBalance() {
+  WiFiClientSecure client;
+  HTTPClient http;
+
+  // Use setInsecure() to bypass certificate verification
+  client.setInsecure();
+  
   if (WiFi.status() == WL_CONNECTED) {
     http.begin(client, serverName);
-    http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+    http.addHeader("Content-Type", "application/json");
 
-    String httpRequestData = "rfid=" + rfidUID;
+    // Create a JSON object to hold the data
+    DynamicJsonDocument jsonDocument(200);
+    jsonDocument["rfid"] = rfidUID;
 
-    int httpResponseCode = http.POST(httpRequestData);
+    // Serialize the JSON document to a string
+    String jsonString;
+    serializeJson(jsonDocument, jsonString);
+
+    int httpResponseCode = http.POST(jsonString);
     if (httpResponseCode > 0) {
       response = http.getString();
       Serial.println(httpResponseCode);
@@ -201,13 +208,19 @@ void checkBalance() {
       Serial.print("Error on sending POST: ");
       Serial.println(httpResponseCode);
     }
+    http.end();
   } else {
     Serial.println("Error in WiFi connection");
   }
-  http.end();
 }
 
 void updateBalance(int updateAmount){
+  WiFiClientSecure client;
+  HTTPClient http;
+
+  // Use setInsecure() to bypass certificate verification
+  client.setInsecure();
+
   int updatedBalance = response.toInt() - updateAmount;
 
   if (WiFi.status() == WL_CONNECTED) {
@@ -234,13 +247,19 @@ void updateBalance(int updateAmount){
       Serial.print("Error on sending POST: ");
       Serial.println(httpResponseCode);
     }
+    http.end();
   } else {
     Serial.println("Error in WiFi connection");
   }
-  http.end();
 }
 
 void updateStation(int number) {
+  WiFiClientSecure client;
+  HTTPClient http;
+
+  // Use setInsecure() to bypass certificate verification
+  client.setInsecure();
+  
   if (WiFi.status() == WL_CONNECTED) {
     http.begin(client, serverName_2);
     http.addHeader("Content-Type", "application/json");
@@ -266,10 +285,10 @@ void updateStation(int number) {
       Serial.print("Error on sending PUT: ");
       Serial.println(httpResponseCode);
     }
+    http.end();
   } else {
     Serial.println("Error in WiFi connection");
   }
-  http.end();
 }
 
 void choosePoints() {
@@ -292,8 +311,6 @@ void choosePoints() {
       // Update balance and station
       updateBalance(number);
       updateStation(number);
-      mfrc522.PICC_HaltA();
-      mfrc522.PCD_StopCrypto1();
     }
 
     MFRC522::PICC_Type piccType = mfrc522.PICC_GetType(mfrc522.uid.sak);
