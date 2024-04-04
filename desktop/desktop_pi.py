@@ -24,6 +24,16 @@ from functools import partial
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
+# Set GPIO Pins
+GPIO_TRIGGER = 17
+GPIO_ECHO = 18
+
+# Set the GPIO pin for the buzzer
+buzzer_pin = 21
+
+# Set up the buzzer pin as output
+GPIO.setup(buzzer_pin, GPIO.OUT)
+
 # HX711 setup and calibration
 hx = HX711(dout_pin=6, pd_sck_pin=5)
 calibration_file = "calibration_data.txt"
@@ -61,6 +71,7 @@ total_points = 0
 weight = 0
 height_cm = 0
 sleep_me = 0
+timer_counter = 0
 
 rfid_uid = ""
 check_more = True
@@ -80,10 +91,21 @@ image_tutorial = None
 okay_button = None
 balance_label = None
 points_entry = None
-animated_label = None
 
 # Global flag to control the loop in the long-running task
 stop_long_task = False
+
+# Initialize index
+index = 0
+
+# List of words to cycle through
+words = ["Place your plastic bottle", "Processing...", "Accepted", "Rejected", "Heavy Object"]
+# List of corresponding GIF filenames
+gif_filenames = [
+    "processing.gif", "processing.gif", "accept.gif", "reject.gif", "reject.gif"
+]
+
+distance_status = True
 
 class AnimatedGIFLabel(tk.Label):
     def __init__(self, master, filename):
@@ -113,10 +135,85 @@ class AnimatedGIFLabel(tk.Label):
         self.photo = ImageTk.PhotoImage(self.current_frame)
         self.config(image=self.photo)
         self.master.after(100, self.next_frame)
-    
+
     def resize(self, width, height):
         for i, frame in enumerate(self.frames):
             self.frames[i] = frame.resize((width, height), Image.LANCZOS)
+
+    def update_filename(self, filename):
+        self.filename = filename
+        self.gif = Image.open(filename)
+        self.frames.clear()
+        self.load_frames()
+        self.idx = 0
+        self.current_frame = self.frames[self.idx]
+        self.photo = ImageTk.PhotoImage(self.current_frame)
+        self.config(image=self.photo)
+
+animated_label = AnimatedGIFLabel(
+    app, "/home/revendo/Desktop/ReVendo-main/processing.gif")
+status_text = tk.Label(app, text="")
+
+def distance_relay():
+    # Set GPIO direction (IN / OUT)
+    GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
+    GPIO.setup(GPIO_ECHO, GPIO.IN)
+
+    # Set Trigger to HIGH
+    GPIO.output(GPIO_TRIGGER, True)
+
+    # Set Trigger after 0.01ms to LOW
+    time.sleep(0.00001)
+    GPIO.output(GPIO_TRIGGER, False)
+
+    StartTime = time.time()
+    StopTime = time.time()
+
+    # Save StartTime
+    while GPIO.input(GPIO_ECHO) == 0:
+        StartTime = time.time()
+
+    # Save time of arrival
+    while GPIO.input(GPIO_ECHO) == 1:
+        StopTime = time.time()
+
+    # Time difference between start and arrival
+    TimeElapsed = StopTime - StartTime
+    # Multiply with the sonic speed (34300 cm/s) and divide by 2, because there and back
+    distance = (TimeElapsed * 34300) / 2
+
+    return distance
+
+def update_label(index):
+    global animated_label  # Make animated_label accessible within the function
+    # Update label text with the word at the current index
+    status_text.config(text=words[index])
+    # Update the GIF based on the current word
+    animated_label.update_filename(
+        "/home/revendo/Desktop/ReVendo-main/" + gif_filenames[index])
+    animated_label.resize(200, 200)
+    # Increment the index or reset to 0 if it exceeds the length of the list
+    #index = (index + 1) % len(words)
+    # Schedule the update_label function to run again after 1000 milliseconds (1 second)
+    #app.after(5000, update_label, index)
+
+def buzz(pitch, duration):
+    period = 1.0 / pitch
+    delay = period / 2
+    cycles = int(duration * pitch)
+    for i in range(cycles):
+        GPIO.output(buzzer_pin, True)
+        time.sleep(delay)
+        GPIO.output(buzzer_pin, False)
+        time.sleep(delay)
+
+def accept_tone():
+    buzz(3000, 0.5)  # Change pitch and duration as needed
+    time.sleep(0.2)   # Pause between tones
+
+def reject_tone():
+    buzz(1000, 0.5)   # Change pitch and duration as needed
+    time.sleep(0.2)   # Pause between tones
 
 def calibration_test():
     # Reading if there is existing calibration file
@@ -166,17 +263,19 @@ def update_real_time_values():
     app.after(1000, update_real_time_values)            
 
 def get_points_process():
-    global total_points, plastic_bottles_detected, total_small, total_medium, total_large, global_rfid, check_more, check_more1, stop_long_task
+    global timer_counter, distance_status, total_points, plastic_bottles_detected, total_small, total_medium, total_large, global_rfid, check_more, check_more1, stop_long_task
     #weight = 6  # Replace with actual weight reading #test
-            
+    
     while check_more:
+        timer_counter = 0
         if stop_long_task:
             print("Task stopped.")
             stop_long_task = False
             return
-            
+        
+        update_label(0)    
         # Weight check
-        weight = hx.get_weight_mean() - 132
+        weight = hx.get_weight_mean() - 128
         print("Weight: " + str(abs(int(weight))) + " grams")
             
         #For weight value testing purposes
@@ -192,6 +291,7 @@ def get_points_process():
             continue
     
         if(check_more1 == True):
+            update_label(1)
             # Capturing of image script execution
             subprocess.run(['bash', 'capture_image.sh'], check=True)
 
@@ -214,7 +314,6 @@ def get_points_process():
                     x1, y1, x2, y2, score, class_id = result
                     if score > threshold:
                         height_cm = int((y2 - y1) * pixels_to_cm)
-                        plastic_bottles_detected += 1
                         cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 4)
                         text = f'Height: {height_cm}'
                         cv2.putText(frame, text, (int(x2) + 10, int(y1) + 30), cv2.FONT_HERSHEY_SIMPLEX, 0.3, (255, 255, 255), 1, cv2.LINE_AA)
@@ -232,50 +331,82 @@ def get_points_process():
                 #height_cm = 8 #L 8, M 5, S 2 for testing purposes
                 
                 if weight >= 57:
+                    reject_tone()
+                    update_label(4)
                     size_of_object = "Heavy Object"
                     height_cm = 0
                     servo.angle = 0
-                    time.sleep(2)
+                    distance_status = False
                 elif height_cm == 26:
+                    reject_tone()
+                    update_label(3)
                     height_cm = 0
                     size_of_object = "Invalid"
                     servo.angle = 0
-                    time.sleep(2)
+                    distance_status = False
                 elif height_cm >= 8:
+                    accept_tone()
+                    update_label(2)
+                    plastic_bottles_detected += 1
                     total_large += 1
                     size_of_object = "Large"
                     servo.angle = 90
-                    time.sleep(2)
                 elif height_cm >= 5:
-                    total_medium += 1
+                    accept_tone()
+                    update_label(2)
+                    plastic_bottles_detected += 1
+                    total_medium += 1                    
                     size_of_object = "Medium"
                     servo.angle = 90
-                    time.sleep(2)
+                    distance_status = True
                 elif height_cm >= 2:
+                    accept_tone()
+                    update_label(2)
+                    plastic_bottles_detected += 1
                     total_small += 1
                     size_of_object = "Small"
                     servo.angle = 90
-                    time.sleep(2)
+                    distance_status = True
+                
+                while distance_status:
+                    dist = distance_relay()
+                    print ("Measured Distance = %.1f cm" % dist)
                     
-                print(size_of_object)    
-                # Reset servo angle
-                servo.angle = 0
+                    if dist < 37.8:
+                        print("Bottle has been pass inside")
+                        print(size_of_object)
+                        timer_counter = 0
+                        # Reset servo angle
+                        servo.angle = 0
                         
-                # Send data and image to database per bottle that is processed
-                data = {'rfid': global_rfid, 'height': height_cm, 'weight': int(weight), 'size': size_of_object, 'no_object': 'no' if not results.boxes.data.tolist() else 'yes'}
-                files = {'image': open(output_image_path, 'rb')}
-                response_update_data = requests.post(url_update_data, data=data, files=files)
-                if response_update_data.status_code == 200:
-                    print("Data sent to the server successfully.")
-                    total_points = (total_large * 3) + (total_medium * 2) + total_small
-                    print("Total Points:", total_points)
-                    app.after(0, update_real_time_values)
-                else:
-                    print("Failed to send data to the server.")
+                        # Send data and image to database per bottle that is processed
+                        data = {'rfid': global_rfid, 'height': height_cm, 'weight': int(weight), 'size': size_of_object, 'no_object': 'no' if not results.boxes.data.tolist() else 'yes'}
+                        files = {'image': open(output_image_path, 'rb')}
+                        response_update_data = requests.post(url_update_data, data=data, files=files)
+                        if response_update_data.status_code == 200:
+                            print("Data sent to the server successfully.")
+                            total_points = (total_large * 3) + (total_medium * 2) + total_small
+                            print("Total Points:", total_points)
+                            app.after(0, update_real_time_values)
+                        else:
+                            print("Failed to send data to the server.")
+                        break
+                    else:
+                        print("No bottle has been pass yet")
+                        
+                        if timer_counter == 30:
+                            print("Invalid there is no bottle pass inside the machine")
+                            # Reset servo angle
+                            servo.angle = 0
+                            break
+                    
+                    time.sleep(0.1)
+                    timer_counter+=1
                     
                 print("Height: ", height_cm)
+                update_label(0)
                 check_more = True
-
+                distance_status = True
             
 # Trigger claim points
 def claim_points():
@@ -330,6 +461,7 @@ def handle_rfid_scan():
             # API check RFID
             response_check_rfid = requests.post(url_check_rfid, data={'rfid': rfid_uid})
             if response_check_rfid.status_code == 200:
+                accept_tone()
                 print("RFID is registered in the database.")
                 print("RFID Number:", rfid_uid)
                 # Extract points information from the API response
@@ -386,6 +518,7 @@ def handle_rfid_scan_get_points():
             # API check RFID
             response_check_rfid = requests.post(url_check_rfid, data={'rfid': rfid_uid})
             if response_check_rfid.status_code == 200:
+                accept_tone()
                 print("RFID is registered in the database.")
                 print("RFID Number:", rfid_uid)
                 # Extract points information from the API response
@@ -481,6 +614,7 @@ def destroy_elements_process():
     cancel_button.place_forget()
     claim_button.place_forget()
     animated_label.place_forget()
+    status_text.place_forget()
     
     points_var.set(str(""))
     check_more = True
@@ -539,7 +673,7 @@ def get_points_scan_rfid_page():
 
 # Process plastic bottle page
 def process_plastic_bottles():
-    global stop_long_task, animated_label, revendo_logo, total_large, total_medium, total_small, your_balance_header, image_label_process, largebottle_text, balance_text, total_points, smallbottle_text, totalplasticbottle_text, mediumbottle_text, totalpoints_text, smallbottle_text, cancel_button, claim_button, points_entry
+    global stop_long_task, index, status_text, animated_label, revendo_logo, total_large, total_medium, total_small, your_balance_header, image_label_process, largebottle_text, balance_text, total_points, smallbottle_text, totalplasticbottle_text, mediumbottle_text, totalpoints_text, smallbottle_text, cancel_button, claim_button, points_entry
 
     stop_long_task = False
     check_more = True
@@ -635,6 +769,10 @@ def process_plastic_bottles():
     # Start the animation
     animated_label.next_frame()
     animated_label.place(relx=0.8, rely=0.4, anchor='center')
+    
+    status_text = tk.Label(
+        app, text="Place your plastic bottle", font=("Arial", 14), bg='#8599e0', fg='white')
+    status_text.place(relx=0.8, rely=0.67, anchor='center')
 
     cancel_button = tk.Button(app, text="X", font=(
         "Arial", 16), command=destroy_elements_process, bg='#8599e0', padx=20, fg='white')
