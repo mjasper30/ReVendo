@@ -771,6 +771,57 @@ app.get("/api/charge_time", (req, res) => {
   });
 });
 
+app.put("/updateBin", (req, res) => {
+  const { status } = req.body;
+
+  // Get current date and time
+  const now = new Date();
+
+  // Format the date and time into "YYYY-MM-DD HH:MM:SS"
+  const formattedDateTime = `${now.getFullYear()}-${padZero(
+    now.getMonth() + 1
+  )}-${padZero(now.getDate())} ${padZero(now.getHours())}:${padZero(
+    now.getMinutes()
+  )}:${padZero(now.getSeconds())}`;
+
+  // Assuming you have a table named 'storage' with columns 'status', 'timestamp', and 'id'
+  const query = "UPDATE storage SET status = ?, date_recorded = ? WHERE id = 1"; // Assuming id is 1 for simplicity
+
+  db.query(query, [status, formattedDateTime], (err, results) => {
+    if (err) {
+      console.error("Error executing MySQL query:", err);
+      res.status(500).json({ error: "Internal Server Error" });
+      return;
+    }
+
+    res.json({ message: "Bin status updated successfully" });
+  });
+});
+
+// Function to pad single digit numbers with leading zero
+function padZero(num) {
+  return (num < 10 ? "0" : "") + num;
+}
+
+app.get("/light_status", (req, res) => {
+  const query = "SELECT status FROM vendo WHERE id = 1"; // Assuming id is 1 for simplicity
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Error executing MySQL query:", err);
+      res.status(500).json({ error: "Internal Server Error" });
+      return;
+    }
+
+    if (results.length === 0) {
+      res.status(404).json({ error: "Data not found" });
+    } else {
+      const { status } = results[0];
+      res.json({ status });
+    }
+  });
+});
+
 // Start the Express.js server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
