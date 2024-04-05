@@ -20,7 +20,6 @@ const int numWiFiNetworks = 3;  // Adjust this based on the number of WiFi netwo
 
 //Hosting
 const char *get_status = "https://revendo-backend-main.onrender.com/charging_station";
-const char *update_status_to_off = "https://revendo-backend-main.onrender.com/update_charging_station";
 
 // Define the pins connected to the relay module
 const int relay1Pin = D1;  // GPIO pin for Relay 1
@@ -66,9 +65,7 @@ void loop() {
         String timeStr = payload.substring(timeIndex, payload.indexOf("\"", timeIndex));
         int delayTime = timeStr.toInt();
 
-        http.end(); // Close connection
-
-        updateDatabase();                     
+        http.end(); // Close connection                  
 
         // Wait for the specified time duration delayTime * 5 * 60 * 1000
         delay(delayTime * 5 * 60 * 1000); // Convert seconds to milliseconds
@@ -86,28 +83,8 @@ void loop() {
     }
   }
 
-  // Delay between API requests (e.g., 5 seconds)
+  // Delay between API requests (e.g., 3 seconds)
   delay(3000);
-}
-
-void updateDatabase() {
-  http.begin(client, update_status_to_off);
-  http.addHeader("Content-Type", "application/json");
-
-  // Prepare the JSON payload
-  String payload = "{\"status\":\"off\",\"time\":0}";
-
-  int httpCode = http.PUT(payload);
-  Serial.println(httpCode);
-
-  if (httpCode == HTTP_CODE_OK) {
-    String response = http.getString();
-    Serial.println("Database Update Response: " + response);
-  } else {
-    Serial.println("Database update request failed");
-  }
-
-  http.end(); // Close connection
 }
 
 void connectToWiFi() {

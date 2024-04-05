@@ -57,6 +57,7 @@ String response = "";
 const char* serverName = "https://revendo-backend-main.onrender.com/check_balance"; // Replace with your server address
 const char* serverName_1 = "https://revendo-backend-main.onrender.com/minusPoints";
 const char* serverName_2 = "https://revendo-backend-main.onrender.com/updateStation";
+const char* serverName_3 = "https://revendo-backend-main.onrender.com/update_charging_station";
 
 unsigned long startTime;
 unsigned long elapsedTime;
@@ -95,61 +96,69 @@ void loop() {
 }
 
 void timer() {
-  const unsigned long countdownDuration = 5 * 60 * 1000;  // 5 minutes in milliseconds
+  const unsigned long countdownDuration = number * 5 * 60 * 1000;  // 5 minutes in milliseconds
+  static unsigned long startTime = 0;  // Variable to store the start time
   static bool countdownStarted = false;  // Variable to track if the countdown has started
+  static unsigned long lastPrintTime = 0; // Variable to store the last printed time
+
   if (!countdownStarted) {
     startTime = millis();  // Start the countdown only once
     countdownStarted = true;
   }
 
-  elapsedTime = millis() - startTime;  // Calculate elapsed time
+  unsigned long currentTime = millis();  // Current time
+  unsigned long elapsedTime = currentTime - startTime;  // Calculate elapsed time
 
-  // Calculate remaining time
-  unsigned long remainingTime = countdownDuration - elapsedTime;
-  
-  // Convert remaining time to minutes and seconds
-  unsigned int minutes = remainingTime * number / 60000;
-  unsigned int seconds = (remainingTime % 60000) / 1000;
-
-  // Print the timer in the format MM:SS to Serial
-  Serial.print("Time Remaining: ");
-  Serial.print(minutes);
-  Serial.print(":");
-  if (seconds < 10) {
-    Serial.print("0");  // Add leading zero for single-digit seconds
-  }
-  Serial.println(seconds);
-
-  // Print the timer in the format MM:SS to LCD
-  lcd.clear();
-  lcd.setCursor(0, 0);             // Set the cursor to the first column and first row
-  lcd.print("Time Remaining: ");     // Print some text
-  lcd.setCursor(0, 1);
-  lcd.print(minutes);
-  lcd.print(":");
-  if (seconds < 10) {
-    lcd.print("0");  // Add leading zero for single-digit seconds on LCD
-  }
-  lcd.print(seconds);
-
-  if (seconds == 0 && minutes == 0) {
+  // Check if the countdown has finished
+  if (elapsedTime >= countdownDuration) {
+    // Perform actions when the countdown finishes
     lcd.clear();
-    lcd.setCursor(0, 0);             // Set the cursor to the first column and first row
-    lcd.print("Scan RFID Card");     // Print some text
-
+    lcd.setCursor(0, 0);
+    lcd.print("Scan RFID Card");
+    
     Serial.println("Charging is now timeout!");
     Serial.println("Scan RFID Card");
-    
+
+    updateDatabase();
+
     // Additional actions when the timer reaches 0:00 can be added here
     countdownStarted = false;  // Reset the countdown flag
     number = 1;
     rfidUID = "";
     process_number = 1;  // Reset process_number to go back to RFID scanning
+  } else {
+    // Convert remaining time to minutes and seconds
+    unsigned long remainingTime = countdownDuration - elapsedTime;
+    unsigned int minutes = remainingTime / 60000;
+    unsigned int seconds = (remainingTime % 60000) / 1000;
+
+    // Print the timer only if there's a change in time remaining
+    if (currentTime - lastPrintTime >= 1000) { // Print every 1 second
+      // Print the timer in the format MM:SS to Serial
+      Serial.print("Time Remaining: ");
+      Serial.print(minutes);
+      Serial.print(":");
+      if (seconds < 10) {
+        Serial.print("0");  // Add leading zero for single-digit seconds
+      }
+      Serial.println(seconds);
+
+      // Print the timer in the format MM:SS to LCD
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Time Remaining: ");
+      lcd.setCursor(0, 1);
+      lcd.print(minutes);
+      lcd.print(":");
+      if (seconds < 10) {
+        lcd.print("0");  // Add leading zero for single-digit seconds on LCD
+      }
+      lcd.print(seconds);
+
+      lastPrintTime = currentTime; // Update the last printed time
+    }
   }
-
-  delay(1000);  // Update the timer every second
 }
-
 
 void RFID_Scan(){
   if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) {
@@ -252,6 +261,32 @@ void updateBalance(int updateAmount){
   } else {
     Serial.println("Error in WiFi connection");
   }
+}
+
+void updateDatabase() {
+  WiFiClientSecure client;
+  HTTPClient http;
+
+  // Use setInsecure() to bypass certificate verification
+  client.setInsecure();
+  
+  http.begin(client, serverName_3);
+  http.addHeader("Content-Type", "application/json");
+
+  // Prepare the JSON payload
+  String payload = "{\"status\":\"off\",\"time\":0}";
+
+  int httpCode = http.PUT(payload);
+  Serial.println(httpCode);
+
+  if (httpCode == HTTP_CODE_OK) {
+    String response = http.getString();
+    Serial.println("Database Update Response: " + response);
+  } else {
+    Serial.println("Database update request failed");
+  }
+
+  http.end(); // Close connection
 }
 
 void updateStation(int number) {
