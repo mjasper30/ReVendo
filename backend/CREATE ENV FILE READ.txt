@@ -1,0 +1,6 @@
+create ".env" file in this backend folder then fill information below 
+=====================COPY HERE=========================
+TWILIO_ACCOUNT_SID="HERE"
+TWILIO_AUTH_TOKEN="HERE"
+TWILIO_EMAIL_API_KEY="HERE"
+=====================END COPY HERE=====================
