@@ -1,0 +1,5 @@
+#!/bin/bash
+cd ~/Desktop/ReVendo-main
+source myenv/bin/activate
+sudo pigpiod
+python desktop.py

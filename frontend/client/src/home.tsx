@@ -817,11 +817,40 @@ export default function Home() {
           {/* End FAQ Section */}
 
           {/* Contact Us Section */}
-          <Section id="contact_us">
+          <Section id="contact_us" className="align-top mt-20">
             <VerticalColumns>
               <h2 className="text-center text-5xl font-bold text-white mb-6 sm:text-2xl">
                 Contact Us
               </h2>
+              <div className="flex">
+                <div className="w-full sm:w-1/2">
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2295.1962156323493!2d120.99359489723709!3d14.653413163481773!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b686dd24e859%3A0xe442b57504cbf05f!2sUniversity%20of%20Caloocan%20City%20-%20South%20Campus!5e0!3m2!1sen!2sph!4v1712332841696!5m2!1sen!2sph"
+                    height="450"
+                    className="border-0 rounded-lg w-full"
+                    loading="lazy"
+                  ></iframe>
+                </div>
+                <div className="w-full sm:w-1/2 flex flex-col justify-center items-center">
+                  <div className="text-white mb-4">
+                    <p>Email: support.revendo@gmail.com</p>
+                    <p>Contact Number: +639213279723</p>
+                  </div>
+                  <div className="flex justify-center space-x-4">
+                    {/* Replace the URLs with your social media profile URLs */}
+                    <a href="#" className="text-white hover:text-gray-400">
+                      {/* <FontAwesomeIcon icon={["fab", "facebook"]} size="2x" /> */}
+                    </a>
+                    <a href="#" className="text-white hover:text-gray-400">
+                      {/* <FontAwesomeIcon icon={["fab", "twitter"]} size="2x" /> */}
+                    </a>
+                    <a href="#" className="text-white hover:text-gray-400">
+                      {/* <FontAwesomeIcon icon={["fab", "instagram"]} size="2x" /> */}
+                    </a>
+                    {/* Add more social media icons as needed */}
+                  </div>
+                </div>
+              </div>
             </VerticalColumns>
           </Section>
           {/* End Contact Us Section */}
