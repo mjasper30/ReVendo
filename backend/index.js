@@ -822,6 +822,23 @@ app.get("/light_status", (req, res) => {
   });
 });
 
+app.put("/update_light_status", (req, res) => {
+  const { status } = req.body;
+
+  // Assuming you have a table named 'storage' with columns 'status', 'timestamp', and 'id'
+  const query = "UPDATE vendo SET status = ? WHERE id = 1"; // Assuming id is 1 for simplicity
+
+  db.query(query, [status], (err, results) => {
+    if (err) {
+      console.error("Error executing MySQL query:", err);
+      res.status(500).json({ error: "Internal Server Error" });
+      return;
+    }
+
+    res.json({ message: "Light status updated successfully" });
+  });
+});
+
 // Start the Express.js server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
