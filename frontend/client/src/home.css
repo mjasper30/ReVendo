@@ -45,6 +45,23 @@ body {
   opacity: 1;
 }
 
+.scroll-to-top-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 99;
+}
+
+.scroll-to-top-button:hover {
+  background-color: #0056b3;
+}
+
 .steps:nth-child(2) {
   transition-delay: 200ms;
 }
