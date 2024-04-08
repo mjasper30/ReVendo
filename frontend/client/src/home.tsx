@@ -825,18 +825,18 @@ export default function Home() {
               <h2 className="text-center text-5xl font-bold text-white mb-6 sm:text-2xl">
                 Contact Us
               </h2>
-              <div className="flex flex-col sm:flex-row">
+              <div className="flex flex-col">
                 {/* Google Maps Iframe */}
-                <div className="hideY w-full sm:w-1/2 mb-4 sm:mb-0">
+                <div className="hideY w-full mb-4 sm:mb-0">
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2295.1962156323493!2d120.99359489723709!3d14.653413163481773!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b686dd24e859%3A0xe442b57504cbf05f!2sUniversity%20of%20Caloocan%20City%20-%20South%20Campus!5e0!3m2!1sen!2sph!4v1712332841696!5m2!1sen!2sph"
                     height="450"
-                    className="border-0 rounded-lg w-full"
+                    className="border-0 rounded-lg w-full sm:h-64"
                     loading="lazy"
                   ></iframe>
                 </div>
                 {/* Contact Information */}
-                <div className="w-full sm:w-1/2 flex flex-col justify-between">
+                <div className="flex flex-col justify-between mt-3">
                   {/* Location */}
                   <div className="hideX flex items-center mb-4">
                     <a
@@ -846,12 +846,12 @@ export default function Home() {
                       <img
                         src={location_icon}
                         alt="Location"
-                        className="h-8 w-8"
+                        className="h-8 w-8 sm:h-20- sm:w-20"
                       />
                     </a>
                     <div className="text-white ml-2">
-                      <h1 className="font-bold text-xl">Location</h1>
-                      <p>
+                      <h1 className="font-bold text-xl sm:text-lg">Location</h1>
+                      <p className="sm:text-sm">
                         Biglang Awa St Cor 11th Ave Catleya, Grace Park East,
                         Caloocan, Metro Manila. 1400
                       </p>
@@ -866,8 +866,8 @@ export default function Home() {
                       <img src={mail_icon} alt="Mail" className="h-8 w-8" />
                     </a>
                     <div className="text-white ml-2">
-                      <h1 className="font-bold text-xl">Email</h1>
-                      <p>support.revendo@gmail.com</p>
+                      <h1 className="font-bold text-xl sm:text-lg">Email</h1>
+                      <p className="sm:text-sm">support.revendo@gmail.com</p>
                     </div>
                   </div>
                   {/* Call */}
@@ -879,8 +879,8 @@ export default function Home() {
                       <img src={call_icon} alt="Call" className="h-8 w-8" />
                     </a>
                     <div className="text-white ml-2">
-                      <h1 className="font-bold text-xl">Call</h1>
-                      <p>0921 327 9723</p>
+                      <h1 className="font-bold text-xl sm:text-lg">Call</h1>
+                      <p className="sm:text-sm">0921 327 9723</p>
                     </div>
                   </div>
                 </div>
