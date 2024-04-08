@@ -199,8 +199,8 @@ export default function Home() {
               </li>
               <li className="hidden burger:block">
                 <a
-                  href="/RevendoApp.APK"
-                  download="RevendoApp.apk"
+                  href="/RevendoAppV1.APK"
+                  download="RevendoAppV1.apk"
                   className="text-black bg-white hover:bg-blue-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm pl-2.5 py-2 text-center mr-3 burger:mr-1 flex items-center w-40 transition-all duration-300"
                 >
                   <img
@@ -313,8 +313,8 @@ export default function Home() {
                 <Column>
                   <Box className="text-2xl text-white leading-10 font-outline-2 tracking-3  text-center max-w-[1250px] mb-11 sm:text-sm sm:mx-7">
                     This guide provides a detailed, step-by-step process for
-                    converting plastic bottles into points that are then stored
-                    in an RFID system.
+                    converting plastic bottles into points then stored in an
+                    ReVendo Card.
                   </Box>
                 </Column>
               </div>
@@ -327,8 +327,8 @@ export default function Home() {
                       Step One
                     </Box>
                     <Box className=" NotoSansJP text-discord text-[15px] leading-[30px]">
-                      Tap your RFID card on the scanner to begin. Place your
-                      plastic bottle inside the machine
+                      Tap "Get Points" on our LCD screen on machine. Tap your
+                      ReVendo card on the scanner to begin.
                     </Box>
                   </Column>
 
