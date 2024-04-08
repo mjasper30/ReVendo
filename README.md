@@ -4,7 +4,7 @@
 
 # ReVendo
 
-Introducing ReVendo: Revolutionizing the fight against plastic bottle pollution! Our cutting-edge Reverse Vending Machine empowers users to effortlessly exchange plastic bottles for valuable reward points, incentivizing eco-conscious habits while reducing plastic waste in community. With ReVendo, you only contribute to a cleaner environment but also unlock exciting perks within your community using the accumulated points. Plus, our innovative charging station allows you to convert these points into smartphone charging time, ensuring you stay connected sustainably with both 220v electricity and solar panel technology. 
+Revolutionizing the fight against plastic bottle pollution! Our cutting-edge Reverse Vending Machine empowers users to effortlessly exchange plastic bottles for valuable reward points, incentivizing eco-conscious habits while reducing plastic waste in community. With ReVendo, you only contribute to a cleaner environment but also unlock exciting perks within your community using the accumulated points. Plus, our innovative charging station allows you to convert these points into smartphone charging time, ensuring you stay connected sustainably with both 220v electricity and solar panel technology. 
 
 Join us in making a positive impact with ReVendo today!
 
