@@ -71,7 +71,6 @@ export default function Home() {
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      console.log(entry);
       if (entry.isIntersecting) {
         entry.target.classList.add("showY");
       }
@@ -83,7 +82,6 @@ export default function Home() {
 
   const observer2 = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      console.log(entry);
       if (entry.isIntersecting) {
         entry.target.classList.add("showX");
       }
