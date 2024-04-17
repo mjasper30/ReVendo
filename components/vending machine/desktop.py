@@ -74,6 +74,8 @@ weight = 0
 height_cm = 0
 sleep_me = 0
 timer_counter = 0
+distance_threshold = 30.0
+adjust_weight = 324
 
 rfid_uid = ""
 check_more = True
@@ -267,7 +269,6 @@ def update_real_time_values():
 
 def get_points_process():
     global timer_counter, distance_status, total_points, plastic_bottles_detected, total_small, total_medium, total_large, global_rfid, check_more, check_more1, stop_long_task
-    #weight = 6  # Replace with actual weight reading #test
     
     while check_more:
         timer_counter = 0
@@ -278,16 +279,12 @@ def get_points_process():
         
         update_label(0)    
         # Weight check
-        weight = hx.get_weight_mean() - 314
+        weight = hx.get_weight_mean() - adjust_weight
         print("Weight: " + str(abs(int(weight))) + " grams")
             
-        #For weight value testing purposes
-        #print("Weight: ", weight)
-        #weight += 1 #test
-            
         #Check if the value of weight if greater than expected weight value
-        if abs(weight) >= 5:
-            #continue
+        if abs(weight) >= 6:
+            #continue #Uncomment this to weight test
             check_more = False
             print("The object has been place on loadcell")
         else:
@@ -302,8 +299,8 @@ def get_points_process():
             IMAGE_DIR = os.path.join('.', 'capture')
             output_dir = os.path.join('.', 'output')
             os.makedirs(output_dir, exist_ok=True)
-            model = YOLO(os.path.join('.', 'model', 'best8.pt'))
-            threshold, pixels_to_cm = 0.75 , 0.0264583333
+            model = YOLO(os.path.join('.', 'model', 'best9.pt'))
+            threshold, pixels_to_cm = 0.5 , 0.0264583333
 
             for image_file in [f for f in os.listdir(IMAGE_DIR) if f.endswith(('.jpg', '.png', '.jpeg'))]:
                 image_path = os.path.join(IMAGE_DIR, image_file)
@@ -327,6 +324,7 @@ def get_points_process():
                 output_image_path = os.path.join(output_dir, image_file)
                 cv2.imwrite(output_image_path, frame)
                 print("Object detection on images completed.")
+                print("Height cm", height_cm)
     
                 # Object classification
                 size_of_object = ""
@@ -347,27 +345,9 @@ def get_points_process():
                     size_of_object = "Invalid"
                     servo.angle = 0
                     distance_status = False
-                elif height_cm >= 8:
-                    accept_tone()
-                    update_label(2)
-                    plastic_bottles_detected += 1
-                    total_large += 1
-                    size_of_object = "Large"
-                    servo.angle = 90
-                elif height_cm >= 5:
-                    accept_tone()
-                    update_label(2)
-                    plastic_bottles_detected += 1
-                    total_medium += 1                    
-                    size_of_object = "Medium"
-                    servo.angle = 90
-                    distance_status = True
                 elif height_cm >= 2:
                     accept_tone()
                     update_label(2)
-                    plastic_bottles_detected += 1
-                    total_small += 1
-                    size_of_object = "Small"
                     servo.angle = 90
                     distance_status = True
                 
@@ -375,17 +355,29 @@ def get_points_process():
                     dist = distance_relay()
                     print ("Measured Distance = %.1f cm" % dist)
                     
-                    if dist < 28.0:
+                    if dist < distance_threshold:
                         print("Bottle has been pass inside")
                         print(size_of_object)
                         timer_counter = 0
+                        if height_cm >= 8:
+                            plastic_bottles_detected += 1
+                            total_large += 1
+                            size_of_object = "Large"
+                        elif height_cm >= 5:
+                            plastic_bottles_detected += 1
+                            total_medium += 1                    
+                            size_of_object = "Medium"
+                        elif height_cm >= 2:
+                            plastic_bottles_detected += 1
+                            total_small += 1
+                            size_of_object = "Small"
                         # Reset servo angle
                         servo.angle = 0
                         break
                     else:
                         print("No bottle has been pass yet")
                         
-                        if timer_counter == 80:
+                        if timer_counter == 30:
                             print("Invalid there is no bottle pass inside the machine")
                             # Reset servo angle
                             servo.angle = 0
@@ -410,6 +402,7 @@ def get_points_process():
                 update_label(0)
                 check_more = True
                 distance_status = True
+                time.sleep(1)
             
 # Trigger claim points
 def claim_points():

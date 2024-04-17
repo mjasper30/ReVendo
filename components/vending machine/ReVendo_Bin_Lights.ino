@@ -28,7 +28,7 @@ const char *bin_status = "https://revendo-backend-main.onrender.com/updateBin";
 
 // Define the pins connected to the relay module
 const int relay1Pin = D3;  // GPIO pin for Relay 1
-const int threshold_distance = 49;
+const int threshold_distance = 44;
 
 WiFiClientSecure client;
 HTTPClient http;
