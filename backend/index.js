@@ -839,6 +839,25 @@ app.put("/update_light_status", (req, res) => {
   });
 });
 
+app.get("/get_time_charge", (req, res) => {
+  const query = "SELECT minute FROM charge_time WHERE id = 1"; // Assuming id is 1 for simplicity
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Error executing MySQL query:", err);
+      res.status(500).json({ error: "Internal Server Error" });
+      return;
+    }
+
+    if (results.length === 0) {
+      res.status(404).json({ error: "Data not found" });
+    } else {
+      const { minute } = results[0];
+      res.json({ minute });
+    }
+  });
+});
+
 // Start the Express.js server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

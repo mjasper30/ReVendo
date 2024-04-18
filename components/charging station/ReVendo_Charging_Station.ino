@@ -47,6 +47,8 @@ int points = 12;
 String rfidUID = "";
 int process_number = 1;
 String response = "";
+int set_minute = 0;
+bool hasRun = false; // Flag to track whether the function has been executed
 
 //Local
 // const char* serverName = "http://192.168.68.111:3001/check_balance"; // Replace with your server address
@@ -58,6 +60,7 @@ const char* serverName = "https://revendo-backend-main.onrender.com/check_balanc
 const char* serverName_1 = "https://revendo-backend-main.onrender.com/minusPoints";
 const char* serverName_2 = "https://revendo-backend-main.onrender.com/updateStation";
 const char* serverName_3 = "https://revendo-backend-main.onrender.com/update_charging_station";
+const char* serverName_4 = "https://revendo-backend-main.onrender.com/get_time_charge";
 
 unsigned long startTime;
 unsigned long elapsedTime;
@@ -87,6 +90,11 @@ void setup() {
 
 void loop() {
   if(process_number == 1){
+    // Run get_time_charge() only once if it hasn't been executed yet
+    if (!hasRun) {
+      get_time_charge();
+      hasRun = true; // Set the flag to true to indicate that the function has been executed
+    }
     RFID_Scan();
   }else if(process_number == 2){
     choosePoints();
@@ -96,7 +104,7 @@ void loop() {
 }
 
 void timer() {
-  const unsigned long countdownDuration = number * 5 * 60 * 1000;  // 5 minutes in milliseconds
+  const unsigned long countdownDuration = number * set_minute * 60 * 1000;  // 5 minutes in milliseconds
   static unsigned long startTime = 0;  // Variable to store the start time
   static bool countdownStarted = false;  // Variable to track if the countdown has started
   static unsigned long lastPrintTime = 0; // Variable to store the last printed time
@@ -125,6 +133,7 @@ void timer() {
     countdownStarted = false;  // Reset the countdown flag
     number = 1;
     rfidUID = "";
+    hasRun = false;
     process_number = 1;  // Reset process_number to go back to RFID scanning
   } else {
     // Convert remaining time to minutes and seconds
@@ -156,6 +165,42 @@ void timer() {
       lcd.print(seconds);
 
       lastPrintTime = currentTime; // Update the last printed time
+    }
+  }
+}
+
+void get_time_charge(){
+  WiFiClientSecure client;
+  HTTPClient http;
+
+  // Use setInsecure() to bypass certificate verification
+  client.setInsecure();
+  
+  if (http.begin(client, serverName_4)) {
+    int httpCode = http.GET();
+
+    if (httpCode == HTTP_CODE_OK) {
+      String payload = http.getString();
+      Serial.println("API Response: " + payload);
+      
+      // Parse JSON
+      DynamicJsonDocument doc(1024); // Adjust the size according to your payload
+      DeserializationError error = deserializeJson(doc, payload);
+      
+      if (error) {
+        Serial.println("Failed to parse JSON");
+        return;
+      }
+      
+      // Extract value of "minute"
+      int minute = doc["minute"]; // Assuming the minute value is an integer
+      
+      // Store the minute value in the set_minute variable
+      set_minute = minute;
+      Serial.println(set_minute);
+      http.end();
+    } else {
+      Serial.println("http request failed");
     }
   }
 }

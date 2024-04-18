@@ -1,5 +1,6 @@
 #include <ESP8266HTTPClient.h>
 #include <ESP8266WiFi.h>
+#include <ArduinoJson.h>
 
 // Replace with your network credentials
 const char *ssid1 = "seedsphere";
@@ -14,26 +15,25 @@ const char *passwordList[] = {password1, password2, password3};
 
 const int numWiFiNetworks = 3;  // Adjust this based on the number of WiFi networks you have
 
+int set_minute = 0;
+bool hasRun = false; // Flag to track whether the function has been executed
+
 //Local
 // const char *get_status = "http://192.168.68.111:3001/charging_station";
 // const char *update_status_to_off = "http://192.168.68.111:3001/update_charging_station";
 
 //Hosting
 const char *get_status = "https://revendo-backend-main.onrender.com/charging_station";
+const char *get_minutes = "https://revendo-backend-main.onrender.com/get_time_charge";
 
 // Define the pins connected to the relay module
 const int relay1Pin = D1;  // GPIO pin for Relay 1
-
-// Make http request to the Express.js API
-WiFiClientSecure client;
-HTTPClient http;
 
 void setup() {
   Serial.begin(115200);
 
   connectToWiFi();
-  // Use setInsecure() to bypass certificate verification
-  client.setInsecure();
+  
   Serial.println("Connected to WiFi");
 
   // Set relay pins as OUTPUT
@@ -47,6 +47,19 @@ void setup() {
 }
 
 void loop() {
+  // Run get_time_charge() only once if it hasn't been executed yet
+  if (!hasRun) {
+    get_time_charge();
+    hasRun = true; // Set the flag to true to indicate that the function has been executed
+  }
+
+  // Make http request to the Express.js API
+  WiFiClientSecure client;
+  HTTPClient http;
+
+  // Use setInsecure() to bypass certificate verification
+  client.setInsecure();
+
   if (http.begin(client, get_status)) {
     int httpCode = http.GET();
 
@@ -68,11 +81,12 @@ void loop() {
         http.end(); // Close connection                  
 
         // Wait for the specified time duration delayTime * 5 * 60 * 1000
-        delay(delayTime * 5 * 60 * 1000); // Convert seconds to milliseconds
+        delay(delayTime * set_minute * 60 * 1000); // Convert seconds to milliseconds
 
         // Turn off Relay 1 after the specified time
         digitalWrite(relay1Pin, HIGH);
         Serial.println("Relay 1 OFF");
+        hasRun = false;
       } else {
         // If status is not "on", turn off Relay 1
         digitalWrite(relay1Pin, HIGH);
@@ -85,6 +99,43 @@ void loop() {
 
   // Delay between API requests (e.g., 3 seconds)
   delay(3000);
+}
+
+void get_time_charge(){
+  WiFiClientSecure client;
+  HTTPClient http;
+
+  // Use setInsecure() to bypass certificate verification
+  client.setInsecure();
+  
+  if (http.begin(client, get_minutes)) {
+    int httpCode = http.GET();
+
+    if (httpCode == HTTP_CODE_OK) {
+      String payload = http.getString();
+      Serial.println("API Response: " + payload);
+      
+      // Parse JSON
+      DynamicJsonDocument doc(1024); // Adjust the size according to your payload
+      DeserializationError error = deserializeJson(doc, payload);
+      
+      if (error) {
+        Serial.println("Failed to parse JSON");
+        return;
+      }
+      
+      // Extract value of "minute"
+      int minute = doc["minute"]; // Assuming the minute value is an integer
+      
+      // Store the minute value in the set_minute variable
+      set_minute = minute;
+      Serial.println(set_minute);
+    } else {
+      Serial.println("http request failed");
+    }
+
+    http.end();
+  }
 }
 
 void connectToWiFi() {
