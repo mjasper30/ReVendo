@@ -325,8 +325,9 @@ export default function Home() {
                       Step One
                     </Box>
                     <Box className=" NotoSansJP text-discord text-[15px] leading-[30px]">
-                      Tap "Get Points" on our LCD screen on machine. Tap your
-                      ReVendo card on the scanner to begin.
+                      Tap "Get Points" button on our LCD screen on our ReVendo
+                      or reverse vending machine and tap your ReVendo card on
+                      the scanner to begin.
                     </Box>
                   </Column>
 
@@ -722,12 +723,7 @@ export default function Home() {
                         <p className="mb-2 text-gray-500 dark:text-gray-400">
                           To purchase ReVendo Card, you can go to the nearest
                           store for buying our ReVendo Card. The card is worth
-                          of 100 pesos and you can use it for 1 year.
-                        </p>
-                        <p className="text-gray-500 dark:text-gray-400">
-                          To purchase you need to present atleast one valid ID
-                          for identification and you need to fill up the form
-                          for the registration of the card.
+                          of 100 pesos that can be use for a lifetime.
                         </p>
                       </Accordion.Content>
                     </Accordion.Panel>
@@ -739,10 +735,10 @@ export default function Home() {
                           To earn points you need plastic bottles to be inserted
                           in the machine. The machine will scan the plastic
                           bottle and will give you points. The points will be in
-                          your ReVendo Card. The points will be converted into a
-                          reward points. The reward points can be used to
-                          charging station to exchange the points in charging
-                          time for your cellphone.
+                          your ReVendo Card once you tap "Claim Points" on our
+                          machine. The reward points can be used to charging
+                          station to exchange the points in charging time for
+                          your devices such as cellphone.
                         </p>
                       </Accordion.Content>
                     </Accordion.Panel>
@@ -753,11 +749,10 @@ export default function Home() {
                       </Accordion.Title>
                       <Accordion.Content>
                         <p className="mb-2 text-gray-500 dark:text-gray-400">
-                          The machine accept plastic bottles that are
-                          Polyethylene terephthalate(PET) plastic bottles. The
-                          machine will not accept other plastic bottles that are
-                          not PET plastic bottles. The machine will indicate if
-                          the plastic bottle is accepted or not.
+                          The machine only accepts plastic bottles that are
+                          empty. The reverse vending machine will reject heavy
+                          objects. The machine will indicate if the plastic
+                          bottle is accepted or not.
                         </p>
                       </Accordion.Content>
                     </Accordion.Panel>
@@ -771,10 +766,10 @@ export default function Home() {
                           To charge your cellphone you need to tap your ReVendo
                           Card in the charging station. The charging station
                           will scan your card and will deduct the points in your
-                          card. The points will be converted into charging time
-                          for your cellphone. The charging station will indicate
-                          the charging time for your cellphone. The card must
-                          have balance and still valid to use the charging
+                          card based on charge points you set. The points will
+                          be converted into charging time once you are ready.
+                          The charging station will indicate the time remaining.
+                          The card must have balance to use the charging
                           station.
                         </p>
                       </Accordion.Content>
@@ -790,9 +785,7 @@ export default function Home() {
                           points system. The small plastic bottles are worth of
                           1 point, the medium plastic bottles are worth of 2
                           points and the large plastic bottles are worth of 3
-                          points. You can view our points system in guide how
-                          size of plastic bottles works. Click here to view the
-                          guide.
+                          points.
                         </p>
                       </Accordion.Content>
                     </Accordion.Panel>
@@ -802,11 +795,10 @@ export default function Home() {
                       </Accordion.Title>
                       <Accordion.Content>
                         <p className="mb-2 text-gray-500 dark:text-gray-400">
-                          If the plastic bottle is reject it will indicate led
-                          lights and sound that is not accepted. You need to get
-                          the bottle and try to insert valid plastic bottle.
-                          Only clean plastic bottles or PET bottles are accepted
-                          in order to get points.
+                          If the plastic bottle is reject it will indicate sound
+                          and screen indication that is not accepted. You need
+                          to get the object once it indicate that it is not
+                          accepted by the machine.
                         </p>
                       </Accordion.Content>
                     </Accordion.Panel>
