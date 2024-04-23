@@ -197,8 +197,8 @@ export default function Home() {
               </li>
               <li className="hidden burger:block">
                 <a
-                  href="/RevendoAppV1.APK"
-                  download="RevendoAppV1.apk"
+                  href="/RevendoAppV2.APK"
+                  download="RevendoAppV2.apk"
                   className="text-black bg-white hover:bg-blue-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm pl-2.5 py-2 text-center mr-3 burger:mr-1 flex items-center w-40 transition-all duration-300"
                 >
                   <img
