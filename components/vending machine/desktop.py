@@ -74,8 +74,8 @@ weight = 0
 height_cm = 0
 sleep_me = 0
 timer_counter = 0
-distance_threshold = 30.0
-adjust_weight = 324
+distance_threshold = 24.0
+adjust_weight = 277
 
 rfid_uid = ""
 check_more = True
@@ -213,11 +213,11 @@ def buzz(pitch, duration):
         time.sleep(delay)
 
 def accept_tone():
-    buzz(3000, 0.5)  # Change pitch and duration as needed
+    buzz(1000, 0.5)  # Change pitch and duration as needed
     time.sleep(0.2)   # Pause between tones
 
 def reject_tone():
-    buzz(1000, 0.5)   # Change pitch and duration as needed
+    buzz(300, 0.5)   # Change pitch and duration as needed
     time.sleep(0.2)   # Pause between tones
 
 def calibration_test():
@@ -283,7 +283,7 @@ def get_points_process():
         print("Weight: " + str(abs(int(weight))) + " grams")
             
         #Check if the value of weight if greater than expected weight value
-        if abs(weight) >= 6:
+        if abs(weight) >= 9:
             #continue #Uncomment this to weight test
             check_more = False
             print("The object has been place on loadcell")
@@ -377,7 +377,8 @@ def get_points_process():
                     else:
                         print("No bottle has been pass yet")
                         
-                        if timer_counter == 30:
+                        if timer_counter == 20:
+                            update_label(3)
                             print("Invalid there is no bottle pass inside the machine")
                             # Reset servo angle
                             servo.angle = 0
@@ -461,10 +462,10 @@ def handle_rfid_scan():
 
         # Process scan only if the flag is True
         if scan_processed:
+            accept_tone()
             # API check RFID
             response_check_rfid = requests.post(url_check_rfid, data={'rfid': rfid_uid})
             if response_check_rfid.status_code == 200:
-                accept_tone()
                 print("RFID is registered in the database.")
                 print("RFID Number:", rfid_uid)
                 # Extract points information from the API response
@@ -518,10 +519,10 @@ def handle_rfid_scan_get_points():
 
         # Process scan only if the flag is True
         if scan_processed:
+            accept_tone()
             # API check RFID
             response_check_rfid = requests.post(url_check_rfid, data={'rfid': rfid_uid})
             if response_check_rfid.status_code == 200:
-                accept_tone()
                 print("RFID is registered in the database.")
                 print("RFID Number:", rfid_uid)
                 # Extract points information from the API response
