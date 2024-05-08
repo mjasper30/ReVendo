@@ -113,6 +113,31 @@ app.post("/api/sendEmail", (req, res) => {
     });
 });
 
+app.post("/clear-text-file", async (req, res) => {
+  try {
+    // Extract file path from request body (assuming it's sent correctly)
+    const filePath = req.body.filePath;
+
+    // Write the RFID UID to the file (overwrite the existing content)
+    fs.writeFile(filePath, "", (err) => {
+      if (err) {
+        console.error("Error writing to file:", err); // Add this line for logging
+        res.status(500).json({ success: false, error: "Internal Server Error" });
+      } else {
+        console.log("RFID UID stored in file:", filePath);
+        res.json({ success: true });
+      }
+    });
+    // Send success response
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Error clearing text file:", err);
+
+    // Send generic error response for unexpected issues
+    res.status(500).json({ error: "Internal server error." });
+  }
+});
+
 app.post("/rfid", (req, res) => {
   const rfidUID = req.body.rfid;
   console.log("Received RFID:", rfidUID);
@@ -123,7 +148,7 @@ app.post("/rfid", (req, res) => {
   // Write the RFID UID to the file (overwrite the existing content)
   fs.writeFile(filePath, rfidUID + "\n", (err) => {
     if (err) {
-      console.error("Error writing to file:", err);
+      console.error("Error writing to file:", err); // Add this line for logging
       res.status(500).json({ success: false, error: "Internal Server Error" });
     } else {
       console.log("RFID UID stored in file:", filePath);
@@ -155,8 +180,7 @@ app.post("/signup", (req, res) => {
       return res.json({ error: err });
     }
 
-    const sql =
-      "INSERT INTO `users`(`name`, `email`, `password`, `role`) VALUES (?)";
+    const sql = "INSERT INTO `users`(`name`, `email`, `password`, `role`) VALUES (?)";
     const values = [req.body.fullname, req.body.email, hash, "user"];
     db.query(sql, [values], (err, result) => {
       if (err) {
@@ -304,16 +328,36 @@ app.get("/api/getStorageStatus", (req, res) => {
 
 // Create new rfid
 app.post("/api/rfid", (req, res) => {
-  const { rfidNumber, points, status } = req.body;
-  const query =
-    "INSERT INTO rfid (rfid_number, points, status) VALUES (?, ?, ?)";
+  const { rfidNumber, holderName, contact, email, points, status } = req.body;
+  const queryCheckDuplicate = "SELECT COUNT(*) AS count FROM rfid WHERE rfid_number = ?";
+  const queryInsertRFID =
+    "INSERT INTO rfid (rfid_number, holderName, contact, email, points, status) VALUES (?, ?, ?, ?, ?, ?)";
 
-  db.query(query, [rfidNumber, points, status], (err, result) => {
+  // Check if the RFID number already exists
+  db.query(queryCheckDuplicate, [rfidNumber], (err, result) => {
     if (err) {
-      console.error("Error executing query:", err);
+      console.error("Error checking duplicate RFID:", err);
       res.status(500).json({ error: "Internal Server Error" });
     } else {
-      res.status(201).json({ message: "RFID added successfully" });
+      const count = result[0].count;
+      if (count > 0) {
+        // RFID number already exists, send error response
+        res.status(400).json({ error: "RFID number already exists" });
+      } else {
+        // RFID number does not exist, insert new RFID entry
+        db.query(
+          queryInsertRFID,
+          [rfidNumber, holderName, contact, email, points, status],
+          (err, result) => {
+            if (err) {
+              console.error("Error inserting RFID:", err);
+              res.status(500).json({ error: "Internal Server Error" });
+            } else {
+              res.status(201).json({ message: "RFID added successfully" });
+            }
+          }
+        );
+      }
     }
   });
 });
@@ -369,15 +413,8 @@ app.post("/api/account", (req, res) => {
       return res.json({ error: err });
     }
 
-    const sql =
-      "INSERT INTO `users`(`name`, `email`, `gender`, `password`, `role`) VALUES (?)";
-    const values = [
-      req.body.fname,
-      req.body.email,
-      req.body.gender,
-      hash,
-      req.body.roles,
-    ];
+    const sql = "INSERT INTO `users`(`name`, `email`, `gender`, `password`, `role`) VALUES (?)";
+    const values = [req.body.fname, req.body.email, req.body.gender, hash, req.body.roles];
     db.query(sql, [values], (err, result) => {
       if (err) {
         console.error("Error executing query:", err);
@@ -434,6 +471,19 @@ app.delete("/api/account/:id", (req, res) => {
   });
 });
 
+// Read charge time in database
+app.get("/api/charge-time", (req, res) => {
+  const query = "SELECT * FROM charge_time";
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.status(200).json(result);
+    }
+  });
+});
+
 // Read all rfid in database
 app.get("/api/rfid", (req, res) => {
   const query = "SELECT * FROM rfid";
@@ -450,10 +500,10 @@ app.get("/api/rfid", (req, res) => {
 // Update rfid
 app.put("/api/rfid/:id", (req, res) => {
   const { id } = req.params;
-  const { rfid_number, points, status } = req.body;
+  const { rfid_number, holderName, contact, email, points, status } = req.body;
   const query =
-    "UPDATE rfid SET rfid_number = ?, points = ?, status = ? WHERE id = ?";
-  db.query(query, [rfid_number, points, status, id], (err, result) => {
+    "UPDATE rfid SET rfid_number = ?, holderName = ?, contact = ?, email = ?, points = ?, status = ? WHERE id = ?";
+  db.query(query, [rfid_number, holderName, contact, email, points, status, id], (err, result) => {
     if (err) {
       console.error("Error executing query:", err);
       res.status(500).send("Internal Server Error");
@@ -509,9 +559,7 @@ app.post("/check_rfid", (req, res) => {
     db.connect((err) => {
       if (err) {
         console.error("Database connection failed:", err);
-        res
-          .status(500)
-          .json({ success: false, error: "Internal Server Error" });
+        res.status(500).json({ success: false, error: "Internal Server Error" });
         return;
       }
       console.log("Database reconnected.");
@@ -527,9 +575,7 @@ app.post("/check_rfid", (req, res) => {
     db.query(query, [rfidUID], (err, result) => {
       if (err) {
         console.error("Error executing query:", err);
-        res
-          .status(500)
-          .json({ success: false, error: "Internal Server Error" });
+        res.status(500).json({ success: false, error: "Internal Server Error" });
       } else {
         // Check if the result set is not empty
         if (result.length > 0) {
@@ -580,18 +626,14 @@ app.post("/addDataHistory", upload.single("image"), (req, res) => {
   const query =
     "INSERT INTO history (rfid_number, height, weight, size, captured_image, is_valid) VALUES (?, ?, ?, ?, ?, ?)";
 
-  db.query(
-    query,
-    [rfid, height, weight, size, image, no_object],
-    (err, result) => {
-      if (err) {
-        console.error("Error executing query:", err);
-        res.status(500).json({ error: "Internal Server Error" });
-      } else {
-        res.status(200).json({ message: "Add data to history successfully" });
-      }
+  db.query(query, [rfid, height, weight, size, image, no_object], (err, result) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      res.status(200).json({ message: "Add data to history successfully" });
     }
-  );
+  });
 });
 
 // Update points of user
@@ -599,67 +641,58 @@ app.post("/updatePoints", (req, res) => {
   const { rfid, additionalPoints } = req.body;
 
   // Retrieve current points from the database
-  db.query(
-    "SELECT points FROM rfid WHERE rfid_number = ?",
-    [rfid],
-    (error, results) => {
-      if (error) throw error;
+  db.query("SELECT points FROM rfid WHERE rfid_number = ?", [rfid], (error, results) => {
+    if (error) throw error;
 
-      if (results.length === 0) {
-        // RFID not found, handle accordingly
-        res.status(404).send("RFID not found.");
-      } else {
-        const currentPoints = results[0].points;
-        const updatedPoints = currentPoints + additionalPoints;
+    if (results.length === 0) {
+      // RFID not found, handle accordingly
+      res.status(404).send("RFID not found.");
+    } else {
+      const currentPoints = results[0].points;
+      const updatedPoints = currentPoints + additionalPoints;
 
-        // Update points in the database
-        db.query(
-          "UPDATE rfid SET points = ? WHERE rfid_number = ?",
-          [updatedPoints, rfid],
-          (updateError) => {
-            if (updateError) throw updateError;
+      // Update points in the database
+      db.query(
+        "UPDATE rfid SET points = ? WHERE rfid_number = ?",
+        [updatedPoints, rfid],
+        (updateError) => {
+          if (updateError) throw updateError;
 
-            res.status(200).send("Points updated successfully.");
-          }
-        );
-      }
+          res.status(200).send("Points updated successfully.");
+        }
+      );
     }
-  );
+  });
 });
 
 app.post("/minusPoints", (req, res) => {
   const { rfid, updatedBalance } = req.body;
 
   // Retrieve current points from the database
-  db.query(
-    "SELECT points FROM rfid WHERE rfid_number = ?",
-    [rfid],
-    (error, results) => {
-      if (error) throw error;
+  db.query("SELECT points FROM rfid WHERE rfid_number = ?", [rfid], (error, results) => {
+    if (error) throw error;
 
-      if (results.length === 0) {
-        // RFID not found, handle accordingly
-        res.status(404).send("RFID not found.");
-      } else {
-        // Update points in the database
-        db.query(
-          "UPDATE rfid SET points = ? WHERE rfid_number = ?",
-          [updatedBalance, rfid],
-          (updateError) => {
-            if (updateError) throw updateError;
+    if (results.length === 0) {
+      // RFID not found, handle accordingly
+      res.status(404).send("RFID not found.");
+    } else {
+      // Update points in the database
+      db.query(
+        "UPDATE rfid SET points = ? WHERE rfid_number = ?",
+        [updatedBalance, rfid],
+        (updateError) => {
+          if (updateError) throw updateError;
 
-            res.status(200).send("Points updated successfully.");
-          }
-        );
-      }
+          res.status(200).send("Points updated successfully.");
+        }
+      );
     }
-  );
+  });
 });
 
 // API endpoint to get the status and time
 app.get("/charging_station", (req, res) => {
-  const query =
-    "SELECT status, time FROM charging_station WHERE station_id = 1"; // Assuming id is 1 for simplicity
+  const query = "SELECT status, time FROM charging_station WHERE station_id = 1"; // Assuming id is 1 for simplicity
 
   db.query(query, (err, results) => {
     if (err) {
@@ -682,8 +715,7 @@ app.put("/updateStation", (req, res) => {
   const { status, time } = req.body;
 
   // Assuming you have a table named 'charging_station' with columns 'status' and 'time'
-  const query =
-    "UPDATE charging_station SET status = ?, time = ? WHERE station_id = 1"; // Assuming id is 1 for simplicity
+  const query = "UPDATE charging_station SET status = ?, time = ? WHERE station_id = 1"; // Assuming id is 1 for simplicity
 
   db.query(query, [status, time], (err, results) => {
     if (err) {
@@ -701,8 +733,7 @@ app.put("/update_charging_station", (req, res) => {
   const { status, time } = req.body;
 
   // Assuming you have a table named 'charging_station' with columns 'status' and 'time'
-  const query =
-    "UPDATE charging_station SET status = ?, time = ? WHERE station_id = 1"; // Assuming id is 1 for simplicity
+  const query = "UPDATE charging_station SET status = ?, time = ? WHERE station_id = 1"; // Assuming id is 1 for simplicity
 
   db.query(query, [status, time], (err, results) => {
     if (err) {
@@ -778,11 +809,9 @@ app.put("/updateBin", (req, res) => {
   const now = new Date();
 
   // Format the date and time into "YYYY-MM-DD HH:MM:SS"
-  const formattedDateTime = `${now.getFullYear()}-${padZero(
-    now.getMonth() + 1
-  )}-${padZero(now.getDate())} ${padZero(now.getHours())}:${padZero(
-    now.getMinutes()
-  )}:${padZero(now.getSeconds())}`;
+  const formattedDateTime = `${now.getFullYear()}-${padZero(now.getMonth() + 1)}-${padZero(
+    now.getDate()
+  )} ${padZero(now.getHours())}:${padZero(now.getMinutes())}:${padZero(now.getSeconds())}`;
 
   // Assuming you have a table named 'storage' with columns 'status', 'timestamp', and 'id'
   const query = "UPDATE storage SET status = ?, date_recorded = ? WHERE id = 1"; // Assuming id is 1 for simplicity
