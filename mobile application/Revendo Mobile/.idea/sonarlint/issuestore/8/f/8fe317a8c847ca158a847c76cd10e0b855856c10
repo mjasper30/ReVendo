@@ -1,0 +1,8 @@
+
+kkotlin:S117I"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(ìÙþ8¯‡âžë1
+lkotlin:S117M"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(‰¹Òô8°‡âžë1
+qkotlin:S117N"NRename this parameter to match the regular expression ^`?[_a-z][a-zA-Z0-9]*`?$(óœ°ùÿÿÿÿ8°‡âžë1
+Nkotlin:S1481½")Remove this unused "time" local variable.(‚ë•–þÿÿÿÿ8Ï‡âžë1
+>kotlin:S11286"Remove this unused import.(‚°—Øþÿÿÿÿ8Ú‡âžë1
+Hkotlin:S1874Ç"#Deprecated code should not be used.(½½ûþúÿÿÿÿ8ã‡âžë1
+qkotlin:S3776ê"RRefactor this method to reduce its Cognitive Complexity from 38 to the 15 allowed.(ŒÄ„ 8å‡âžë1
