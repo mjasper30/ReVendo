@@ -4,7 +4,7 @@
 
 # ReVendo
 
-Revolutionizing the fight against plastic bottle pollution! Our cutting-edge Reverse Vending Machine empowers users to effortlessly exchange plastic bottles for valuable reward points, incentivizing eco-conscious habits while reducing plastic waste in community. With ReVendo, you only contribute to a cleaner environment but also unlock exciting perks within your community using the accumulated points. Plus, our innovative charging station allows you to convert these points into smartphone charging time, ensuring you stay connected sustainably with both 220v electricity and solar panel technology. 
+Revolutionizing the fight against plastic bottle pollution! Our cutting-edge Reverse Vending Machine empowers users to effortlessly exchange plastic bottles for valuable reward points, incentivizing eco-conscious habits while reducing plastic waste in community. With ReVendo, you only contribute to a cleaner environment but also unlock exciting perks within your community using the accumulated points. Plus, our innovative charging station allows you to convert these points into smartphone charging time, ensuring you stay connected sustainably with both 220v electricity and solar panel technology.
 
 Join us in making a positive impact with ReVendo today!
 
@@ -30,10 +30,6 @@ Join us in making a positive impact with ReVendo today!
 **Database:** MySQL
 
 **Hardware Used:** Raspberry Pi 4 Model B, Raspberry Pi Camera V2.1, Raspberry Pi LCD Screen, Nodemcu ESP8266, Ultrasonic Sensor, MFRC522 RFID, Servo, Load Cell Sensor, HX711 Weight Sensor, Liquid Crystal Display I2C, Buttons, Buzzer, Relay, Breadboard, Extension Cables, Lightbulb, Solar Panel 50W, Solar Charge Controller 10AH, Lead Acif Battery 12V/12AH, Micro Circuit Breaker Dual Power Automatic Transfer Switch Auto Transfer Switch(MCB)
-
-## Demo
-
-Insert gif or link to demo
 
 ## Installation
 
@@ -118,6 +114,8 @@ To start backend run
 [Documentation](https://linktodocumentation)
 
 ## Marketing Video
+
+- (https://www.facebook.com/csdtalkaboutit/videos/1598109760950628)
 
 ## Acknowledgements
 
