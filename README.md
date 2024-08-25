@@ -84,7 +84,7 @@ To start backend run
 ### Frontend
 
 - [Jasper Macaraeg](https://github.com/mjasper30)
-- [Andriel Gabriel Geomer](https://github.com/J-i-w-o-o)
+- [Andriel Gabriel V. Geomer](https://github.com/J-i-w-o-o)
 - [Ma. Loelaida Clave](https://github.com/leee01)
 - [May Pearl Rivera](https://github.com/Nepheleee)
 - [John Kenneth Adriano](https://github.com/jkamogus)
